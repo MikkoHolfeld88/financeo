@@ -12,11 +12,11 @@ providing basic NLP / NLU features shall enable the user to analyze trends to in
 
 ## technical aspects
 
-Frontend 
+Frontend: 
 Basically financeo consists of a react / redux frontend which uses basic design elements of MUI (material UI). 
 Charts will be integrated via NIVO, victory and React-vis.
 
-Backend
+Backend:
 Lambda functions simulate necessary business logic that would usually be implemented by a backend. 
 Firebase provides a document based database. 
 Due to personal knowledge data-sensitive business logic is going to be implemented via python, scitkit-learn and tensorflow. 
