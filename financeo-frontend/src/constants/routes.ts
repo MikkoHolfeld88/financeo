@@ -8,4 +8,5 @@ export const PASSWORD_FORGET = '/pw-forget';
 export const OVERVIEW = '/overview';
 export const ACCOUNTING = '/accounting';
 export const EVALUATION = '/evaluation';
+export const SIGN_OUT = '/signout';
 export const ERROR = '*';
