@@ -6,10 +6,12 @@ import AppRoutes from "./components/navigation/AppRoutes";
 
 function App() {
   return (
-    <Router>
-        <Navigation />
-        <AppRoutes />
-    </Router>
+      <>
+          <Router>
+              <Navigation />
+              <AppRoutes />
+          </Router>
+      </>
   );
 };
 

@@ -14,17 +14,17 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+
 // @ts-ignore
 import Image from "mui-image";
 // @ts-ignore
 import logo from "../../assets/logo/logo_white_large.png";
 
 const pages = [
-    {route: ROUTES.OVERVIEW, name: 'Overview'},
-    {route: ROUTES.ACCOUNTING, name: 'Accounting'},
-    {route: ROUTES.INVESTING, name: 'Investing'},
-    {route: ROUTES.ANALYSING, name: 'Analysing'},
+    {route: ROUTES.OVERVIEW, name: 'Overview', desc: "Provides fundamental financial information"},
+    {route: ROUTES.ACCOUNTING, name: 'Accounting', desc: "Investigate and edit your bookings"},
+    {route: ROUTES.INVESTING, name: 'Investing', desc: "Invest according to your self-designed strategies "},
+    {route: ROUTES.ANALYSING, name: 'Analysing', desc: "Analyze buying behavior, frugality, investment strategies, risk affinity and more"},
 ];
 
 const settings = [
@@ -55,17 +55,17 @@ const Navigation = () => {
     };
 
     const handleCloseNavMenu = (props: any, route: string) => {
-        route !== "backdropClick" && navigate(route);
+        route !== "backdropClick" && navigate(route); // second Element of MUI MenuItem
         setAnchorElNav(null);
     };
 
     const handleCloseUserMenu = (props: any, route: string) => {
-        route !== "backdropClick" && navigate(route);
+        route !== "backdropClick" && navigate(route); // second Element of MUI MenuItem
         setAnchorElUser(null);
     };
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" style={{ background: '#2E3B55' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
@@ -139,12 +139,14 @@ const Navigation = () => {
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
-                            <Button
-                                key={page.name}
-                                onClick={event => handleCloseNavMenu(event, page.route)}
-                                sx={{ my: 2, color: 'white', display: 'block' }}>
-                                {page.name}
-                            </Button>
+                            <Tooltip title={page.desc}>
+                                <Button
+                                    key={page.name}
+                                    onClick={event => handleCloseNavMenu(event, page.route)}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}>
+                                    {page.name}
+                                </Button>
+                            </Tooltip>
                         ))}
                     </Box>
 
