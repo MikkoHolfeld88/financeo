@@ -5,6 +5,7 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import "./login.css";
 import {Paper, Stack, TextField, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
+import * as ROUTES from '../../constants/routes';
 
 export function SignInPage() {
     const [email, setEmail] = useState("");
@@ -56,7 +57,7 @@ export function SignInPage() {
                             <Link to="/pw-forget">Forgot Password</Link>
                         </div>
                         <div>
-                            Don't have an account? <Link to="/signup">Register</Link> now.
+                            Don't have an account? <Link to={ROUTES.SIGN_UP}>Register</Link> now.
                         </div>
                     </Stack>
                 </Paper>

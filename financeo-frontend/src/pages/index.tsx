@@ -1,27 +1,29 @@
 import AccountingPage from "./accountingPage";
 import AccountPage from "./accountPage";
-import AdminPage from "./adminPage";
+import ProfilePage from "./profilePage";
 import ErrorPage from "./errorPage";
-import EvaluationPage from "./evaluationPage";
+import AnalysingPage from "./analysingPage";
 import HomePage from "./homePage";
-import LandingPage from "./landingPage";
+import InvestingPage from "./investingPage";
 import OverviewPage from "./overviewPage";
 import PasswordForgetPage from "./passwordForgetPage";
 import SignInPage from "./signInPage";
 import SignOutPage from "./signOutPage";
 import SignUpPage from "./signUpPage";
+import SettingsPage from "./settingsPage";
 
 export {
-    AccountingPage,
-    AccountPage,
-    AdminPage,
-    ErrorPage,
-    EvaluationPage,
     HomePage,
-    LandingPage,
-    OverviewPage,
-    PasswordForgetPage,
+    SignUpPage,
     SignInPage,
     SignOutPage,
-    SignUpPage
+    PasswordForgetPage,
+    ErrorPage,
+    AccountPage,
+    ProfilePage,
+    SettingsPage,
+    OverviewPage,
+    AccountingPage,
+    InvestingPage,
+    AnalysingPage,
 }

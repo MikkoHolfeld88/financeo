@@ -6,8 +6,8 @@ import * as ROUTES from "../../constants/routes";
 import {
     AccountingPage,
     AccountPage,
-    AdminPage, ErrorPage, EvaluationPage, HomePage,
-    LandingPage, OverviewPage,
+    ProfilePage, ErrorPage, AnalysingPage, HomePage, SettingsPage,
+    InvestingPage, OverviewPage,
     PasswordForgetPage,
     SignInPage,
     SignOutPage,
@@ -26,19 +26,19 @@ export const PrivateRoute = ({children}: PrivateRouteProps) => {
 export const AppRoutes: (props: RouteProps) => JSX.Element = (props: RouteProps) => {
     return (
         <Routes>
+            <Route path={ROUTES.HOME} element={<PrivateRoute><HomePage/></PrivateRoute>}/>
             <Route path={ROUTES.SIGN_UP} element={<SignUpPage/>}/>
             <Route path={ROUTES.SIGN_IN} element={<SignInPage/>}/>
+            <Route path={ROUTES.SIGN_OUT} element={<SignOutPage/>}/>
             <Route path={ROUTES.PASSWORD_FORGET} element={<PasswordForgetPage/>}/>
-            <Route path={ROUTES.LANDING} element={<PrivateRoute><LandingPage/></PrivateRoute>}/>
-            <Route path={ROUTES.SIGN_OUT} element={<PrivateRoute><SignOutPage/></PrivateRoute>}/>
-            <Route path={ROUTES.ACCOUNT} element={<PrivateRoute><AccountPage/></PrivateRoute>}/>
-            <Route path={ROUTES.ACCOUNTING} element={<PrivateRoute><AccountingPage/></PrivateRoute>}/>
-            <Route path={ROUTES.ADMIN} element={<PrivateRoute><AdminPage/></PrivateRoute>}/>
-            <Route path={ROUTES.HOME} element={<PrivateRoute><HomePage/></PrivateRoute>}/>
-            <Route path={ROUTES.SIGN_OUT} element={<PrivateRoute><SignOutPage/></PrivateRoute>}/>
-            <Route path={ROUTES.OVERVIEW} element={<PrivateRoute><OverviewPage/></PrivateRoute>}/>
-            <Route path={ROUTES.EVALUATION} element={<PrivateRoute><EvaluationPage/></PrivateRoute>}/>
             <Route path={ROUTES.ERROR} element={<ErrorPage />}/>
+            <Route path={ROUTES.ACCOUNT} element={<PrivateRoute><AccountPage/></PrivateRoute>}/>
+            <Route path={ROUTES.PROFILE} element={<PrivateRoute><ProfilePage/></PrivateRoute>}/>
+            <Route path={ROUTES.SETTINGS} element={<PrivateRoute><SettingsPage/></PrivateRoute>}/>
+            <Route path={ROUTES.OVERVIEW} element={<PrivateRoute><OverviewPage/></PrivateRoute>}/>
+            <Route path={ROUTES.ACCOUNTING} element={<PrivateRoute><AccountingPage/></PrivateRoute>}/>
+            <Route path={ROUTES.INVESTING} element={<PrivateRoute><InvestingPage/></PrivateRoute>}/>
+            <Route path={ROUTES.ANALYSING} element={<PrivateRoute><AnalysingPage/></PrivateRoute>}/>
         </Routes>
     )
 }
