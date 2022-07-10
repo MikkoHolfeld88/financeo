@@ -7,6 +7,9 @@ import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import {Divider} from "@mui/material";
 import { Select, Option } from "../../components/utils"
+import {useDispatch, useSelector} from "react-redux";
+import {changeMonth} from "../../store";
+import {RootState} from "../../store/store";
 
 const years: number[] = [2018,2019, 2020,2021,2022,2023,2024,2025,2026,2027,2028,2029];
 
@@ -33,6 +36,7 @@ const createYearOptions = (years: number[]): Option[] => {
 
 const OverviewPage = () => {
     const [user, loading, error] = useAuthState(auth);
+    const month = useSelector((state: RootState) => state.monthPicker.value)
 
     useEffect(() => {
         if (loading) return;
