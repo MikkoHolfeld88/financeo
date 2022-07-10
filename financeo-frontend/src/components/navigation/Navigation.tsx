@@ -42,7 +42,6 @@ const Navigation = () => {
     const location = useLocation();
     const [user] = useAuthState(auth);
     const hvrFX = 'hvr-skew';
-    const hvrFXElements = 'hvr-float-shadow';
 
     // handles logout
     React.useEffect(() => {
