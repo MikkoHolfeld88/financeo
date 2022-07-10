@@ -1,7 +1,13 @@
 import React from 'react';
+import Container from "@mui/material/Container";
+import {Submenu} from "../../components/navigation";
 
 const AccountingPage = () => (
-    <h1>AccountingPage</h1>
+    <Container maxWidth="xl">
+        <Submenu />
+        <h1>AccountingPage</h1>
+    </Container>
 );
+
 
 export default AccountingPage;

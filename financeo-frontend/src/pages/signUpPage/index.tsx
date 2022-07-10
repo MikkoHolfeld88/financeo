@@ -6,6 +6,7 @@ import {auth, registerWithEmailAndPassword, signInWithGoogle,} from "../../servi
 import "./register.css";
 import {Paper, Stack, TextField, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
+import * as COLORS from "../../constants/colors";
 
 export function SignUpPage() {
     const [email, setEmail] = useState("");
