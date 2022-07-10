@@ -101,16 +101,18 @@ const Navigation = () => {
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            sx = {{color: 'white'}}
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit">
-                            <MenuIcon />
-                        </IconButton>
+                        {
+                            user && <IconButton
+                                sx = {{color: 'white'}}
+                                size="large"
+                                aria-label="menu button"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenNavMenu}
+                                color="inherit">
+                                <MenuIcon />
+                            </IconButton>
+                        }
                         <Menu
                             id="menu-appbar"
                             anchorEl={anchorElNav}
