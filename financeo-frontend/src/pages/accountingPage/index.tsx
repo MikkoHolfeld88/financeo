@@ -1,6 +1,6 @@
 import React from 'react';
 import Container from "@mui/material/Container";
-import {Submenu} from "../../components/navigation";
+import Submenu from "./Submenu";
 
 const AccountingPage = () => (
     <Container maxWidth="xl">

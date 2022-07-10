@@ -1,7 +1,8 @@
 import Navigation from "./Navigation";
-import Submenu from "./Submenu";
+import AppRoutes from "./AppRoutes"
 
 export default Navigation;
 export {
-    Submenu
+    Navigation,
+    AppRoutes
 }

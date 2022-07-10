@@ -15,16 +15,16 @@ export default function Submenu(props: any) {
     };
 
     return (
-            <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label="icon position tabs example"
-            >
-                        <Tab icon={<PhoneIcon />} iconPosition="start" label="start" />
-                        <Tab icon={<PhoneMissedIcon />} iconPosition="start" label="start" />
-                        <Tab icon={<FavoriteIcon />} iconPosition="start" label="end" />
-                        <Tab icon={<PersonPinIcon />} iconPosition="start" label="bottom" />
-            </Tabs>
+        <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="icon position tabs example"
+        >
+            <Tab icon={<PhoneIcon />} iconPosition="start" label="start" />
+            <Tab icon={<PhoneMissedIcon />} iconPosition="start" label="start" />
+            <Tab icon={<FavoriteIcon />} iconPosition="start" label="end" />
+            <Tab icon={<PersonPinIcon />} iconPosition="start" label="bottom" />
+        </Tabs>
     );
 }
 
