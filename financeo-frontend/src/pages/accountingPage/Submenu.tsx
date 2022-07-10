@@ -1,11 +1,44 @@
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import PhoneIcon from '@mui/icons-material/Phone';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import PersonPinIcon from '@mui/icons-material/PersonPin';
-import PhoneMissedIcon from '@mui/icons-material/PhoneMissed';
-import {Grid} from "@mui/material";
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import SavingsIcon from '@mui/icons-material/Savings';
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import AccountsAndDepots from "./AccountsAndDepots";
+import BankersOrders from "./BankersOrders";
+import EarningsAndSpendings from "./EarningsAndSpendings";
+import Savings from "./Savings";
+import Container from "@mui/material/Container";
+import { Divider } from '@mui/material';
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+    const {children, value, index, ...other} = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box sx={{p: 3}}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
+}
 
 export default function Submenu(props: any) {
     const [value, setValue] = React.useState(0);
@@ -14,17 +47,33 @@ export default function Submenu(props: any) {
         setValue(newValue);
     };
 
+    //TODO: Add Layout for Responsive Design or find a solution for missing scroll buttons
     return (
-        <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="icon position tabs example"
-        >
-            <Tab icon={<PhoneIcon />} iconPosition="start" label="start" />
-            <Tab icon={<PhoneMissedIcon />} iconPosition="start" label="start" />
-            <Tab icon={<FavoriteIcon />} iconPosition="start" label="end" />
-            <Tab icon={<PersonPinIcon />} iconPosition="start" label="bottom" />
-        </Tabs>
+        <>
+            <Container maxWidth="xl">
+                <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="Submenu of Accounting"
+                    scrollButtons={true}
+                    allowScrollButtonsMobile
+                >
+                    <Tab icon={<AccountBalanceWalletIcon/>} iconPosition="start" label="Accounts / Depots" style={{fontSize: "10px"}}/>
+                    <Tab icon={<PointOfSaleIcon/>} iconPosition="start" label="Earnings / Spendings" style={{fontSize: "10px"}}/>
+                    <Tab icon={<ReceiptLongIcon/>} iconPosition="start" label="Banker's orders" style={{fontSize: "10px"}}/>
+                    <Tab icon={<SavingsIcon/>} iconPosition="start" label="Savings" style={{fontSize: "10px"}}/>
+                </Tabs>
+            </Container>
+
+            <Divider />
+
+            <Container maxWidth="xl">
+                <TabPanel value={value} index={0}><AccountsAndDepots /></TabPanel>
+                <TabPanel value={value} index={1}><EarningsAndSpendings /></TabPanel>
+                <TabPanel value={value} index={2}><BankersOrders /></TabPanel>
+                <TabPanel value={value} index={3}><Savings /></TabPanel>
+            </Container>
+        </>
     );
 }
 
