@@ -1,9 +1,10 @@
-import Select from "./Select"
-import {Option} from "./Select";
+import SelectFinanceo, {ISelectFinanceoProps, Option} from "./Select"
 
 export {
-    Select,
-
+    SelectFinanceo,
 }
 
-export type {Option};
+export type {
+    ISelectFinanceoProps,
+    Option
+}

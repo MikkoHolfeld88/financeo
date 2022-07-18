@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {auth, logout} from "../../services/firebaseService";
 import * as ROUTES from '../../constants/routes';
 import AppBar from '@mui/material/AppBar';
@@ -17,8 +17,6 @@ import MenuItem from '@mui/material/MenuItem';
 import './style.scss'
 import '../../hovers.css'
 
-// @ts-ignore
-import Image from "mui-image";
 // @ts-ignore
 import logo from "../../assets/logo/logo_white_large.png";
 import {useAuthState} from "react-firebase-hooks/auth";
@@ -131,7 +129,7 @@ const Navigation = () => {
                             }}>
                             {pages.map((page) => (
                                 <MenuItem key={page.name} onClick={event => handleCloseNavMenu(event, page.route)}>
-                                    <Typography textAlign="center">{page.name}</Typography>
+                                    <Typography key={page.name + "_label"} textAlign="center">{page.name}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -156,7 +154,7 @@ const Navigation = () => {
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, textAlign: 'center'}}>
                         {user && pages.map((page) => (
-                            <Tooltip title={page.desc}>
+                            <Tooltip title={page.desc} key={page.name + "_description"}>
                                 <Button
                                     key={page.name}
                                     onClick={event => handleCloseNavMenu(event, page.route)}
@@ -193,7 +191,7 @@ const Navigation = () => {
                             onClose={handleCloseUserMenu}>
                             {user && settings.map((setting) => (
                                 <MenuItem key={setting.name} onClick={event => handleCloseNavMenu(event, setting.route)}>
-                                    <Typography textAlign="center">{setting.name}</Typography>
+                                    <Typography key={setting.name + "_label"} textAlign="center">{setting.name}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>

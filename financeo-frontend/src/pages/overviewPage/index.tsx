@@ -6,13 +6,17 @@ import Box from "@mui/material/Box";
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import {Divider} from "@mui/material";
-import { Select, Option } from "../../components/utils"
-import {useDispatch, useSelector} from "react-redux";
-import {changeMonth} from "../../store";
+import {SelectFinanceo, Option, ISelectFinanceoProps} from "../../components/utils"
+import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 
-const years: number[] = [2018,2019, 2020,2021,2022,2023,2024,2025,2026,2027,2028,2029];
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+const years: number[] = [2018,2019, 2020,2021,2022,2023,2024,2025,2026,2027,2028,2029];
+//
 const months: Option[] = [
     {value: 1, label: "January"},
     {value: 2, label: "February"},
@@ -35,7 +39,7 @@ const createYearOptions = (years: number[]): Option[] => {
 }
 
 const OverviewPage = () => {
-    const [user, loading, error] = useAuthState(auth);
+    const [ loading ] = useAuthState(auth);
     const month = useSelector((state: RootState) => state.monthPicker.value)
 
     useEffect(() => {
@@ -46,8 +50,7 @@ const OverviewPage = () => {
         <>
             <Box>
                 <Container maxWidth="xl">
-                    <Select id={"select-month"} label={"Month"} options={months} defaultValue="April" />
-                    <Select id={"select-year"} label={"Year"} options={createYearOptions(years)} defaultValue="April" />
+                    <SelectFinanceo label="Year" defaultValue={2022} options={createYearOptions(years)}/>
                 </Container>
             </Box>
 
