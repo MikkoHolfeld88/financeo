@@ -1,13 +1,10 @@
-import React, {useCallback, useEffect} from "react";
+import React from "react";
 import Select, {SelectChangeEvent} from "@mui/material/Select";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import {useDispatch, useSelector} from "react-redux";
-import {AnyAction} from "@reduxjs/toolkit";
-import {RootState} from "../../store/store";
-import {changeYear} from "../../store"
+import {useDispatch} from "react-redux";
 
 export type Option = {
     value: any,
@@ -49,8 +46,8 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
     }
 
     return (
-        <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
+
+            <FormControl>
                 <InputLabel id={props.label + "_inputLabel"}>{props.label}</InputLabel>
                 <Select
                     labelId={props.label + "_selectLabelId"}
@@ -65,6 +62,5 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
                     }
                 </Select>
             </FormControl>
-        </Box>
     );
 }
