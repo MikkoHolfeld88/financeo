@@ -3,9 +3,7 @@ import Container from "@mui/material/Container";
 import Submenu from "./Submenu";
 
 const AccountingPage = () => (
-
-        <Submenu />
-
+    <Submenu />
 );
 
 

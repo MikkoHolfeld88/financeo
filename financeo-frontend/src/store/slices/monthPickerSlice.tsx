@@ -6,7 +6,7 @@ interface MonthPickerState {
 }
 
 const initialState: MonthPickerState = {
-    value: moment().month()
+    value: moment().month() + 1
 }
 
 export const monthPickerSlice = createSlice({

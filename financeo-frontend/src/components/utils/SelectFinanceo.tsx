@@ -17,6 +17,7 @@ export interface ISelectFinanceoProps {
     setState?: any,
     defaultValue?: any,
     style?: any,
+    fontSize?: number
 }
 
 export default function SelectFinanceo(props: ISelectFinanceoProps) {
@@ -37,19 +38,18 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
     const [state, setState] = React.useState(determineInitialState());
 
     const localHandleChange = (event: SelectChangeEvent) => {
-        console.log("localHandleChange");
         setState(event.target.value as string);
     };
 
     const givenHandleChange = (event: SelectChangeEvent) => {
-        dispatch(props.setState(Number(event.target.value)));
+        dispatch(props.setState(event.target.value));
     }
 
     return (
-
             <FormControl sx={props.style && props.style}>
                 <InputLabel id={props.label + "_inputLabel"}>{props.label}</InputLabel>
                 <Select
+                    sx={{fontSize: props.fontSize + "px"}}
                     labelId={props.label + "_selectLabelId"}
                     id={props.label + "_selectId"}
                     value={externallyControlled ? props.state : state}
@@ -57,6 +57,7 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
                     onChange={externallyControlled ? givenHandleChange : localHandleChange}>
                     {
                         props.options.map((option) => {
+                            console.log(option);
                             return <MenuItem value={option.value} key={option.value + "_key"}>{option.label}</MenuItem>
                         })
                     }
