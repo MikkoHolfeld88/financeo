@@ -1,11 +1,12 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import moment from "moment";
 
 interface MonthPickerState {
     value: number;
 }
 
 const initialState: MonthPickerState = {
-    value: 1
+    value: moment().month()
 }
 
 export const monthPickerSlice = createSlice({

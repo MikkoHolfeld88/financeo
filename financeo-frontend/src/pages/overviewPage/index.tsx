@@ -7,8 +7,10 @@ import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import {Divider} from "@mui/material";
 import {SelectFinanceo, Option, ISelectFinanceoProps} from "../../components/utils"
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
+import { bindActionCreators } from 'redux'
+import {changeYear} from "../../store/slices/yearPickerSlice";
 
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -40,7 +42,9 @@ const createYearOptions = (years: number[]): Option[] => {
 
 const OverviewPage = () => {
     const [ loading ] = useAuthState(auth);
-    const month = useSelector((state: RootState) => state.monthPicker.value)
+    const year = useSelector((state: RootState) => state.yearPicker.value);
+    const dispatch = useDispatch();
+    const month = useSelector((state: RootState) => state.monthPicker.value);
 
     useEffect(() => {
         if (loading) return;
@@ -50,7 +54,11 @@ const OverviewPage = () => {
         <>
             <Box>
                 <Container maxWidth="xl">
-                    <SelectFinanceo label="Year" defaultValue={2022} options={createYearOptions(years)}/>
+                    <SelectFinanceo
+                        label="Year"
+                        options={createYearOptions(years)}
+                        setState={changeYear}
+                        state={year}/>
                 </Container>
             </Box>
 

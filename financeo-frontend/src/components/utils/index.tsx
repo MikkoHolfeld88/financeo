@@ -1,4 +1,4 @@
-import SelectFinanceo, {ISelectFinanceoProps, Option} from "./Select"
+import SelectFinanceo, {ISelectFinanceoProps, Option} from "./SelectFinanceo"
 
 export {
     SelectFinanceo,
