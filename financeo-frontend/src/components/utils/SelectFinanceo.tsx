@@ -1,6 +1,5 @@
 import React from "react";
 import Select, {SelectChangeEvent} from "@mui/material/Select";
-import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -17,6 +16,7 @@ export interface ISelectFinanceoProps {
     state?: any,
     setState?: any,
     defaultValue?: any,
+    style?: any,
 }
 
 export default function SelectFinanceo(props: ISelectFinanceoProps) {
@@ -47,7 +47,7 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
 
     return (
 
-            <FormControl>
+            <FormControl sx={props.style && props.style}>
                 <InputLabel id={props.label + "_inputLabel"}>{props.label}</InputLabel>
                 <Select
                     labelId={props.label + "_selectLabelId"}
