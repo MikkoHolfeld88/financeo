@@ -9,6 +9,7 @@ export const celadon = '#a0e8afff';
 export const etonBlue = '#86baa1ff';
 export const beige = '#edead0ff';
 export const maizeCrayola = '#ffcf56ff';
+export const red = "#e34343"
 
 export const SCHEME1 = {
     background: manatee,
@@ -21,7 +22,8 @@ export const SCHEME1 = {
 export const SCHEME2 = {
     background: celadon,
     foreground: beige,
-    highlight: etonBlue,
-    lightdark: mountainMeadow,
+    warn: red,
+    mainForeground: white,
+    mainBackground: mountainMeadow,
     dark: maizeCrayola,
 }

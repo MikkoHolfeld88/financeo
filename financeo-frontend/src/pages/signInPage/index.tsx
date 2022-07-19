@@ -38,6 +38,7 @@ export function SignInPage() {
                             variant="outlined"/>
                         <TextField
                             placeholder="Password"
+                            type="password"
                             value={password}
                             id="standard-basic"
                             label="Password"
