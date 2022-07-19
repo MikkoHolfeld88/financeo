@@ -30,12 +30,14 @@ export function SignInPage() {
                             Login
                         </Typography>
                         <TextField
+                            placeholder="E-mail"
                             value={email}
                             id="standard-basic"
                             label="E-mail"
                             onChange={(e) => setEmail(e.target.value)}
                             variant="outlined"/>
                         <TextField
+                            placeholder="Password"
                             value={password}
                             id="standard-basic"
                             label="Password"
