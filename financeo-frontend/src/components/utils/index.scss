@@ -1,10 +1,12 @@
 .textEditFinanceo {
+  text-align: center;
   background-color: white;
   color: black;
   font-size: 16px;
 }
 
 .textEditFinanceoInput {
+  text-align: center;
   background-color: white;
   color: black;
   font-size: 16px;
@@ -13,4 +15,8 @@
 .textEditFinanceoInputExceededMaxSize {
   color: red;
   font-size: 16px;
+}
+
+.textEditFinanceoInvalid {
+  text-decoration: line-through
 }

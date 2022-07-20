@@ -16,8 +16,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import './style.scss'
 import '../../hovers.css'
-import {SCHEME2} from "../../constants/colors";
-import BreadcrumbsFinanceo from "./BreadcrumbsFinanceo";
+// @ts-ignore
+import testUser from "../../assets/img/mikko.jpg";
 
 // @ts-ignore
 import logo from "../../assets/logo/logo_white_large.png";
@@ -170,9 +170,9 @@ const Navigation = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         {
                             user &&
-                            <Tooltip title="Open Account details">
+                            <Tooltip title="Open account details">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                    <Avatar alt="Remy Sharp" src={testUser} />
                                 </IconButton>
                             </Tooltip>
                         }

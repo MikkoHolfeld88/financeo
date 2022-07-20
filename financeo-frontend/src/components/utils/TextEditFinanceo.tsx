@@ -1,5 +1,5 @@
 import React from 'react';
-import {EditText, inputTextType} from 'react-edit-text';
+import {EditText, inputTextType, onSaveProps} from 'react-edit-text';
 import 'react-edit-text/dist/index.css';
 import './index.scss'
 import Snackbar from '@mui/material/Snackbar';
@@ -15,63 +15,111 @@ interface ITextEditFinanceoProps {
     className?: string,
     inputClassName?: string,
     maxSize?: number,
+    readonly?: boolean,
+    validation?: {
+        function?: any,
+        message?: string,
+    }
+    formatDisplayFunction?: any
 }
 
 export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
-    const [exceededMaxSize, setExceededMaxSize] = React.useState(
-        false
-    )
-    const [visibleSnackbar, setSnackbarVisibility] = React.useState(
-        false
-    )
+    const [exceededMaxSize, setExceededMaxSize] = React.useState(false);
+    const [visibleMaxCharSnackbar, setMaxCharSnackbarVisibility] = React.useState(false);
+    const [visibleValidationSnackbar, setValidationSnackbarVisibility] = React.useState(false);
+    const [validField, setFieldValidity] = React.useState(true);
 
-    const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        setSnackbarVisibility(false);
+    const handleMaxCharSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        setMaxCharSnackbarVisibility(false);
+    };
+
+    const handleValidationSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setValidationSnackbarVisibility(false);
     };
 
     const handleChange = (event: any, setState: any) => {
-        if(props?.maxSize && props?.maxSize < event.target.value.length){
+        if (props?.maxSize && props?.maxSize < event.target.value.length) {
             setExceededMaxSize(true);
-            setSnackbarVisibility(true);
+            setMaxCharSnackbarVisibility(true);
             return
         }
 
-        if(props?.maxSize && exceededMaxSize){
+        if (props?.maxSize && exceededMaxSize) {
             setExceededMaxSize(false);
         }
 
-        if(props.setState && props.state){
+        if (props.setState && props.state) {
             props.setState(event.target.value);
         } else {
             setState(event.target.value);
         }
     };
 
+    const handleFocusOut = ({name, value, previousValue}: onSaveProps) => {
+        if (!props?.validation?.function(value)) {
+            setValidationSnackbarVisibility(true);
+            setFieldValidity(false);
+        }
+    }
+
     const [state, setState] = React.useState(
-        props?.defaultValue ? props?.defaultValue : 'emptyTextInput'
+        props?.defaultValue ? props?.defaultValue : ' '
     );
+
+    const determineClassName = () => {
+        if(!validField){
+            return "textEditFinanceoInvalid";
+        }
+
+        if (props?.className) {
+            return props?.className;
+        }
+
+        return "textEditFinanceo";
+    }
 
     return (
         <React.Fragment>
             <EditText
-                className={props?.className ? props?.className : "textEditFinanceo"}
+                className={determineClassName()}
                 inputClassName={exceededMaxSize ? "textEditFinanceoInputExceededMaxSize" : "textEditFinanceoInput"}
-                placeholder={props?.placeholder ? props?.placeholder : "emptyTextInput"}
+                placeholder={props?.placeholder ? props?.placeholder : " "}
                 name={props.name ? props.name : "name"}
                 type={props?.type ? props?.type : "text"}
                 value={props?.state ? props?.state : state}
                 onChange={(event) => handleChange(event, setState)}
+                readonly={props.readonly && props.readonly}
+                onSave={handleFocusOut}
+                formatDisplayText={props.formatDisplayFunction && props.formatDisplayFunction}
             />
+
             <Snackbar
                 anchorOrigin={{
                     vertical: "top",
-                    horizontal: "center" }}
+                    horizontal: "center"
+                }}
                 autoHideDuration={5000}
-                open={visibleSnackbar}
-                onClose={handleSnackbarClose}>
-                <Alert severity={"warning"}>Exceeded maximum character length!</Alert>
+                open={visibleMaxCharSnackbar}
+                onClose={handleMaxCharSnackbarClose}>
+                <Alert severity={"error"}>Exceeded maximum character length!</Alert>
             </Snackbar>
-         </React.Fragment>
+
+            <Snackbar
+                anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center"
+                }}
+                autoHideDuration={3000}
+                open={visibleValidationSnackbar}
+                onClose={handleValidationSnackbarClose}>
+                <Alert severity={"warning"}>{props.validation?.message}</Alert>
+            </Snackbar>
+
+        </React.Fragment>
     )
 }
 
