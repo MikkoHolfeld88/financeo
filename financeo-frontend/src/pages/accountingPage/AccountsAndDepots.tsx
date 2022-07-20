@@ -9,56 +9,35 @@ import {Button, Fab, Grid, IconButton, Tooltip} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Box from "@mui/material/Box";
+import { EditText, EditTextarea } from 'react-edit-text';
+import 'react-edit-text/dist/index.css';
 
 export function Account() {
-    return (
-        <Grid container spacing={0}>
-            <Grid item xs={9} md={10} xl={10}>
-                <Accordion
-                    expanded={expanded === 'panel1'}
-                    onChange={handleChange('panel1')}
-                    elevation={4}>
-                    <AccordionSummary
-                        sx={styleAccordionSummary}
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1bh-content"
-                        id="panel1bh-header">
-                        <Typography>
-                            <b>Kreissparkasse Koeln</b>
-                        </Typography>
-                    </AccordionSummary>
+    const handleChange = (e: any, setFn: any) => {
+        setFn(e.target.value);
+    };
 
-                    <AccordionDetails>
-                        <Typography>
-                            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat.
-                            Aliquam eget maximus est, id dignissim quam.
-                        </Typography>
-                    </AccordionDetails>
-                </Accordion>
-            </Grid>
-            <Grid item xs={2} md={1} xl={1}>
-                <Tooltip title={"Delete existing account or depot"}>
-                    <Fab size="medium" color="warning" aria-label="delete account or depot" style={{margin: margin}}>
-                        <DeleteForeverIcon style={{color: "white"}} />
-                    </Fab>
-                </Tooltip>
-            </Grid>
-        </Grid>
+    const [text, setText] = React.useState(
+        'This is a controlled component'
+    );
+
+    return (
+        <div style={{whiteSpace: 'nowrap'}}>
+            <strong><label className="mr-2">Email Address: </label></strong>
+            <EditText
+                name="email"
+                type="email"
+                value={text}
+                onChange={(e) => handleChange(e, setText)}
+                style={{width: '200px'}}
+                defaultValue="email@domain.com"
+                inline/>
+        </div>
     )
 }
 
-export function ControlledAccordions() {
-    const [expanded, setExpanded] = React.useState<string | false>(false);
-    const margin = "10px";
-
-    const styleAccordionSummary = {
-       marginTop: margin
-    }
-
-    const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-            setExpanded(isExpanded ? panel : false);
-        };
-
+export function AddAccountButton() {
     return (
         <div>
             <Tooltip title={"Add new account or depot"}>
@@ -74,7 +53,8 @@ const AccountsAndDepots = () => {
     return (
         <>
             <h1>Accounts and Depots</h1>
-            <ControlledAccordions />
+            <AddAccountButton />
+            <Account />
         </>
 
     )
