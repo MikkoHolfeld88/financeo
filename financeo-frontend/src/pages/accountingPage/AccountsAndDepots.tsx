@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Divider, Stack, Tooltip} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import 'react-edit-text/dist/index.css';
@@ -6,6 +6,9 @@ import {Account, AccountHead} from "../../components/account";
 import Box from "@mui/material/Box";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useSelector, useDispatch } from 'react-redux'
+import { getAllAccounts, fetchAccounts} from "../../store";
+import { AccountsState } from "../../store/slices/accountsSlice";
 
 export function AddAccountButton() {
     return (
@@ -20,8 +23,17 @@ export function AddAccountButton() {
 }
 
 const AccountsAndDepots = () => {
+    const dispatch = useDispatch();
+    // @ts-ignore
+    const accountsStatus = useSelector(state => state.accounts.status)
     const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
+
+    useEffect(() => {
+        if (accountsStatus === 'idle') {
+            dispatch(fetchAccounts())
+        }
+    }, [accountsStatus, dispatch])
 
     return (
         <React.Fragment>

@@ -10,6 +10,7 @@ const store = configureStore({
         counter: counterReducer,
         monthPicker: monthPickerReducer,
         yearPicker: yearPickerReducer
+
     }
 })
 

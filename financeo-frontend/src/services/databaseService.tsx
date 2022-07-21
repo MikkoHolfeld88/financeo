@@ -5,4 +5,4 @@ import {useAuthState} from "react-firebase-hooks/auth";
 
 const [user, loading, error] = useAuthState(auth);
 
-export default serve;
+export default user;

@@ -2,6 +2,14 @@ import store from "./store"
 import {increment, decrement, incrementByAmount} from "./slices/counterSlice";
 import {changeMonth} from "./slices/monthPickerSlice";
 import {changeYear} from "./slices/yearPickerSlice";
+import {
+    fetchAccounts,
+    getAllAccounts,
+    getAccountById,
+    deleteAccount,
+    updateAccount,
+    addAccount
+} from "./slices/accountsSlice";
 
 
 export {
@@ -10,5 +18,11 @@ export {
     incrementByAmount,
     decrement,
     changeMonth,
-    changeYear
+    changeYear,
+    fetchAccounts,
+    getAllAccounts,
+    getAccountById,
+    deleteAccount,
+    updateAccount,
+    addAccount
 }

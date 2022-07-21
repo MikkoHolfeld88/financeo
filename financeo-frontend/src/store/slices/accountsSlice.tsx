@@ -1,8 +1,12 @@
 import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
 import {IAccountProps} from "../../components/account/Account";
+import { ACCOUNTS_API } from "../../constants/urls";
 import axios from "axios";
+import {auth} from "../../services/firebaseService";
+import {useAuthState} from "react-firebase-hooks/auth";
 
-interface AccountsState {
+
+export interface AccountsState {
     accounts: IAccountProps[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed',
     error: string | null,
@@ -13,6 +17,12 @@ const initialState: AccountsState = {
     status: 'idle',
     error: null,
 }
+
+export const fetchAccounts = createAsyncThunk('accounts/getAccounts', async () => {
+    const [user] = useAuthState(auth);
+    const response = await axios.get(ACCOUNTS_API + user?.uid);
+    return response.data;
+})
 
 export const accountsSlice = createSlice({
     name: 'accounts',
@@ -36,14 +46,24 @@ export const accountsSlice = createSlice({
                 existingAccount.owner = owner;
                 existingAccount.type = type;
             }
-        }
+        },
     },
+    extraReducers(builder) {
+        builder
+            .addCase(fetchAccounts.pending, (state: AccountsState, action) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchAccounts.fulfilled, (state: AccountsState, action) => {
+                state.status = 'succeeded';
+                // Add any fetched posts to the array
+                state.accounts = state.accounts.concat(action.payload);
+            })
+            .addCase(fetchAccounts.rejected, (state: AccountsState, action) => {
+                state.status = 'failed';
+                state.error = action.error.message as string;
+            })
+    }
 });
-
-export const getAccounts = createAsyncThunk('accounts/getAccounts', async () => {
-    const response = await axios.get('api');
-    return response.data;
-})
 
 export const { addAccount, deleteAccount, updateAccount } = accountsSlice.actions;
 
