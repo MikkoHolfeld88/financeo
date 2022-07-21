@@ -56,7 +56,6 @@ const OverviewPage = () => {
     const [ loading ] = useAuthState(auth);
     const month = useSelector((state: RootState) => state.monthPicker.value);
     const year = useSelector((state: RootState) => state.yearPicker.value);
-    const dispatch = useDispatch();
 
     useEffect(() => {
         if (loading) return;

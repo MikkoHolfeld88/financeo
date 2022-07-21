@@ -57,7 +57,6 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
                     onChange={externallyControlled ? givenHandleChange : localHandleChange}>
                     {
                         props.options.map((option) => {
-                            console.log(option);
                             return <MenuItem value={option.value} key={option.value + "_key"}>{option.label}</MenuItem>
                         })
                     }
