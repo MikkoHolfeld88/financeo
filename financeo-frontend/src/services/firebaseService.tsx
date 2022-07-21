@@ -9,14 +9,12 @@ import {
     signOut,
 } from "firebase/auth";
 import {addDoc, collection, getDocs, getFirestore, query, where,} from "firebase/firestore";
-import { firebaseConfig } from "../components/firebase"
+import {firebaseConfig} from "../components/firebase"
 
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 const googleProvider = new GoogleAuthProvider();
-
-// const error = useSelector((state:RootState) => state.login.errorMessage)
 
 const signInWithGoogle = async () => {
     try {

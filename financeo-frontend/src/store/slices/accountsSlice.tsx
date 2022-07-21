@@ -1,5 +1,6 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
 import {IAccountProps} from "../../components/account/Account";
+import axios from "axios";
 
 interface AccountsState {
     accounts: IAccountProps[];
@@ -39,11 +40,15 @@ export const accountsSlice = createSlice({
     },
 });
 
+export const getAccounts = createAsyncThunk('accounts/getAccounts', async () => {
+    const response = await axios.get('api');
+    return response.data;
+})
 
 export const { addAccount, deleteAccount, updateAccount } = accountsSlice.actions;
 
-export const getAllAccounts = (state: { accounts: { accounts: any; }; }) => state.accounts.accounts;
-export const getAccountById = (state: { accounts: { accounts: any; }; }, acccountId: number) =>
+export const getAllAccounts = (state: { accounts: { accounts: IAccountProps[]; }; }) => state.accounts.accounts;
+export const getAccountById = (state: { accounts: { accounts: IAccountProps[]; }; }, acccountId: number) =>
     state.accounts.accounts.find((account: IAccountProps) => account.id === acccountId);
 
 export default accountsSlice.reducer;

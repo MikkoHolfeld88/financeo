@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import {auth, db} from './firebaseService';
+import {collection, query, where} from "firebase/firestore";
+import {useAuthState} from "react-firebase-hooks/auth";
 
-const serve = () => {
-
-}
+const [user, loading, error] = useAuthState(auth);
 
 export default serve;
