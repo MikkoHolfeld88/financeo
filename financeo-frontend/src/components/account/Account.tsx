@@ -101,8 +101,6 @@ export default function Account(props: IAccountProps) {
                         <TextEditFinanceo
                             state={props.bank}
                             name="NameOfBank"
-                            referenceValue={props.id}
-                            setState={updateBank}
                         />
                     </Grid>
                     <Grid item md={3} lg={3} xl={3}>

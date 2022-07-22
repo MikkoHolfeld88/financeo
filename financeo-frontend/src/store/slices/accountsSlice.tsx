@@ -36,12 +36,8 @@ export const accountsSlice = createSlice({
             state.data = action.payload.accounts;
 
         },
-        updateBank: (state, action: PayloadAction<{bank: string, id: number}>) => {
-            const {id, bank} = action.payload;
-            const updateAccount = state.data.find(account => account.id === id);
-            if(updateAccount){
-                updateAccount.bank = bank;
-            }
+        updateBank: (state, action: PayloadAction<IAccountProps>) => {
+
         }
     }
 });

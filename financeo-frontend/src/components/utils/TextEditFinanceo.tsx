@@ -57,11 +57,11 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
 
         if (props.setState && props.state) {
             if(props.referenceValue){
-                dispatch(props.setState(event.target.value, props.referenceValue));
-            } else {
-                dispatch(props.setState(event.target.value));
+                dispatch(props.setState(
+                    {value: event.target.value,
+                        referenceValue: props.referenceValue}));
             }
-
+            dispatch(props.setState(event.target.value));
         } else {
             setState(event.target.value);
         }
@@ -101,7 +101,7 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
                 value={props?.state ? props?.state : state}
                 onChange={(event) => handleChange(event, setState)}
                 readonly={props.readonly && props.readonly}
-                onSave={handleFocusOut}
+                onSave={props?.validation?.function && handleFocusOut}
                 formatDisplayText={props.formatDisplayFunction && props.formatDisplayFunction}
             />
 

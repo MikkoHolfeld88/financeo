@@ -54,6 +54,7 @@ const AccountsAndDepots = () => {
             {
                 accounts.map((account, index) => {
                     return <Account
+                        key={account.iban}
                         id={index + 1}
                         type={account.type}
                         iban={account.iban}
