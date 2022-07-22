@@ -4,6 +4,7 @@ import 'react-edit-text/dist/index.css';
 import './index.scss'
 import Snackbar from '@mui/material/Snackbar';
 import {Alert} from "@mui/material";
+import {useDispatch} from "react-redux";
 
 interface ITextEditFinanceoProps {
     name: string,
@@ -20,10 +21,12 @@ interface ITextEditFinanceoProps {
         function?: any,
         message?: string,
     }
-    formatDisplayFunction?: any
+    formatDisplayFunction?: any,
+    referenceValue?: any,
 }
 
 export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
+    const dispatch = useDispatch();
     const [exceededMaxSize, setExceededMaxSize] = React.useState(false);
     const [visibleMaxCharSnackbar, setMaxCharSnackbarVisibility] = React.useState(false);
     const [visibleValidationSnackbar, setValidationSnackbarVisibility] = React.useState(false);
@@ -53,7 +56,12 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
         }
 
         if (props.setState && props.state) {
-            props.setState(event.target.value);
+            if(props.referenceValue){
+                dispatch(props.setState(event.target.value, props.referenceValue));
+            } else {
+                dispatch(props.setState(event.target.value));
+            }
+
         } else {
             setState(event.target.value);
         }

@@ -1,8 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import {auth, db} from './firebaseService';
-import {collection, query, where} from "firebase/firestore";
-import {useAuthState} from "react-firebase-hooks/auth";
+import React from 'react';
+import {db} from './firebaseService';
+import {doc, getDoc} from "firebase/firestore";
 
-const [user, loading, error] = useAuthState(auth);
+async function getData(path: string, user: string) {
+    try {
+        const docRef = doc(db, path, user);
+        const docSnap = await getDoc(docRef);
 
-export default user;
+        if (docSnap.exists()) {
+            return docSnap.data();
+        } else {
+            console.log("No such document!");
+        }
+    } catch(error) {
+        console.log(error)
+    }
+}
+
+export default getData;

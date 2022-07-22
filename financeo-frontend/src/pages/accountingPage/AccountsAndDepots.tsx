@@ -1,14 +1,17 @@
 import React, {useEffect} from 'react';
-import {Button, Divider, Stack, Tooltip} from "@mui/material";
+import {Button, Divider, Tooltip} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import 'react-edit-text/dist/index.css';
 import {Account, AccountHead} from "../../components/account";
 import Box from "@mui/material/Box";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useSelector, useDispatch } from 'react-redux'
-import { getAllAccounts, fetchAccounts} from "../../store";
-import { AccountsState } from "../../store/slices/accountsSlice";
+import {auth} from "../../services/firebaseService";
+import {useAuthState} from "react-firebase-hooks/auth";
+import getData from "../../services/databaseService";
+import {updateAccounts} from "../../store";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../store/store";
 
 export function AddAccountButton() {
     return (
@@ -23,17 +26,17 @@ export function AddAccountButton() {
 }
 
 const AccountsAndDepots = () => {
+    const [ user ]: any | undefined = useAuthState(auth);
     const dispatch = useDispatch();
-    // @ts-ignore
-    const accountsStatus = useSelector(state => state.accounts.status)
-    const theme = useTheme();
-    const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
+    const accounts = useSelector((state: RootState) => state.accounts.data);
 
     useEffect(() => {
-        if (accountsStatus === 'idle') {
-            dispatch(fetchAccounts())
-        }
-    }, [accountsStatus, dispatch])
+        const accountsPromise = getData('accountsAndDepots', user.uid.toString());
+        accountsPromise.then(accounts => dispatch(updateAccounts(accounts)));
+    }, [])
+
+    const theme = useTheme();
+    const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
 
     return (
         <React.Fragment>
@@ -48,16 +51,19 @@ const AccountsAndDepots = () => {
                 desktopScreenSize &&
                 <Divider />
             }
-            <Account
-                id={1}
-                type="Account"
-                bank="Kreissparkasse Köln"
-                iban="DE42370502991313017653"
-                bic="COKSDE33"
-                owner="Mikko Holfeld"
-            />
+            {
+                accounts.map((account, index) => {
+                    return <Account
+                        id={index + 1}
+                        type={account.type}
+                        iban={account.iban}
+                        bic={account.bic}
+                        owner={account.owner}
+                        bank={account.bank}
+                    />
+                })
+            }
         </React.Fragment>
-
     )
 }
 

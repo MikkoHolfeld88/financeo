@@ -8,16 +8,19 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Typography from "@mui/material/Typography";
+import {updateAccount} from "../../store";
+import {updateBank} from "../../store/slices/accountsSlice";
 
 const ibantools = require('ibantools');
 
 export interface IAccountProps {
     id: number,
-    type: "Account" | "Depot",
+    type: "Account" | "Depot" | null,
     bank?: string,
     iban: string,
     bic?: string,
-    owner?: string
+    owner?: string,
+    created?: Date
 }
 
 export default function Account(props: IAccountProps) {
@@ -71,7 +74,7 @@ export default function Account(props: IAccountProps) {
         borderRadius: "4px"
     }
 
-    const handleChangeMobile = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    const handlePanelChangeMobile = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
         setExpanded(isExpanded ? panel : false);
     };
 
@@ -98,6 +101,8 @@ export default function Account(props: IAccountProps) {
                         <TextEditFinanceo
                             state={props.bank}
                             name="NameOfBank"
+                            referenceValue={props.id}
+                            setState={updateBank}
                         />
                     </Grid>
                     <Grid item md={3} lg={3} xl={3}>
@@ -134,7 +139,7 @@ export default function Account(props: IAccountProps) {
                 mobileScreenSize &&
                 <Accordion
                     expanded={expanded === 'panel1'}
-                    onChange={handleChangeMobile('panel1')}
+                    onChange={handlePanelChangeMobile('panel1')}
                     elevation={0}>
                     <AccordionSummary
                         sx={styleAccordionSummary}
