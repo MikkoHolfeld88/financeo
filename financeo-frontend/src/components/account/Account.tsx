@@ -24,24 +24,20 @@ export interface IAccountProps {
 }
 
 export default function Account(props: IAccountProps) {
+    const [visibleSnackbar, setSnackbarVisibility] = React.useState(false)
+    const [text, setText] = React.useState('---');
+    const [expanded, setExpanded] = React.useState<string | false>(false);
     const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
+
     const mobileScreenSize = !desktopScreenSize;
+    const handleChange = (event: any, setState: any) => {
+        setState(event.target.value);
 
-    const handleChange = (e: any, setFn: any) => {
-        setFn(e.target.value);
     };
-
-    const [text, setText] = React.useState(
-        'This is a controlled component'
-    );
-
-    const [visibleSnackbar, setSnackbarVisibility] = React.useState(
-        false
-    )
-
     const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         setSnackbarVisibility(false);
+
     };
 
     const ibanValidation = {
@@ -53,20 +49,18 @@ export default function Account(props: IAccountProps) {
         function: ibantools.isValidBIC,
         message: "BIC is not valid!"
     }
-
     const ibanDisplayFunction = (iban: string) => {
         return iban.replace(/[a-zA-Z0-9_]{4}(?=.)/g, '$& ')
-    }
 
+    }
     const openAccountView = () => {
         console.log("open account view");
-    }
 
+    }
     const deleteAccount = () => {
         console.log("delete Account");
-    }
 
-    const [expanded, setExpanded] = React.useState<string | false>(false);
+    }
 
     const styleAccordionSummary = {
         border: "1px grey solid",
@@ -100,12 +94,15 @@ export default function Account(props: IAccountProps) {
                         <TextEditFinanceo
                             name="bank"
                             state={props.bank}
+                            referenceValue={props.id}
+                            setState={updateBank}
                         />
                     </Grid>
                     <Grid item md={3} lg={3} xl={3}>
                         <TextEditFinanceo
                             name="iban"
                             state={props.iban}
+                            referenceValue={props.id}
                             validation={ibanValidation}
                             formatDisplayFunction={ibanDisplayFunction}
                         />
@@ -114,6 +111,7 @@ export default function Account(props: IAccountProps) {
                         <TextEditFinanceo
                             name="bic"
                             state={props.bic}
+                            referenceValue={props.id}
                             validation={BICValidation}
                         />
                     </Grid>
@@ -121,6 +119,7 @@ export default function Account(props: IAccountProps) {
                         <TextEditFinanceo
                             name="owner"
                             state={props.owner}
+                            referenceValue={props.id}
                         />
                     </Grid>
                     <Tooltip title={"Delete account " + props.id}>

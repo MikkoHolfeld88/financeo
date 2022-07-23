@@ -58,8 +58,10 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
         if (props.setState && props.state) {
             if(props.referenceValue){
                 dispatch(props.setState(
-                    {value: event.target.value,
-                        referenceValue: props.referenceValue}));
+                    {
+                        value: event.target.value,
+                        referenceValue: props.referenceValue
+                    }));
             }
             dispatch(props.setState(event.target.value));
         } else {

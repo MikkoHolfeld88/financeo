@@ -17,7 +17,7 @@ export function AddAccountButton() {
     return (
         <Box>
             <Tooltip title={"Add new account / depot"} placement="right">
-                <Button variant="outlined" startIcon={<AddIcon />}>
+                <Button variant="outlined" startIcon={<AddIcon/>}>
                     Add
                 </Button>
             </Tooltip>
@@ -26,10 +26,12 @@ export function AddAccountButton() {
 }
 
 const AccountsAndDepots = () => {
-    const [ user ]: any | undefined = useAuthState(auth);
+    const [user]: any | undefined = useAuthState(auth);
+    const [isLoading, setIsLoading] = React.useState(true)
+    const theme = useTheme();
+    const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
     const dispatch = useDispatch();
     const accounts = useSelector((state: RootState) => state.accounts.data);
-    const [isLoading, setIsLoading] = React.useState(true)
 
     useEffect(() => {
         const accountsPromise = getData('accountsAndDepots', user.uid.toString());
@@ -39,21 +41,18 @@ const AccountsAndDepots = () => {
         });
     }, [])
 
-    const theme = useTheme();
-    const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
-
     return (
         <React.Fragment>
             <h1>Accounts and Depots</h1>
-            <AddAccountButton />
-            <div style={{ marginTop: "5px"}}/>
+            <AddAccountButton/>
+            <div style={{marginTop: "5px"}}/>
             {
                 desktopScreenSize &&
-                <AccountHead />
+                <AccountHead/>
             }
             {
                 desktopScreenSize &&
-                <Divider />
+                <Divider/>
             }
             {
                 !isLoading && accounts.map((account, index) => {
