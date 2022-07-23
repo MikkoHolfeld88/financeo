@@ -29,10 +29,14 @@ const AccountsAndDepots = () => {
     const [ user ]: any | undefined = useAuthState(auth);
     const dispatch = useDispatch();
     const accounts = useSelector((state: RootState) => state.accounts.data);
+    const [isLoading, setIsLoading] = React.useState(true)
 
     useEffect(() => {
         const accountsPromise = getData('accountsAndDepots', user.uid.toString());
-        accountsPromise.then(accounts => dispatch(updateAccounts(accounts)));
+        accountsPromise.then((accounts) => {
+            dispatch(updateAccounts(accounts));
+            setIsLoading(false)
+        });
     }, [])
 
     const theme = useTheme();
@@ -52,7 +56,7 @@ const AccountsAndDepots = () => {
                 <Divider />
             }
             {
-                accounts.map((account, index) => {
+                !isLoading && accounts.map((account, index) => {
                     return <Account
                         key={account.iban}
                         id={index + 1}

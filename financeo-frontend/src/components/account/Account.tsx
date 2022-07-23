@@ -24,7 +24,6 @@ export interface IAccountProps {
 }
 
 export default function Account(props: IAccountProps) {
-    // TODO: implement screenSize recognition in a redux Slice for overall access
     const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
     const mobileScreenSize = !desktopScreenSize;
@@ -85,43 +84,43 @@ export default function Account(props: IAccountProps) {
                 <Grid container spacing={2}>
                     <Grid item md={1} lg={1} xl={1}>
                         <TextEditFinanceo
+                            name="id"
                             state={props.id.toString()}
                             readonly={true}
-                            name="AccountCount"
                         />
                     </Grid>
                     <Grid item md={1} lg={1} xl={1}>
                         <TextEditFinanceo
+                            name="type"
                             state={props.type}
                             readonly={true}
-                            name="AccountType"
                         />
                     </Grid>
                     <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
+                            name="bank"
                             state={props.bank}
-                            name="NameOfBank"
                         />
                     </Grid>
                     <Grid item md={3} lg={3} xl={3}>
                         <TextEditFinanceo
+                            name="iban"
                             state={props.iban}
-                            name="IBANNumber"
                             validation={ibanValidation}
                             formatDisplayFunction={ibanDisplayFunction}
                         />
                     </Grid>
                     <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
+                            name="bic"
                             state={props.bic}
-                            name="BIC/Swift"
                             validation={BICValidation}
                         />
                     </Grid>
                     <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
+                            name="owner"
                             state={props.owner}
-                            name="Owner"
                         />
                     </Grid>
                     <Tooltip title={"Delete account " + props.id}>
