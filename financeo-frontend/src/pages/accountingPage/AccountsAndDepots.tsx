@@ -8,10 +8,10 @@ import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {auth} from "../../services/firebaseService";
 import {useAuthState} from "react-firebase-hooks/auth";
-import getData from "../../services/databaseService";
-import {updateAccounts} from "../../store";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../store/store";
+import {getAllAccounts} from "../../store";
+import {useSelector} from "react-redux";
+import {fetchAccounts} from "../../store/slices/accountsSlice";
+import {RootState, useAppDispatch} from "../../store/store";
 
 export function AddAccountButton() {
     return (
@@ -30,16 +30,27 @@ const AccountsAndDepots = () => {
     const [isLoading, setIsLoading] = React.useState(true)
     const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
-    const dispatch = useDispatch();
-    const accounts = useSelector((state: RootState) => state.accounts.data);
+
+    const accounts = useSelector(getAllAccounts);
+    const dispatch = useAppDispatch();
+    const accountStatus = useSelector((state: RootState) => state.accounts.status);
 
     useEffect(() => {
-        const accountsPromise = getData('accountsAndDepots', user.uid.toString());
-        accountsPromise.then((accounts) => {
-            dispatch(updateAccounts(accounts));
-            setIsLoading(false)
-        });
-    }, [])
+        console.log(accountStatus);
+        if(accountStatus === 'idle'){
+            dispatch(fetchAccounts())
+        }
+    }, []);
+
+    // const accounts = useSelector((state: RootState) => state.accounts.data);
+    //
+    // useEffect(() => {
+    //     const accountsPromise = getData('accountsAndDepots', user.uid.toString());
+    //     accountsPromise.then((accounts) => {
+    //         dispatch(updateAccounts(accounts));
+    //         setIsLoading(false)
+    //     });
+    // }, [])
 
     return (
         <React.Fragment>

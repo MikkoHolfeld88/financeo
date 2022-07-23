@@ -8,8 +8,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Typography from "@mui/material/Typography";
-import {updateAccount} from "../../store";
-import {updateBank} from "../../store/slices/accountsSlice";
 
 const ibantools = require('ibantools');
 
@@ -95,7 +93,6 @@ export default function Account(props: IAccountProps) {
                             name="bank"
                             state={props.bank}
                             referenceValue={props.id}
-                            setState={updateBank}
                         />
                     </Grid>
                     <Grid item md={3} lg={3} xl={3}>

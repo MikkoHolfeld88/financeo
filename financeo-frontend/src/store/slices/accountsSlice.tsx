@@ -1,48 +1,64 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
 import {IAccountProps} from "../../components/account/Account";
+import React from 'react';
+import {auth, db} from '../../services/firebaseService';
+import {doc, getDoc} from "firebase/firestore";
+import {useAuthState} from "react-firebase-hooks/auth";
 
 export interface AccountsState {
     data: IAccountProps[];
+    status?: 'idle' | 'loading' | 'succeeded' | 'failed',
+    error?: string | null
 }
 
 const initialState: AccountsState = {
     data: [],
+    status: 'idle',
+    error: null,
 }
 
 export const accountsSlice = createSlice({
     name: 'accounts',
     initialState,
     reducers: {
-        addAccount: (state, action: PayloadAction<IAccountProps>) => {
-            state.data.push(action.payload);
-        },
-        deleteAccount: (state, action: PayloadAction<IAccountProps>) => {
-            const {id} = action.payload;
-            const deletionIndex = state.data.findIndex(account => account.id === id);
-            state.data.splice(deletionIndex, 1);
-        },
-        updateAccount: (state, action: PayloadAction<IAccountProps>) => {
-            const {id, bank, bic, iban, owner, type} = action.payload;
-            const existingAccount = state.data.find(account => account.id === id);
-            if (existingAccount) {
-                existingAccount.bank = bank;
-                existingAccount.bic = bic;
-                existingAccount.iban = iban;
-                existingAccount.owner = owner;
-                existingAccount.type = type;
-            }
-        },
-        updateAccounts: (state, action: PayloadAction<IAccountProps[] | any>) => {
+        updateAccounts: (state, action: PayloadAction<IAccountProps[] | any> | any) => {
             state.data = action.payload.accounts;
-
         },
-        updateBank: (state, action: PayloadAction<{ value: string, id: number }>) => {
 
-        }
+    },
+    extraReducers(builder) {
+        builder
+            .addCase(fetchAccounts.pending, (state, action) => {
+                state.status = 'loading'
+            })
+            .addCase(fetchAccounts.fulfilled, (state, action) => {
+                state.status = 'succeeded'
+                // Add any fetched posts to the array
+                state.data = state.data.concat(action.payload)
+            })
+            .addCase(fetchAccounts.rejected, (state, action) => {
+                state.status = 'failed'
+                state.error = action.error.message
+            })
     }
 });
 
-export const {addAccount, deleteAccount, updateAccount, updateAccounts, updateBank} = accountsSlice.actions;
+export const fetchAccounts = createAsyncThunk('accounts/fetchAccounts', async () => {
+    const [ user ] = useAuthState(auth);
+
+    console.log(user);
+
+    // @ts-ignore
+    const docRef = doc(db, 'accountsAndDepots', user?.uid?.toString());
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        return docSnap.data();
+    } else {
+        console.log("error");
+    }
+})
+
+export const { updateAccounts } = accountsSlice.actions;
 
 export const getAllAccounts = (state: AccountsState) => state.data;
 export const getAccountById = (state: AccountsState, acccountId: number) =>
