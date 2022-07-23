@@ -23,7 +23,6 @@ export interface IAccountProps {
 
 export default function Account(props: IAccountProps) {
     const [visibleSnackbar, setSnackbarVisibility] = React.useState(false)
-    const [text, setText] = React.useState('---');
     const [expanded, setExpanded] = React.useState<string | false>(false);
     const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
@@ -57,7 +56,6 @@ export default function Account(props: IAccountProps) {
     }
     const deleteAccount = () => {
         console.log("delete Account");
-
     }
 
     const styleAccordionSummary = {
@@ -120,11 +118,11 @@ export default function Account(props: IAccountProps) {
                         />
                     </Grid>
                     <Tooltip title={"Delete account " + props.id}>
-                    <Grid item md={1} lg={1} xl={1} sx={{textAlign: "center"}}>
-                        <IconButton onClick={deleteAccount} aria-label="open account view">
-                            <DeleteForeverIcon sx={{color: "red"}}/>
-                        </IconButton>
-                    </Grid>
+                        <Grid item md={1} lg={1} xl={1} sx={{textAlign: "center"}}>
+                            <IconButton onClick={deleteAccount} aria-label="open account view">
+                                <DeleteForeverIcon sx={{color: "red"}}/>
+                            </IconButton>
+                        </Grid>
                     </Tooltip>
                 </Grid>
             }
@@ -136,7 +134,7 @@ export default function Account(props: IAccountProps) {
                     elevation={0}>
                     <AccordionSummary
                         sx={styleAccordionSummary}
-                        expandIcon={<ExpandMoreIcon />}
+                        expandIcon={<ExpandMoreIcon/>}
                         aria-controls="panel1bh-content"
                         id="panel1bh-header">
                         <Typography>

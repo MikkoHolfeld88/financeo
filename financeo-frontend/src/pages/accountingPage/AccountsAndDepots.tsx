@@ -12,6 +12,7 @@ import {getAllAccounts} from "../../store";
 import {useSelector} from "react-redux";
 import {fetchAccounts} from "../../store/slices/accountsSlice";
 import {RootState, useAppDispatch} from "../../store/store";
+import {IAccountProps} from "../../components/account/Account";
 
 export function AddAccountButton() {
     return (
@@ -26,17 +27,16 @@ export function AddAccountButton() {
 }
 
 const AccountsAndDepots = () => {
-    const [user]: any | undefined = useAuthState(auth);
     const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
-
-    const accounts = useSelector(getAllAccounts);
     const dispatch = useAppDispatch();
+    const accounts = useSelector(getAllAccounts);
     const accountStatus = useSelector((state: RootState) => state.accounts.status);
 
     useEffect(() => {
         console.log(accountStatus);
         if(accountStatus === 'idle'){
+            console.log("STart dispatch")
             dispatch(fetchAccounts())
         }
     }, []);
@@ -45,7 +45,7 @@ const AccountsAndDepots = () => {
     if(accountStatus === 'loading'){
         content =  <h2>Loading</h2>;
     } else if (accountStatus === 'succeeded') {
-        content = accounts.map((account, index) => {
+        content = accounts.map((account: IAccountProps, index: number) => {
             return <Account
                 key={account.iban}
                 id={index + 1}

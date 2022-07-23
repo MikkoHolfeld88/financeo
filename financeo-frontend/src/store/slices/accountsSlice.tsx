@@ -1,4 +1,4 @@
-import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction, createAsyncThunk, nanoid} from '@reduxjs/toolkit';
 import {IAccountProps} from "../../components/account/Account";
 import React from 'react';
 import {auth, db} from '../../services/firebaseService';
@@ -21,46 +21,28 @@ export const accountsSlice = createSlice({
     name: 'accounts',
     initialState,
     reducers: {
-        updateAccounts: (state, action: PayloadAction<IAccountProps[] | any> | any) => {
-            state.data = action.payload.accounts;
-        },
 
     },
-    extraReducers(builder) {
-        builder
-            .addCase(fetchAccounts.pending, (state, action) => {
-                state.status = 'loading'
-            })
-            .addCase(fetchAccounts.fulfilled, (state, action) => {
-                state.status = 'succeeded'
-                // Add any fetched posts to the array
-                // @ts-ignore
-                state.data = state.data.concat(action.payload)
-            })
-            .addCase(fetchAccounts.rejected, (state, action) => {
-                state.status = 'failed'
-                state.error = action.error.message
-            })
-    }
 });
 
 export const fetchAccounts = createAsyncThunk('accounts/fetchAccounts', async () => {
     const [ user ] = useAuthState(auth);
-
+    const safeUser = user ? user.uid.toString() : " noUserRecognized ";
     console.log(user);
-    console.log("AHu")
 
-    // @ts-ignore
-    const docRef = doc(db, 'accountsAndDepots', user?.uid?.toString());
+    const docRef = doc(db, 'accountsAndDepots', safeUser);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-        return docSnap.data();
+        const accountsPromise = docSnap.data();
+        accountsPromise.then((accounts: IAccountProps[]) => {
+            return accounts;
+        })
     } else {
         console.log("error");
     }
 })
 
-export const { updateAccounts } = accountsSlice.actions;
+export const { } = accountsSlice.actions;
 
 export const getAllAccounts = (state: AccountsState) => state.data;
 export const getAccountById = (state: AccountsState, acccountId: number) =>
