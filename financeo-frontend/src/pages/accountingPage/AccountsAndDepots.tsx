@@ -27,7 +27,6 @@ export function AddAccountButton() {
 
 const AccountsAndDepots = () => {
     const [user]: any | undefined = useAuthState(auth);
-    const [isLoading, setIsLoading] = React.useState(true)
     const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
 
@@ -41,6 +40,24 @@ const AccountsAndDepots = () => {
             dispatch(fetchAccounts())
         }
     }, []);
+
+    let content;
+    if(accountStatus === 'loading'){
+        content =  <h2>Loading</h2>;
+    } else if (accountStatus === 'succeeded') {
+        content = accounts.map((account, index) => {
+            return <Account
+                key={account.iban}
+                id={index + 1}
+                type={account.type}
+                iban={account.iban}
+                bic={account.bic}
+                owner={account.owner}
+                bank={account.bank}
+            />});
+    } else if (accountStatus === 'failed'){
+        content = <h2>Failed</h2>;
+    }
 
     // const accounts = useSelector((state: RootState) => state.accounts.data);
     //
@@ -65,19 +82,7 @@ const AccountsAndDepots = () => {
                 desktopScreenSize &&
                 <Divider/>
             }
-            {
-                !isLoading && accounts.map((account, index) => {
-                    return <Account
-                        key={account.iban}
-                        id={index + 1}
-                        type={account.type}
-                        iban={account.iban}
-                        bic={account.bic}
-                        owner={account.owner}
-                        bank={account.bank}
-                    />
-                })
-            }
+            { content }
         </React.Fragment>
     )
 }

@@ -34,6 +34,7 @@ export const accountsSlice = createSlice({
             .addCase(fetchAccounts.fulfilled, (state, action) => {
                 state.status = 'succeeded'
                 // Add any fetched posts to the array
+                // @ts-ignore
                 state.data = state.data.concat(action.payload)
             })
             .addCase(fetchAccounts.rejected, (state, action) => {
@@ -47,6 +48,7 @@ export const fetchAccounts = createAsyncThunk('accounts/fetchAccounts', async ()
     const [ user ] = useAuthState(auth);
 
     console.log(user);
+    console.log("AHu")
 
     // @ts-ignore
     const docRef = doc(db, 'accountsAndDepots', user?.uid?.toString());
