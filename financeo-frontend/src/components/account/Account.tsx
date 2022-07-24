@@ -30,8 +30,11 @@ export default function Account(props: IAccountProps) {
     const mobileScreenSize = !desktopScreenSize;
     const handleChange = (event: any, setState: any) => {
         setState(event.target.value);
-
     };
+
+    const onFocusOut = (event) => {
+        console.log(event);
+    }
 
     const ibanValidation = {
         function: ibantools.isValidIBAN,
@@ -88,12 +91,14 @@ export default function Account(props: IAccountProps) {
                             state={props.bank}
                             setState={updateAccount}
                             referenceValue={props.id}
+                            onSave={onFocusOut}
                         />
                     </Grid>
                     <Grid item md={3} lg={3} xl={3}>
                         <TextEditFinanceo
                             name="iban"
                             state={props.iban}
+                            setState={updateAccount}
                             referenceValue={props.id}
                             validation={ibanValidation}
                             formatDisplayFunction={ibanDisplayFunction}
@@ -114,7 +119,7 @@ export default function Account(props: IAccountProps) {
                             referenceValue={props.id}
                         />
                     </Grid>
-                    <Tooltip title={"Delete account No. '" + props.id + "'"}>
+                    <Tooltip title={"Delete account No. '" + (props.id + 1) + "'"}>
                         <Grid item md={1} lg={1} xl={1} sx={{textAlign: "center"}}>
                             <IconButton onClick={deleteAccount} aria-label="open account view">
                                 <DeleteForeverIcon sx={{color: "red"}}/>

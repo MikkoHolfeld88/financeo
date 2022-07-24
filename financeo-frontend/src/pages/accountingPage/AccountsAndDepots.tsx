@@ -64,7 +64,7 @@ const AccountsAndDepots = () => {
 
                 accounts.map((account: IAccountProps, index: number) => {
                     return <Account
-                        key={account.iban}
+                        key={index}
                         id={index}
                         type={account.type}
                         iban={account.iban}

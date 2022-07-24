@@ -23,6 +23,7 @@ interface ITextEditFinanceoProps {
     }
     formatDisplayFunction?: any,
     referenceValue?: any,
+    onSave?: any
 }
 
 export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
@@ -55,26 +56,37 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
             setExceededMaxSize(false);
         }
 
-        if (props.setState && props.state) {
-            if(props.referenceValue){
-                dispatch(props.setState(
-                    {
-                        value: event.target.value,
-                        id: props.referenceValue,
-                        name: event.target.name
-                    }
-                    ));
+        if (props.setState && props.state) { // external setState and state handling
+            if(props.referenceValue !== null && props.referenceValue !== undefined){ // id as referenceValue
+                if(props.name){ // name to change property of object
+                    dispatch(props.setState({
+                            value: event.target.value,
+                            id: props.referenceValue,
+                            name: event.target.name
+                        })
+                    );
+                } else { // valueChange based on id of object / array
+                    dispatch(props.setState({
+                            value: event.target.value,
+                            id: props.referenceValue,
+                        })
+                    );
+                }
             }
-            // dispatch(props.setState(event.target.value));
+            dispatch(props.setState(event.target.value)); // basic external setState and state handling
         } else {
-            setState(event.target.value);
+            setState(event.target.value); // local stateHandling
         }
     };
 
     const handleFocusOut = ({name, value, previousValue}: onSaveProps) => {
-        if (!props?.validation?.function(value)) {
-            setValidationSnackbarVisibility(true);
-            setFieldValidity(false);
+        if(props?.validation?.function){
+            if (!props?.validation?.function(value)) {
+                setValidationSnackbarVisibility(true);
+                setFieldValidity(false);
+            } else {
+                setFieldValidity(true);
+            }
         }
     }
 
@@ -105,7 +117,7 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
                 value={props?.state ? props?.state : state}
                 onChange={(event) => handleChange(event, setState)}
                 readonly={props.readonly && props.readonly}
-                onSave={props?.validation?.function && handleFocusOut}
+                onSave={handleFocusOut}
                 formatDisplayText={props.formatDisplayFunction && props.formatDisplayFunction}
             />
 

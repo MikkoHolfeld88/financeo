@@ -1,12 +1,12 @@
 import React from 'react';
 import {db} from '../firebaseService/firebaseService';
-import {doc, getDoc} from "firebase/firestore";
+import {doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { addAccounts } from "../../store";
 import { useDispatch } from "react-redux";
 
-async function getData(path: string, user: string ) {
+async function getData(path: string, userUid: string ) {
     try {
-        const docRef = doc(db, path, user);
+        const docRef = doc(db, path, userUid);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
@@ -17,6 +17,15 @@ async function getData(path: string, user: string ) {
     } catch(error) {
         console.log(error)
     }
+}
+
+async function updateDate(path: string, userUid: string, updateValue: any){
+    const docRef = doc(db, path, userUid);
+    await updateDoc(docRef, updateValue);
+}
+
+async function addData(path: string, userUid: string, addValue: any){
+    await setDoc(doc(db, path, userUid), addValue);
 }
 
 export default getData;

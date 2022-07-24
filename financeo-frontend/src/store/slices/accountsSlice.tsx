@@ -21,16 +21,13 @@ export const accountsSlice = createSlice({
             state.status = 'loaded';
         },
         updateAccount: (state, action) => {
-            const { value, id,  name } = action.payload;
-            console.log(id);
-            const updateIndex = state.data.findIndex(account => account.id === id);
-            const updateAccount = (state.data[updateIndex]);
-            if (updateIndex && updateAccount) {
-                // @ts-ignore
+            const { value, id } = action.payload;
+            const name: 'bank' | 'iban' | 'bic' | 'owner' | 'type' = action.payload.name;
+            let updateAccount: IAccountProps = state.data[id];
+            if (updateAccount) {
                 updateAccount[name] = value;
-                // @ts-ignore
-                console.log(updateAccount);
-                state.data[updateIndex] = updateAccount;
+                state.data[id] = updateAccount;
+                state.status = 'updatedRecently';
             }
         }
     },

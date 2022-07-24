@@ -12,7 +12,7 @@ export default function AccountHead() {
                 <Grid item md={1} lg={1} xl={1}>
                     <TextEditFinanceo
                         className="accountHead"
-                        state="Index"
+                        state="No"
                         readonly={true}
                         name="AccountHeadCount"
                     />
@@ -32,7 +32,7 @@ export default function AccountHead() {
                 <Grid item md={2} lg={2} xl={2}>
                     <TextEditFinanceo
                         className="accountHead"
-                        state="Name (of bank)"
+                        state="Bank"
                         readonly={true}
                         name="NameOfBank"
                     />
@@ -61,7 +61,7 @@ export default function AccountHead() {
                 <Grid item md={2} lg={2} xl={2}>
                     <TextEditFinanceo
                         className="accountHead"
-                        state="Owner (of account)"
+                        state="Owner"
                         readonly={true}
                         name="Owner"
                     />
