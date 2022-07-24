@@ -9,7 +9,7 @@ import {
     signOut,
 } from "firebase/auth";
 import {addDoc, collection, getDocs, getFirestore, query, where,} from "firebase/firestore";
-import {firebaseConfig} from "../components/firebase"
+import {firebaseConfig} from "../../components/firebase"
 
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);

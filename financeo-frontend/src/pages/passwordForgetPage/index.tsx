@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {Link, useNavigate} from "react-router-dom";
-import {auth, sendPasswordReset} from "../../services/firebaseService";
+import {auth, sendPasswordReset} from "../../services/firebaseService/firebaseService";
 import "./reset.css";
 import {Paper, Stack, TextField, Typography} from "@mui/material";
 import Button from "@mui/material/Button";

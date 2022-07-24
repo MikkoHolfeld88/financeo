@@ -8,6 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Typography from "@mui/material/Typography";
+import {updateAccount} from "../../store";
 
 const ibantools = require('ibantools');
 
@@ -70,7 +71,7 @@ export default function Account(props: IAccountProps) {
                     <Grid item md={1} lg={1} xl={1}>
                         <TextEditFinanceo
                             name="id"
-                            state={props.id.toString()}
+                            state={(props.id + 1).toString()}
                             readonly={true}
                         />
                     </Grid>
@@ -85,6 +86,7 @@ export default function Account(props: IAccountProps) {
                         <TextEditFinanceo
                             name="bank"
                             state={props.bank}
+                            setState={updateAccount}
                             referenceValue={props.id}
                         />
                     </Grid>
@@ -101,6 +103,7 @@ export default function Account(props: IAccountProps) {
                         <TextEditFinanceo
                             name="bic"
                             state={props.bic}
+                            referenceValue={props.id}
                             validation={BICValidation}
                         />
                     </Grid>
@@ -108,9 +111,10 @@ export default function Account(props: IAccountProps) {
                         <TextEditFinanceo
                             name="owner"
                             state={props.owner}
+                            referenceValue={props.id}
                         />
                     </Grid>
-                    <Tooltip title={"Delete account " + props.id}>
+                    <Tooltip title={"Delete account No. '" + props.id + "'"}>
                         <Grid item md={1} lg={1} xl={1} sx={{textAlign: "center"}}>
                             <IconButton onClick={deleteAccount} aria-label="open account view">
                                 <DeleteForeverIcon sx={{color: "red"}}/>

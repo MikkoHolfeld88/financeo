@@ -60,10 +60,12 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
                 dispatch(props.setState(
                     {
                         value: event.target.value,
-                        referenceValue: props.referenceValue
-                    }));
+                        id: props.referenceValue,
+                        name: event.target.name
+                    }
+                    ));
             }
-            dispatch(props.setState(event.target.value));
+            // dispatch(props.setState(event.target.value));
         } else {
             setState(event.target.value);
         }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {auth, logout} from "../../services/firebaseService";
+import {auth, logout} from "../../services/firebaseService/firebaseService";
 import * as ROUTES from '../../constants/routes';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';

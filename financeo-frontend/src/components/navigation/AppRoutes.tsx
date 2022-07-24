@@ -1,6 +1,6 @@
 import {Navigate, Route, RouteProps, Routes} from "react-router-dom";
 import {useAuthState} from "react-firebase-hooks/auth";
-import {auth} from "../../services/firebaseService";
+import {auth} from "../../services/firebaseService/firebaseService";
 import React from "react";
 import * as ROUTES from "../../constants/routes";
 import {

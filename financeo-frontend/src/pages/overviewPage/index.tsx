@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useAuthState} from "react-firebase-hooks/auth";
-import {auth} from "../../services/firebaseService"
+import {auth} from "../../services/firebaseService/firebaseService"
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import 'react-date-range/dist/styles.css'; // main style file

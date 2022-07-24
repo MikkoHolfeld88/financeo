@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import {auth, logInWithEmailAndPassword, signInWithGoogle} from "../../services/firebaseService";
+import {auth, logInWithEmailAndPassword, signInWithGoogle} from "../../services/firebaseService/firebaseService";
 import {useAuthState} from "react-firebase-hooks/auth";
 import "./login.css";
 import {Paper, Stack, TextField, Typography} from "@mui/material";
