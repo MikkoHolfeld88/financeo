@@ -30,10 +30,10 @@ const AccountsAndDepots = () => {
     let status = useSelector((state: RootState) => state.accounts.status);
     const [fetchError, setFetchError] = useState(false);
     const [ user ] = useAuthState(auth);
+    const uid = user ? user.uid.toString() : 'none';
     let accounts = useSelector((state: RootState) => state.accounts.data);
     const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
-    const uid = user ? user.uid.toString() : 'none';
     const dispatch = useAppDispatch();
 
     useEffect(() => {

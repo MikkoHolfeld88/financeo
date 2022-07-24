@@ -5,6 +5,7 @@ import './index.scss'
 import Snackbar from '@mui/material/Snackbar';
 import {Alert} from "@mui/material";
 import {useDispatch} from "react-redux";
+import {updateData} from "../../services/databaseService/databaseService";
 
 interface ITextEditFinanceoProps {
     name: string,
@@ -23,7 +24,11 @@ interface ITextEditFinanceoProps {
     }
     formatDisplayFunction?: any,
     referenceValue?: any,
-    onSave?: any
+    onSave?: {
+        path: string,
+        uid: string,
+        updateValue: object
+    },
 }
 
 export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
@@ -87,6 +92,10 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
             } else {
                 setFieldValidity(true);
             }
+        }
+
+        if(props?.onSave){
+            updateData(props.onSave.path, props.onSave.uid, props.onSave.updateValue)
         }
     }
 

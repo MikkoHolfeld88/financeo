@@ -19,7 +19,7 @@ async function getData(path: string, userUid: string ) {
     }
 }
 
-async function updateDate(path: string, userUid: string, updateValue: any){
+export async function updateData(path: string, userUid: string, updateValue: any){
     const docRef = doc(db, path, userUid);
     await updateDoc(docRef, updateValue);
 }

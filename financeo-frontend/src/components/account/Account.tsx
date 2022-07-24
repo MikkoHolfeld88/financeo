@@ -9,6 +9,11 @@ import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Typography from "@mui/material/Typography";
 import {updateAccount} from "../../store";
+import {useSelector} from "react-redux";
+import {RootState} from "../../store/store";
+import {useAuthState} from "react-firebase-hooks/auth";
+import {auth} from "../../services/firebaseService/firebaseService";
+import {updateData} from "../../services/databaseService/databaseService";
 
 const ibantools = require('ibantools');
 
@@ -23,18 +28,17 @@ export interface IAccountProps {
 }
 
 export default function Account(props: IAccountProps) {
+    const [ user ] = useAuthState(auth);
+    const uid = user ? user.uid.toString() : 'none';
     const [expanded, setExpanded] = React.useState<string | false>(false);
     const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
+    const accounts = useSelector((state: RootState) => state.accounts.data);
 
     const mobileScreenSize = !desktopScreenSize;
     const handleChange = (event: any, setState: any) => {
         setState(event.target.value);
     };
-
-    const onFocusOut = (event) => {
-        console.log(event);
-    }
 
     const ibanValidation = {
         function: ibantools.isValidIBAN,
@@ -66,6 +70,9 @@ export default function Account(props: IAccountProps) {
         setExpanded(isExpanded ? panel : false);
     };
 
+    const onSave = updateData('accountsAndDepots', uid, {accounts});
+
+
     return (
         <div>
             {
@@ -91,7 +98,7 @@ export default function Account(props: IAccountProps) {
                             state={props.bank}
                             setState={updateAccount}
                             referenceValue={props.id}
-                            onSave={onFocusOut}
+                            onSave={{path: 'accountsAndDepots',uid: uid, updateValue: {accounts}}}
                         />
                     </Grid>
                     <Grid item md={3} lg={3} xl={3}>
