@@ -22,7 +22,6 @@ export interface IAccountProps {
 }
 
 export default function Account(props: IAccountProps) {
-    const [visibleSnackbar, setSnackbarVisibility] = React.useState(false)
     const [expanded, setExpanded] = React.useState<string | false>(false);
     const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
@@ -30,10 +29,6 @@ export default function Account(props: IAccountProps) {
     const mobileScreenSize = !desktopScreenSize;
     const handleChange = (event: any, setState: any) => {
         setState(event.target.value);
-
-    };
-    const handleSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        setSnackbarVisibility(false);
 
     };
 
@@ -106,7 +101,6 @@ export default function Account(props: IAccountProps) {
                         <TextEditFinanceo
                             name="bic"
                             state={props.bic}
-                            referenceValue={props.id}
                             validation={BICValidation}
                         />
                     </Grid>
@@ -114,7 +108,6 @@ export default function Account(props: IAccountProps) {
                         <TextEditFinanceo
                             name="owner"
                             state={props.owner}
-                            referenceValue={props.id}
                         />
                     </Grid>
                     <Tooltip title={"Delete account " + props.id}>
@@ -144,8 +137,7 @@ export default function Account(props: IAccountProps) {
 
                     <AccordionDetails>
                         <Typography>
-                            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat.
-                            Aliquam eget maximus est, id dignissim quam.
+                            Test
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
