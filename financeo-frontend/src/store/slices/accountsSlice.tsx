@@ -21,6 +21,7 @@ export const accountsSlice = createSlice({
             state.status = 'loaded';
         },
         updateAccount: (state, action) => {
+            // TODO: Fix Bug when Field is empty, Redux cannot save it anymore
             const { value, id } = action.payload;
             const name: 'bank' | 'iban' | 'bic' | 'owner' | 'type' = action.payload.name;
             let updateAccount: IAccountProps = state.data[id];
