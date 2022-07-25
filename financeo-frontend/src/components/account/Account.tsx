@@ -1,5 +1,5 @@
 import React from "react";
-import {Accordion, AccordionDetails, AccordionSummary, Grid, Tooltip} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Chip, Divider, Grid, Tooltip} from "@mui/material";
 import TextEditFinanceo from "../utils/TextEditFinanceo";
 import "./index.scss";
 import IconButton from "@mui/material/IconButton";
@@ -13,6 +13,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../services/firebaseService/firebaseService";
+import * as COLORS from "../../constants/colors"
 
 const ibantools = require('ibantools');
 
@@ -27,7 +28,7 @@ export interface IAccountProps {
 }
 
 export default function Account(props: IAccountProps) {
-    const [ user ] = useAuthState(auth);
+    const [user] = useAuthState(auth);
     const uid = user ? user.uid.toString() : 'none';
     const [expanded, setExpanded] = React.useState<string | false>(false);
     const theme = useTheme();
@@ -69,28 +70,31 @@ export default function Account(props: IAccountProps) {
         setExpanded(isExpanded ? panel : false);
     };
 
-    const onSaveValues = {path: 'accountsAndDepots',uid: uid, updateValue: {accounts}};
+    const onSaveValues = {path: 'accountsAndDepots', uid: uid, updateValue: {accounts}};
+
+    const handleChipClick = () => {
+        console.log("clicki");
+    }
 
     return (
-        <div>
+        <div style={{marginLeft: "15px"}}>
             {
                 desktopScreenSize &&
-                <Grid container spacing={2}>
-                    <Grid item md={1} lg={1} xl={1}>
-                        <TextEditFinanceo
-                            name="id"
-                            state={(props.id + 1).toString()}
-                            readonly={true}
-                        />
+                <Grid container spacing={2} alignItems="center" justifyItems="center">
+                    <Grid md={1} lg={1} xl={1} style={{textAlign: "center", marginTop: "-6px"}}>
+                        <Chip
+                            label={(props.id + 1).toString()}
+                            variant="outlined"
+                            onClick={handleChipClick}/>
                     </Grid>
-                    <Grid item md={1} lg={1} xl={1}>
+                    <Grid md={1} lg={1} xl={1}>
                         <TextEditFinanceo
                             name="type"
                             state={props.type}
                             readonly={true}
                         />
                     </Grid>
-                    <Grid item md={2} lg={2} xl={2}>
+                    <Grid md={2} lg={2} xl={2}>
                         <TextEditFinanceo
                             name="bank"
                             state={props.bank}
@@ -99,7 +103,7 @@ export default function Account(props: IAccountProps) {
                             onSave={onSaveValues}
                         />
                     </Grid>
-                    <Grid item md={3} lg={3} xl={3}>
+                    <Grid md={3} lg={3} xl={3}>
                         <TextEditFinanceo
                             name="iban"
                             state={props.iban}
@@ -110,7 +114,7 @@ export default function Account(props: IAccountProps) {
                             onSave={onSaveValues}
                         />
                     </Grid>
-                    <Grid item md={2} lg={2} xl={2}>
+                    <Grid md={2} lg={2} xl={2}>
                         <TextEditFinanceo
                             name="bic"
                             state={props.bic}
@@ -120,7 +124,7 @@ export default function Account(props: IAccountProps) {
                             onSave={onSaveValues}
                         />
                     </Grid>
-                    <Grid item md={2} lg={2} xl={2}>
+                    <Grid md={2} lg={2} xl={2}>
                         <TextEditFinanceo
                             name="owner"
                             state={props.owner}
@@ -130,9 +134,9 @@ export default function Account(props: IAccountProps) {
                         />
                     </Grid>
                     <Tooltip title={"Delete account No. '" + (props.id + 1) + "'"}>
-                        <Grid item md={1} lg={1} xl={1} sx={{textAlign: "center"}}>
+                        <Grid md={1} lg={1} xl={1} sx={{textAlign: "center"}}>
                             <IconButton onClick={deleteAccount} aria-label="open account view">
-                                <DeleteForeverIcon sx={{color: "red"}}/>
+                                <DeleteForeverIcon sx={{color: COLORS.SCHEME.error}}/>
                             </IconButton>
                         </Grid>
                     </Tooltip>

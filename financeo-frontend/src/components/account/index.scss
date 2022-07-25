@@ -1,5 +1,28 @@
+@import "../../constants/colors";
+
 .accountHead {
+  color: white;
   text-align: center;
-  font-weight: bold;
+  //font-weight: bold;
   font-size: 18px;
+  
+  &:hover {
+    cursor: pointer;
+  }
+  
 }
+
+.accountHeadBackground {
+  border-bottom: 1px solid lightgrey;
+  border-radius: 8px 8px 0px 0px;
+  margin-left: 100px;
+  background-color: $mainBackground;
+}
+
+.accountHeadContent {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+

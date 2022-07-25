@@ -14,6 +14,12 @@ import {auth} from "../../services/firebaseService/firebaseService";
 import {addAccounts} from "../../store";
 import {useSelector} from "react-redux";
 
+export function Spacer(){
+    return (
+        <div style={{marginTop: "25px"}}></div>
+    )
+}
+
 export function AddAccountButton() {
     return (
         <Box>
@@ -51,15 +57,12 @@ const AccountsAndDepots = () => {
         <React.Fragment>
             <h1>Accounts and Depots</h1>
             <AddAccountButton/>
-            <div style={{marginTop: "5px"}}/>
+            <Spacer />
             {
                 desktopScreenSize &&
                 <AccountHead/>
             }
-            {
-                desktopScreenSize &&
-                <Divider/>
-            }
+            <Spacer />
             {
 
                 accounts.map((account: IAccountProps, index: number) => {

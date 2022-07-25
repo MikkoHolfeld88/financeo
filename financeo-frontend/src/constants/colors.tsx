@@ -6,7 +6,7 @@
 
 export const white = '#ffffffff';
 export const mountainMeadow = '#3ab795ff';
-export const celadon = '#a0e8afff';
+export const celadon = '#e8f8ed';
 export const beige = '#edead0ff';
 export const maizeCrayola = '#ffcf56ff';
 export const lightRed = '#e17b7b'
