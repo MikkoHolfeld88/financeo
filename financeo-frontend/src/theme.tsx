@@ -5,13 +5,13 @@ import * as COLORS from './constants/colors';
 const theme = createTheme({
     palette: {
         primary: {
-            main: COLORS.SCHEME2.mainBackground,
+            main: COLORS.SCHEME.mainBackground,
         },
         secondary: {
             main: green[500],
         },
         warning: {
-            main: COLORS.SCHEME2.warn,
+            main: COLORS.SCHEME.warn,
         }
     },
 });
