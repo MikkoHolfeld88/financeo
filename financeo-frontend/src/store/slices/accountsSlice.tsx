@@ -9,7 +9,7 @@ export interface AccountsState {
 
 const initialState: AccountsState = {
     data: [],
-    status: 'idle'
+    status: 'idle',
 }
 
 export const accountsSlice = createSlice({

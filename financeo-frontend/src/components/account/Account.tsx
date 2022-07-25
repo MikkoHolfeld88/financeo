@@ -21,8 +21,8 @@ export interface IAccountProps {
     id: number,
     type: "Account" | "Depot" | null,
     bank?: string,
-    iban: string,
-    bic?: string,
+    iban?: string,
+    bic?: string
     owner?: string,
     created?: Date
 }
@@ -53,10 +53,7 @@ export default function Account(props: IAccountProps) {
         return iban.replace(/[a-zA-Z0-9_]{4}(?=.)/g, '$& ')
 
     }
-    const openAccountView = () => {
-        console.log("open account view");
 
-    }
     const deleteAccount = () => {
         console.log("delete Account");
     }
@@ -72,9 +69,7 @@ export default function Account(props: IAccountProps) {
 
     const onSaveValues = {path: 'accountsAndDepots', uid: uid, updateValue: {accounts}};
 
-    const handleChipClick = () => {
-        console.log("clicki");
-    }
+    const handleChipClick = () => {}
 
     return (
         <div style={{marginLeft: "15px"}}>
