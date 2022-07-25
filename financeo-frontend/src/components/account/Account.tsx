@@ -13,7 +13,6 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../services/firebaseService/firebaseService";
-import {updateData} from "../../services/databaseService/databaseService";
 
 const ibantools = require('ibantools');
 
@@ -70,8 +69,7 @@ export default function Account(props: IAccountProps) {
         setExpanded(isExpanded ? panel : false);
     };
 
-    const onSave = updateData('accountsAndDepots', uid, {accounts});
-
+    const onSaveValues = {path: 'accountsAndDepots',uid: uid, updateValue: {accounts}};
 
     return (
         <div>
@@ -98,7 +96,7 @@ export default function Account(props: IAccountProps) {
                             state={props.bank}
                             setState={updateAccount}
                             referenceValue={props.id}
-                            onSave={{path: 'accountsAndDepots',uid: uid, updateValue: {accounts}}}
+                            onSave={onSaveValues}
                         />
                     </Grid>
                     <Grid item md={3} lg={3} xl={3}>
@@ -109,21 +107,26 @@ export default function Account(props: IAccountProps) {
                             referenceValue={props.id}
                             validation={ibanValidation}
                             formatDisplayFunction={ibanDisplayFunction}
+                            onSave={onSaveValues}
                         />
                     </Grid>
                     <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
                             name="bic"
                             state={props.bic}
+                            setState={updateAccount}
                             referenceValue={props.id}
                             validation={BICValidation}
+                            onSave={onSaveValues}
                         />
                     </Grid>
                     <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
                             name="owner"
                             state={props.owner}
+                            setState={updateAccount}
                             referenceValue={props.id}
+                            onSave={onSaveValues}
                         />
                     </Grid>
                     <Tooltip title={"Delete account No. '" + (props.id + 1) + "'"}>

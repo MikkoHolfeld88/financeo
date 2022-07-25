@@ -61,24 +61,24 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
             setExceededMaxSize(false);
         }
 
-        if (props.setState && props.state) { // external setState and state handling
-            if(props.referenceValue !== null && props.referenceValue !== undefined){ // id as referenceValue
+        if (props?.setState && props?.state !== null && props?.state !== undefined) { // external setState and state handling
+            if(props?.referenceValue !== null && props?.referenceValue !== undefined){ // id as referenceValue
                 if(props.name){ // name to change property of object
-                    dispatch(props.setState({
+                    dispatch(props?.setState({
                             value: event.target.value,
                             id: props.referenceValue,
                             name: event.target.name
                         })
                     );
                 } else { // valueChange based on id of object / array
-                    dispatch(props.setState({
+                    dispatch(props?.setState({
                             value: event.target.value,
                             id: props.referenceValue,
                         })
                     );
                 }
             }
-            dispatch(props.setState(event.target.value)); // basic external setState and state handling
+            dispatch(props?.setState(event.target.value)); // basic external setState and state handling
         } else {
             setState(event.target.value); // local stateHandling
         }
@@ -95,7 +95,7 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
         }
 
         if(props?.onSave){
-            updateData(props.onSave.path, props.onSave.uid, props.onSave.updateValue)
+            updateData(props?.onSave.path, props?.onSave.uid, props?.onSave.updateValue)
         }
     }
 
@@ -123,7 +123,7 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
                 placeholder={props?.placeholder ? props?.placeholder : " "}
                 name={props.name ? props.name : "name"}
                 type={props?.type ? props?.type : "text"}
-                value={props?.state ? props?.state : state}
+                value={props?.state !== null ? props?.state : state}
                 onChange={(event) => handleChange(event, setState)}
                 readonly={props.readonly && props.readonly}
                 onSave={handleFocusOut}
