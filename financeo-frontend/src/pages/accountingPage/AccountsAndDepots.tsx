@@ -43,14 +43,16 @@ const AccountsAndDepots = () => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        status === 'idle' && getData('accountsAndDepots', uid)
-            .then((documentData) => {
-                dispatch(addAccounts(documentData?.accounts));
-            })
-            .catch((error) => {
-                console.log(error);
-                setFetchError(true);
-            });
+        if(status === 'idle'){
+            getData('accountsAndDepots', uid)
+                .then((documentData) => {
+                    dispatch(addAccounts(documentData?.accounts));
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setFetchError(true);
+                });
+        }
     }, []);
 
     return (
