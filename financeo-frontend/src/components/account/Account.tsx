@@ -1,7 +1,6 @@
 import React from "react";
 import {Accordion, AccordionDetails, AccordionSummary, Chip, Divider, Grid, Tooltip} from "@mui/material";
 import TextEditFinanceo from "../utils/TextEditFinanceo";
-import "./index.scss";
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -14,6 +13,7 @@ import {RootState} from "../../store/store";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../services/firebaseService/firebaseService";
 import * as COLORS from "../../constants/colors"
+import "./index.scss";
 
 const ibantools = require('ibantools');
 
@@ -59,8 +59,8 @@ export default function Account(props: IAccountProps) {
     }
 
     const styleAccordionSummary = {
-        border: "1px grey solid",
-        borderRadius: "4px"
+        border: "1px " + COLORS.SCHEME.mainBackground + " solid",
+        borderRadius: "8px"
     }
 
     const handlePanelChangeMobile = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -151,17 +151,29 @@ export default function Account(props: IAccountProps) {
                         expandIcon={<ExpandMoreIcon/>}
                         aria-controls="panel1bh-content"
                         id="panel1bh-header">
-                        <Typography>
-                            <b>
+                        <Typography
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                flexWrap: "wrap",
+                                alignItems: "center"}}>
+                            <Chip
+                                style={{
+                                    fontWeight: "bold",
+                                    border: "1px black solid"
+                                }}
+                                variant="outlined"
+                                label={(props.id + 1).toString()}
+                                onClick={handleChipClick}/>&nbsp;
+
                                 <TextEditFinanceo
                                     name="bank"
                                     state={props.bank}
                                     setState={updateAccount}
                                     referenceValue={props.id}
                                     onSave={onSaveValues}
-                                    showEditButton={true}
-                            />
-                            </b>
+                                    showEditButton={true}/>
+
                         </Typography>
                     </AccordionSummary>
 

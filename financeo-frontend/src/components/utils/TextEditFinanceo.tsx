@@ -132,8 +132,8 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
                 onSave={handleFocusOut}
                 formatDisplayText={props.formatDisplayFunction && props.formatDisplayFunction}
                 showEditButton={props?.showEditButton && props?.showEditButton}
-                editButtonContent={<ModeEditOutlineOutlinedIcon />}
-                editButtonProps={{ style: { marginLeft: '15px' } }}
+                editButtonContent={<ModeEditOutlineOutlinedIcon fontSize="small"/> }
+                editButtonProps={{ style: { marginLeft: '5px' } }}
                 onEditMode={props?.onEditMode && props?.onEditMode}
             />
 
