@@ -70,9 +70,11 @@ export default function Account(props: IAccountProps) {
     const onSaveValues = {path: 'accountsAndDepots', uid: uid, updateValue: {accounts}};
 
     const handleChipClick = () => {}
+    const accordionDisabled = false;
+    const marginLeft = desktopScreenSize ? "15px" : "0px"; // different margin on desktop and mobile
 
     return (
-        <div style={{marginLeft: "15px"}}>
+        <div style={{marginLeft: marginLeft}}>
             {
                 desktopScreenSize &&
                 <Grid container spacing={2} alignItems="center" justifyItems="center">
@@ -140,6 +142,7 @@ export default function Account(props: IAccountProps) {
             {
                 mobileScreenSize &&
                 <Accordion
+                    disableGutters={true}
                     expanded={expanded === 'panel1'}
                     onChange={handlePanelChangeMobile('panel1')}
                     elevation={0}>
@@ -149,7 +152,16 @@ export default function Account(props: IAccountProps) {
                         aria-controls="panel1bh-content"
                         id="panel1bh-header">
                         <Typography>
-                            <b>{props.bank}</b>
+                            <b>
+                                <TextEditFinanceo
+                                    name="bank"
+                                    state={props.bank}
+                                    setState={updateAccount}
+                                    referenceValue={props.id}
+                                    onSave={onSaveValues}
+                                    showEditButton={true}
+                            />
+                            </b>
                         </Typography>
                     </AccordionSummary>
 

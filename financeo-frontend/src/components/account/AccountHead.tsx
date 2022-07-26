@@ -15,7 +15,7 @@ export default function AccountHead() {
     return (
         <div style={{marginLeft: "15px"}}>
             <Grid container spacing={2} className={"accountHeadBackground"} alignItems="center" justifyItems="center">
-                <Tooltip title="Number of Account entries made in this table" placement="top">
+                <Tooltip title="Number of Account entries made in this table" placement="bottom">
                     <Grid md={1} lg={1} xl={1} className="accountHeadContent">
                         <FormatListNumberedIcon className="accountHead" fontSize="small"/>&nbsp;
                         <p className="accountHead">No</p>

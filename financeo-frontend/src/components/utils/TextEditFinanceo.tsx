@@ -6,11 +6,11 @@ import Snackbar from '@mui/material/Snackbar';
 import {Alert} from "@mui/material";
 import {useDispatch} from "react-redux";
 import {updateData} from "../../services/databaseService/databaseService";
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 
 interface ITextEditFinanceoProps {
     name: string,
     defaultValue?: any,
-    placeholder?: string,
     type?: inputTextType,
     state?: any,
     setState?: any,
@@ -29,6 +29,9 @@ interface ITextEditFinanceoProps {
         uid: string,
         updateValue: object
     },
+    placeholder?: string,
+    showEditButton?: boolean,
+    onEditMode?: any
 }
 
 export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
@@ -128,6 +131,10 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
                 readonly={props.readonly && props.readonly}
                 onSave={handleFocusOut}
                 formatDisplayText={props.formatDisplayFunction && props.formatDisplayFunction}
+                showEditButton={props?.showEditButton && props?.showEditButton}
+                editButtonContent={<ModeEditOutlineOutlinedIcon />}
+                editButtonProps={{ style: { marginLeft: '15px' } }}
+                onEditMode={props?.onEditMode && props?.onEditMode}
             />
 
             <Snackbar
