@@ -53,10 +53,12 @@ export default function Submenu(props: any) {
             <Container maxWidth="xl">
                 <Tabs
                     value={value}
+                    variant="scrollable"
                     onChange={handleChange}
                     aria-label="Submenu of Accounting"
-                    scrollButtons={true}
-                    allowScrollButtonsMobile
+                    scrollButtons="auto"
+                    visibleScrollbar={true}
+                    allowScrollButtonsMobile={true}
                 >
                     <Tab icon={<AccountBalanceWalletIcon/>} iconPosition="start" label="Accounts / Depots" style={{fontSize: "10px"}}/>
                     <Tab icon={<PointOfSaleIcon/>} iconPosition="start" label="Earnings / Spendings" style={{fontSize: "10px"}}/>
