@@ -22,6 +22,8 @@ import testUser from "../../assets/img/mikko.jpg";
 // @ts-ignore
 import logo from "../../assets/logo/logo_white_large.png";
 import {useAuthState} from "react-firebase-hooks/auth";
+import {useAppDispatch} from "../../store/store";
+import {setUid} from "../../store";
 
 const pages = [
     {route: ROUTES.OVERVIEW, name: 'Overview', desc: "Provides fundamental financial information"},
@@ -42,11 +44,13 @@ const Navigation = () => {
     const location = useLocation();
     const [user] = useAuthState(auth);
     const hvrFX = 'hvr-skew';
+    const dispatch = useAppDispatch();
 
     // handles logout
     React.useEffect(() => {
         if(location.pathname === ROUTES.SIGN_OUT){
             logout();
+            dispatch(setUid('none'))
         }
     }, [location])
 

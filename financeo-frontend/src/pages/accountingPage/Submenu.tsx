@@ -6,13 +6,12 @@ import SavingsIcon from '@mui/icons-material/Savings';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import AccountsAndDepots from "./AccountsAndDepots";
 import BankersOrders from "./BankersOrders";
 import EarningsAndSpendings from "./EarningsAndSpendings";
 import Savings from "./Savings";
 import Container from "@mui/material/Container";
-import { Divider } from '@mui/material';
+import {Divider} from '@mui/material';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -57,23 +56,25 @@ export default function Submenu(props: any) {
                     onChange={handleChange}
                     aria-label="Submenu of Accounting"
                     scrollButtons="auto"
-                    visibleScrollbar={true}
                     allowScrollButtonsMobile={true}
                 >
-                    <Tab icon={<AccountBalanceWalletIcon/>} iconPosition="start" label="Accounts / Depots" style={{fontSize: "10px"}}/>
-                    <Tab icon={<PointOfSaleIcon/>} iconPosition="start" label="Earnings / Spendings" style={{fontSize: "10px"}}/>
-                    <Tab icon={<ReceiptLongIcon/>} iconPosition="start" label="Banker's orders" style={{fontSize: "10px"}}/>
+                    <Tab icon={<AccountBalanceWalletIcon/>} iconPosition="start" label="Accounts / Depots"
+                         style={{fontSize: "10px"}}/>
+                    <Tab icon={<PointOfSaleIcon/>} iconPosition="start" label="Earnings / Spendings"
+                         style={{fontSize: "10px"}}/>
+                    <Tab icon={<ReceiptLongIcon/>} iconPosition="start" label="Banker's orders"
+                         style={{fontSize: "10px"}}/>
                     <Tab icon={<SavingsIcon/>} iconPosition="start" label="Savings" style={{fontSize: "10px"}}/>
                 </Tabs>
             </Container>
 
-            <Divider />
+            <Divider/>
 
             <Container maxWidth="xl">
-                <TabPanel value={value} index={0}><AccountsAndDepots /></TabPanel>
-                <TabPanel value={value} index={1}><EarningsAndSpendings /></TabPanel>
-                <TabPanel value={value} index={2}><BankersOrders /></TabPanel>
-                <TabPanel value={value} index={3}><Savings /></TabPanel>
+                <TabPanel value={value} index={0}><AccountsAndDepots/></TabPanel>
+                <TabPanel value={value} index={1}><EarningsAndSpendings/></TabPanel>
+                <TabPanel value={value} index={2}><BankersOrders/></TabPanel>
+                <TabPanel value={value} index={3}><Savings/></TabPanel>
             </Container>
         </>
     );

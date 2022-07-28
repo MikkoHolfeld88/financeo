@@ -3,10 +3,12 @@ import moment from "moment";
 
 interface MonthPickerState {
     value: number;
+    status: 'idle' | 'pending' | 'loaded' | 'failed';
 }
 
 const initialState: MonthPickerState = {
-    value: moment().month() + 1
+    value: moment().month() + 1,
+    status: 'loaded'
 }
 
 export const monthPickerSlice = createSlice({

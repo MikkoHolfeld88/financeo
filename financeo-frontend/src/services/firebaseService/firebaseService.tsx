@@ -28,22 +28,19 @@ const signInWithGoogle = async () => {
                 name: user.displayName,
                 authProvider: "google",
                 email: user.email,
-            })
+            });
         }
-    } catch (error) {
-        console.log(error);
-        // @ts-ignore
-        alert(error.message);
+
+    } catch (error: any) {
+        process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
     }
 }
 
 const logInWithEmailAndPassword = async (email: string, password: string) => {
     try {
         await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-        console.log(error);
-        // @ts-ignore
-        alert(error.message);
+    } catch (error: any) {
+        process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
     }
 }
 
@@ -57,10 +54,8 @@ const registerWithEmailAndPassword = async (name: any, email: string, password: 
             authProvider: "local",
             email,
         });
-    } catch (error) {
-        console.log(error);
-        // @ts-ignore
-        alert(error.message);
+    } catch (error: any) {
+        process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
     }
 }
 
@@ -68,10 +63,8 @@ const sendPasswordReset = async (email: string) => {
     try {
         await sendPasswordResetEmail(auth, email);
         alert("Password reset link sent!");
-    } catch (error) {
-        console.log(error);
-        // @ts-ignore
-        alert(error.message);
+    } catch (error: any) {
+        process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
     }
 }
 

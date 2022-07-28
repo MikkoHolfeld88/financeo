@@ -1,13 +1,14 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import YearPickerSlice from "./yearPickerSlice";
 import moment from 'moment';
 
 interface YearPickerState {
     value: number;
+    status: 'idle' | 'pending' | 'loaded' | 'failed';
 }
 
 const initialState: YearPickerState = {
-    value: moment().year()
+    value: moment().year(),
+    status: 'loaded'
 }
 
 export const yearPickerSlice = createSlice({

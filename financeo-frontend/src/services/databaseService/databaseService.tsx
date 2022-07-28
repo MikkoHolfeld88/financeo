@@ -1,8 +1,5 @@
-import React from 'react';
 import {db} from '../firebaseService/firebaseService';
-import {doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
-import { addAccounts } from "../../store";
-import { useDispatch } from "react-redux";
+import {doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 
 async function getData(path: string, userUid: string ) {
     try {

@@ -1,14 +1,14 @@
 import store from "./store"
-import {decrement, increment, incrementByAmount} from "./slices/counterSlice";
+import {setErrorMessage, setStatus, setUid} from "./slices/loginSlice";
 import {changeMonth} from "./slices/monthPickerSlice";
 import {changeYear} from "./slices/yearPickerSlice";
 import {addAccounts, updateAccount} from "./slices/accountsSlice";
 
 export {
     store,
-    increment,
-    incrementByAmount,
-    decrement,
+    setErrorMessage,
+    setStatus,
+    setUid,
     changeMonth,
     changeYear,
     addAccounts,

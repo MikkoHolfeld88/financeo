@@ -1,10 +1,9 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {IAccountProps} from "../../components/account/Account";
-import React from 'react';
 
 export interface AccountsState {
     data: IAccountProps[];
-    status: 'loaded' | 'idle' | 'addedRecently' | 'updatedRecently' | 'deletedRecently';
+    status: 'idle' | 'loaded' | 'pending' | 'failed';
 }
 
 const initialState: AccountsState = {
@@ -27,7 +26,6 @@ export const accountsSlice = createSlice({
             if (updateAccount) {
                 updateAccount[name] = value;
                 state.data[id] = updateAccount;
-                state.status = 'updatedRecently';
             }
         }
     },
