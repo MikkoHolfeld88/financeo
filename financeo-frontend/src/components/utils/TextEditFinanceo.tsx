@@ -66,20 +66,12 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
 
         if (props?.setState && props?.state !== null && props?.state !== undefined) { // external setState and state handling
             if(props?.referenceValue !== null && props?.referenceValue !== undefined){ // id as referenceValue
-                if(props.name){ // name to change property of object
-                    dispatch(props?.setState({
-                            value: event.target.value,
-                            id: props.referenceValue,
-                            name: event.target.name
-                        })
-                    );
-                } else { // valueChange based on id of object / array
-                    dispatch(props?.setState({
-                            value: event.target.value,
-                            id: props.referenceValue,
-                        })
-                    );
-                }
+                dispatch(props?.setState({
+                        value: event.target.value,
+                        id: props.referenceValue,
+                        name: event.target.name
+                    })
+                );
             }
             dispatch(props?.setState(event.target.value)); // basic external setState and state handling
         } else {

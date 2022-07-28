@@ -40,7 +40,7 @@ const calculateYears = (pastYears: number = 10): number[] => {
 
     const range = (start: number, end: number): number[] => {
         for (var i = start, list = []; i <= end; list.push(i), i++);
-        return list;
+        return list.reverse();
     };
 
     return range(firstYear, latestYear);

@@ -46,7 +46,6 @@ export default function Submenu(props: any) {
         setValue(newValue);
     };
 
-    //TODO: Add Layout for Responsive Design or find a solution for missing scroll buttons
     return (
         <>
             <Container maxWidth="xl">
@@ -56,15 +55,23 @@ export default function Submenu(props: any) {
                     onChange={handleChange}
                     aria-label="Submenu of Accounting"
                     scrollButtons="auto"
-                    allowScrollButtonsMobile={true}
-                >
-                    <Tab icon={<AccountBalanceWalletIcon/>} iconPosition="start" label="Accounts / Depots"
+                    allowScrollButtonsMobile={true}>
+                    <Tab icon={<AccountBalanceWalletIcon/>}
+                         iconPosition="start"
+                         label="Accounts / Depots"
                          style={{fontSize: "10px"}}/>
-                    <Tab icon={<PointOfSaleIcon/>} iconPosition="start" label="Earnings / Spendings"
+                    <Tab icon={<PointOfSaleIcon/>}
+                         iconPosition="start"
+                         label="Earnings / Spendings"
                          style={{fontSize: "10px"}}/>
-                    <Tab icon={<ReceiptLongIcon/>} iconPosition="start" label="Banker's orders"
+                    <Tab icon={<ReceiptLongIcon/>}
+                         iconPosition="start"
+                         label="Banker's orders"
                          style={{fontSize: "10px"}}/>
-                    <Tab icon={<SavingsIcon/>} iconPosition="start" label="Savings" style={{fontSize: "10px"}}/>
+                    <Tab icon={<SavingsIcon/>}
+                         iconPosition="start"
+                         label="Savings"
+                         style={{fontSize: "10px"}}/>
                 </Tabs>
             </Container>
 

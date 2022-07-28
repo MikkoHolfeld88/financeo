@@ -1,17 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Divider, Tooltip} from "@mui/material";
+import React from 'react';
+import {Button, Tooltip} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import 'react-edit-text/dist/index.css';
 import {Account, AccountHead} from "../../components/account";
 import Box from "@mui/material/Box";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import {RootState, useAppDispatch} from "../../store/store";
+import {RootState} from "../../store/store";
 import {IAccountProps} from "../../components/account/Account";
-import getData from "../../services/databaseService/databaseService";
-import {useAuthState} from "react-firebase-hooks/auth";
-import {auth} from "../../services/firebaseService/firebaseService";
-import {addAccounts} from "../../store";
 import {useSelector} from "react-redux";
 
 export function Spacer(){
@@ -34,26 +30,9 @@ export function AddAccountButton() {
 
 const AccountsAndDepots = () => {
     let status = useSelector((state: RootState) => state.accounts.status);
-    const [fetchError, setFetchError] = useState(false);
-    const [ user ] = useAuthState(auth);
-    const uid = user ? user.uid.toString() : 'none';
     let accounts = useSelector((state: RootState) => state.accounts.data);
     const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        if(status === 'idle'){
-            getData('accountsAndDepots', uid)
-                .then((documentData) => {
-                    dispatch(addAccounts(documentData?.accounts));
-                })
-                .catch((error) => {
-                    console.log(error);
-                    setFetchError(true);
-                });
-        }
-    }, []);
 
     return (
         <React.Fragment>
@@ -66,7 +45,6 @@ const AccountsAndDepots = () => {
             }
             <Spacer />
             {
-
                 accounts.map((account: IAccountProps, index: number) => {
                     return <Account
                         key={index}
@@ -75,8 +53,7 @@ const AccountsAndDepots = () => {
                         iban={account.iban}
                         bic={account.bic}
                         owner={account.owner}
-                        bank={account.bank}
-                    />
+                        bank={account.bank}/>
                 })
             }
         </React.Fragment>
