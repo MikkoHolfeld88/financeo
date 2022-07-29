@@ -8,8 +8,10 @@ import {
     signInWithPopup,
     signOut,
 } from "firebase/auth";
+
 import {addDoc, collection, getDocs, getFirestore, query, where} from "firebase/firestore";
 import {firebaseConfig} from "../../components/firebase"
+import {listOfCollectoins} from "../../constants/collections";
 
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
@@ -54,6 +56,11 @@ const registerWithEmailAndPassword = async (name: any, email: string, password: 
             authProvider: "local",
             email,
         });
+        listOfCollectoins.map((collectionName) => {
+            addDoc(collection(db, collectionName, user.uid), {
+
+            })
+        })
     } catch (error: any) {
         process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
     }

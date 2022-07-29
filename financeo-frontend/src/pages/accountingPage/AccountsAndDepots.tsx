@@ -6,13 +6,14 @@ import {Account, AccountHead} from "../../components/account";
 import Box from "@mui/material/Box";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import {RootState} from "../../store/store";
+import {RootState, useAppDispatch} from "../../store/store";
 import {IAccountProps} from "../../components/account/Account";
 import {useSelector} from "react-redux";
 
-export function Spacer(){
+
+export function Spacer(props: any){
     return (
-        <div style={{marginTop: "25px"}}></div>
+        <div style={{marginTop: props?.marginTop ? props?.marginTop : "25px"}}></div>
     )
 }
 
@@ -20,7 +21,7 @@ export function AddAccountButton() {
     return (
         <Box>
             <Tooltip title={"Add new account / depot"} placement="right">
-                <Button variant="outlined" startIcon={<AddIcon/>}>
+                <Button variant="outlined" startIcon={<AddIcon/>}  style={{ border: '2px solid' }}>
                     Add
                 </Button>
             </Tooltip>

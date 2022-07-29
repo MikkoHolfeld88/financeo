@@ -2,7 +2,7 @@ import store from "./store"
 import {setErrorMessage, setStatus, setUid} from "./slices/loginSlice";
 import {changeMonth} from "./slices/monthPickerSlice";
 import {changeYear} from "./slices/yearPickerSlice";
-import {addAccounts, updateAccount} from "./slices/accountsSlice";
+import {addAccounts, updateAccount, deleteAccount} from "./slices/accountsSlice";
 
 export {
     store,
@@ -12,5 +12,6 @@ export {
     changeMonth,
     changeYear,
     addAccounts,
-    updateAccount
+    updateAccount,
+    deleteAccount
 }

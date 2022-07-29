@@ -27,10 +27,15 @@ export const accountsSlice = createSlice({
                 updateAccount[name] = value;
                 state.data[id] = updateAccount;
             }
+        },
+        deleteAccount: (state, action) => {
+            console.log(action.payload);
+            console.log(state.data.filter(account => account.id === action.payload));
+            state.data = state.data.filter(account => account.id === action.payload);
         }
     },
 });
 
-export const {addAccounts, updateAccount} = accountsSlice.actions;
+export const {addAccounts, updateAccount, deleteAccount} = accountsSlice.actions;
 
 export default accountsSlice.reducer;
