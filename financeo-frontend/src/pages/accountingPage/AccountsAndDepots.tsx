@@ -46,7 +46,7 @@ const AccountsAndDepots = () => {
             }
             <Spacer />
             {
-                accounts.map((account: IAccountProps, index: number) => {
+                accounts && accounts.map((account: IAccountProps, index: number) => {
                     return <Account
                         key={index}
                         id={index}
