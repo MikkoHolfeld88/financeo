@@ -46,6 +46,7 @@ export function SignUpPage() {
                             onChange={(e) => setEmail(e.target.value)}
                             variant="outlined"/>
                         <TextField
+                            type="password"
                             value={password}
                             id="standard-basic"
                             label="Password"

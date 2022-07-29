@@ -46,6 +46,13 @@ const logInWithEmailAndPassword = async (email: string, password: string) => {
     }
 }
 
+const getAuthprovider = (email: string) => {
+    return email.substring(
+        email.indexOf("@") + 1,
+        email.lastIndexOf(".")
+    );
+}
+
 const registerWithEmailAndPassword = async (name: any, email: string, password: string) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
@@ -53,14 +60,10 @@ const registerWithEmailAndPassword = async (name: any, email: string, password: 
         await addDoc(collection(db, "users"), {
             uid: user.uid,
             name,
-            authProvider: "local",
+            authProvider: getAuthprovider(email),
             email,
+            password: password
         });
-        listOfCollectoins.map((collectionName) => {
-            addDoc(collection(db, collectionName, user.uid), {
-
-            })
-        })
     } catch (error: any) {
         process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
     }
