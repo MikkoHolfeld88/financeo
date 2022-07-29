@@ -1,5 +1,6 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {IAccountProps} from "../../components/account/Account";
+import moment from "moment/moment";
 
 export interface AccountsState {
     data: IAccountProps[];
@@ -29,13 +30,26 @@ export const accountsSlice = createSlice({
             }
         },
         deleteAccount: (state, action) => {
-            console.log(action.payload);
-            console.log(state.data.filter(account => account.id === action.payload));
             state.data = state.data.filter(account => account.id === action.payload);
-        }
+        },
+        addAccount: (state, action) => {
+            console.log(action.payload);
+            const addedAccount: IAccountProps = {
+                id: 2,
+                type: "Account",
+                bank: "BANK",
+                iban: "IBAN",
+                bic: "BIC",
+                owner: "OWNER",
+                created: moment().toDate()
+            };
+            let newAccountList = state.data ? state.data : [];
+            newAccountList.push(addedAccount);
+            state.data = newAccountList;
+        },
     },
 });
 
-export const {addAccounts, updateAccount, deleteAccount} = accountsSlice.actions;
+export const {addAccounts, updateAccount, deleteAccount, addAccount} = accountsSlice.actions;
 
 export default accountsSlice.reducer;

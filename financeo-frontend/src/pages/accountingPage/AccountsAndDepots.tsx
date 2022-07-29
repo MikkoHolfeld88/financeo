@@ -6,9 +6,12 @@ import {Account, AccountHead} from "../../components/account";
 import Box from "@mui/material/Box";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import {RootState, useAppDispatch} from "../../store/store";
+import {RootState} from "../../store/store";
 import {IAccountProps} from "../../components/account/Account";
 import {useSelector} from "react-redux";
+import DialogFinanceo from "../../components/utils/DialogFinanceo";
+import {SelectFinanceo} from "../../components/utils";
+import {addAccount} from "../../store/slices/accountsSlice";
 
 
 export function Spacer(props: any){
@@ -18,13 +21,42 @@ export function Spacer(props: any){
 }
 
 export function AddAccountButton() {
+    const [open, setOpen] = React.useState(false);
+
+    const openAddAccountDialog = () => {
+        setOpen(true);
+    }
+
+    const typeOptions = [
+        {value: "Account", label: "Account"},
+        {value: "Depot", label: "Depot"},
+    ]
+
     return (
         <Box>
-            <Tooltip title={"Add new account / depot"} placement="right">
-                <Button variant="outlined" startIcon={<AddIcon/>}  style={{ border: '2px solid' }}>
+            <Tooltip title={"Add new Account / Depot"} placement="right">
+                <Button
+                    onClick={openAddAccountDialog}
+                    variant="outlined"
+                    startIcon={<AddIcon/>}
+                    style={{ border: '2px solid' }}>
                     Add
                 </Button>
             </Tooltip>
+
+            {
+                <DialogFinanceo
+                    title={"Add new Account / Depot"}
+                    open={open}
+                    confirmButtonText="Add"
+                    onConfirm={addAccount}
+                    setOpen={setOpen}>
+                    <Spacer marginTop="10px" />
+                    <SelectFinanceo
+                        label="Type"
+                        options={typeOptions}/>
+                </DialogFinanceo>
+            }
         </Box>
     );
 }

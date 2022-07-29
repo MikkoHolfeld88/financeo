@@ -5,56 +5,67 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Paper, { PaperProps } from '@mui/material/Paper';
+import Paper, {PaperProps} from '@mui/material/Paper';
 import Draggable from 'react-draggable';
+import {useAppDispatch} from "../../store/store";
+
+export interface IDialogFinanceoProps {
+    open: boolean,
+    setOpen: any,
+    title?: string,
+    children: any,
+    confirmButtonText?: any
+    onConfirm?: any,
+}
 
 function PaperComponent(props: PaperProps) {
     return (
         <Draggable
-            handle="#draggable-dialog-title"
-            cancel={'[class*="MuiDialogContent-root"]'}
-        >
+            handle="#financeo-draggable-dialog"
+            cancel={'[class*="MuiDialogContent-root"]'}>
             <Paper {...props} />
         </Draggable>
     );
 }
 
-export default function DraggableDialog() {
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
+export default function DialogFinanceo(props: IDialogFinanceoProps) {
+    const dispatch = useAppDispatch();
     const handleClose = () => {
-        setOpen(false);
+        props.setOpen(false);
     };
+
+    function onConfirmClick(event: any){
+        dispatch(props?.onConfirm(event.target.value));
+    }
 
     return (
         <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Open draggable dialog
-            </Button>
             <Dialog
-                open={open}
+                open={props.open}
                 onClose={handleClose}
                 PaperComponent={PaperComponent}
-                aria-labelledby="draggable-dialog-title"
-            >
-                <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-                    Subscribe
+                aria-labelledby={props?.title ? props?.title : "financeo-draggable-dialog"}>
+                <DialogTitle style={{ cursor: 'move' }} id="financeo-draggable-dialog">
+                    {props?.title}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We
-                        will send updates occasionally.
+                        {props.children}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={handleClose}>
+                    <Button
+                        autoFocus
+                        onClick={handleClose}>
                         Cancel
                     </Button>
-                    <Button onClick={handleClose}>Subscribe</Button>
+                    {
+                        props?.confirmButtonText &&
+                        <Button
+                            onClick={onConfirmClick}>
+                            {props?.confirmButtonText}
+                        </Button>
+                    }
                 </DialogActions>
             </Dialog>
         </div>

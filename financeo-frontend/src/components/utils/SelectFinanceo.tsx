@@ -34,7 +34,7 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
         return '';
     }
 
-    // if externally Controlled defaultValue is already fiven
+    // if externally Controlled defaultValue is already given
     const [state, setState] = React.useState(determineInitialState());
 
     const localHandleChange = (event: SelectChangeEvent) => {
