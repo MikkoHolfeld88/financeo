@@ -23,13 +23,14 @@ import {Spacer} from "../../pages/accountingPage/AccountsAndDepots";
 const ibantools = require('ibantools');
 
 export interface IAccountProps {
-    id: number,
+    id?: any,
     type: "Account" | "Depot" | null,
     bank?: string,
     iban?: string,
     bic?: string
     owner?: string,
-    created?: string
+    created?: string,
+    index?: number
 }
 
 export default function Account(props: IAccountProps) {
@@ -61,15 +62,18 @@ export default function Account(props: IAccountProps) {
     }
 
     const onDeleteAccount = () => {
-        dispatch(deleteAccount(props.id))
-        console.log("delete Account");
+        dispatch(deleteAccount(props.id));
     }
 
     const handlePanelChangeMobile = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
         setExpanded(isExpanded ? panel : false);
     };
 
-    const onSaveValues = {path: 'accountsAndDepots', uid: uid, updateValue: {accounts}};
+    const onSaveValues = {
+        path: 'accountsAndDepots',
+        uid: uid,
+        updateValue: {accounts}
+    };
 
     const handleChipClick = () => {}
 
@@ -79,67 +83,67 @@ export default function Account(props: IAccountProps) {
         borderRadius: "4px",
     }
 
-    console.log(miniScreenSize);
+    const index = (props?.index !== null && props?.index !== undefined) && (props?.index + 1).toString();
 
     return (
         <div style={{marginLeft: marginLeft}}>
             {
                 desktopScreenSize &&
                 <Grid container spacing={2} alignItems="center" justifyItems="center" className="gridMain">
-                    <Grid md={1} lg={1} xl={1} style={{textAlign: "center", marginTop: "-6px"}}>
+                    <Grid md={1} lg={1} xl={1} style={{textAlign: "center", marginTop: "12px"}}>
                         <Chip
-                            label={(props.id + 1).toString()}
+                            label={index}
                             variant="outlined"
                             onClick={handleChipClick}/>
                     </Grid>
-                    <Grid md={1} lg={1} xl={1}>
+                    <Grid item md={1} lg={1} xl={1}>
                         <TextEditFinanceo
                             name="type"
                             state={props.type}
                             readonly={true}
                         />
                     </Grid>
-                    <Grid md={2} lg={2} xl={2}>
+                    <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
                             name="bank"
                             state={props.bank}
                             setState={updateAccount}
-                            referenceValue={props.id}
+                            referenceValue={props.index}
                             onSave={onSaveValues}
                         />
                     </Grid>
-                    <Grid md={3} lg={3} xl={3}>
+                    <Grid item md={3} lg={3} xl={3}>
                         <TextEditFinanceo
                             name="iban"
                             state={props.iban}
                             setState={updateAccount}
-                            referenceValue={props.id}
+                            referenceValue={props.index}
                             validation={ibanValidation}
                             formatDisplayFunction={ibanDisplayFunction}
                             onSave={onSaveValues}
                         />
                     </Grid>
-                    <Grid md={2} lg={2} xl={2}>
+                    <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
                             name="bic"
                             state={props.bic}
                             setState={updateAccount}
-                            referenceValue={props.id}
+                            referenceValue={props.index}
                             validation={BICValidation}
                             onSave={onSaveValues}
                         />
                     </Grid>
-                    <Grid md={2} lg={2} xl={2}>
+                    <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
                             name="owner"
                             state={props.owner}
                             setState={updateAccount}
-                            referenceValue={props.id}
+                            referenceValue={props.index}
                             onSave={onSaveValues}
                         />
                     </Grid>
-                    <Tooltip title={"Delete account No. '" + (props.id + 1) + "'"}>
-                        <Grid md={1} lg={1} xl={1} sx={{textAlign: "center"}}>
+                    <Tooltip title={"Delete account No. '" + index + "'"}>
+                        <Grid item md={1} lg={1} xl={1} sx={{textAlign: "center"}}>
                             <IconButton onClick={onDeleteAccount} aria-label="open account view">
                                 <DeleteForeverIcon sx={{color: COLORS.SCHEME.error}}/>
                             </IconButton>
@@ -284,9 +288,6 @@ export default function Account(props: IAccountProps) {
                                     </Button>
                                 </Grid>
                             </Grid>
-
-
-
                         </Typography>
                     </AccordionDetails>
                 </Accordion>

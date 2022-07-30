@@ -16,6 +16,7 @@ export interface IDialogFinanceoProps {
     children: any,
     confirmButtonText?: any
     onConfirm?: any,
+    onCofirmParameters?: any
 }
 
 function PaperComponent(props: PaperProps) {
@@ -34,8 +35,9 @@ export default function DialogFinanceo(props: IDialogFinanceoProps) {
         props.setOpen(false);
     };
 
-    function onConfirmClick(event: any){
-        dispatch(props?.onConfirm(event.target.value));
+    function onConfirmClick(){
+        console.log(props.onCofirmParameters);
+        dispatch(props?.onConfirm(props?.onCofirmParameters));
     }
 
     return (

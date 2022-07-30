@@ -18,6 +18,8 @@ export interface ISelectFinanceoProps {
     defaultValue?: any,
     style?: any,
     fontSize?: number
+    useState?: boolean,
+    autoWidth?: boolean,
 }
 
 export default function SelectFinanceo(props: ISelectFinanceoProps) {
@@ -42,13 +44,18 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
     };
 
     const givenHandleChange = (event: SelectChangeEvent) => {
-        dispatch(props.setState(event.target.value));
+        if(props.useState){
+            props.setState(event.target.value as string);
+        } else {
+            dispatch(props.setState(event.target.value));
+        }
     }
 
     return (
             <FormControl sx={props.style && props.style}>
                 <InputLabel id={props.label + "_inputLabel"}>{props.label}</InputLabel>
                 <Select
+                    autoWidth={props.autoWidth}
                     sx={{fontSize: props.fontSize + "px"}}
                     labelId={props.label + "_selectLabelId"}
                     id={props.label + "_selectId"}

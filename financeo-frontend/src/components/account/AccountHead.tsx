@@ -16,37 +16,37 @@ export default function AccountHead() {
         <div style={{marginLeft: "15px"}}>
             <Grid container spacing={2} className={"accountHeadBackground"} alignItems="center" justifyItems="center">
                 <Tooltip title="Number of Account entries made in this table" placement="bottom">
-                    <Grid md={1} lg={1} xl={1} className="accountHeadContent">
+                    <Grid item md={1} lg={1} xl={1} className="accountHeadContent">
                         <FormatListNumberedIcon className="accountHead" fontSize="small"/>&nbsp;
                         <p className="accountHead">No</p>
                     </Grid>
                 </Tooltip>
                 <Tooltip title="Type of account / depot" placement="top">
-                    <Grid md={1} lg={1} xl={1} className="accountHeadContent">
+                    <Grid item md={1} lg={1} xl={1} className="accountHeadContent">
                         <CategoryOutlinedIcon className="accountHead" fontSize="small"/>&nbsp;
                         <p className="accountHead">Type</p>
                     </Grid>
                 </Tooltip>
                 <Tooltip title="Name of the bank" placement="top">
-                    <Grid md={2} lg={2} xl={2} className="accountHeadContent">
+                    <Grid item md={2} lg={2} xl={2} className="accountHeadContent">
                         <AccountBalanceIconOutlinedIcon className="accountHead" fontSize="small"/>&nbsp;
                         <p className="accountHead">Bank</p>
                     </Grid>
                 </Tooltip>
                 <Tooltip title="Iban number of account / depot" placement="top">
-                    <Grid md={3} lg={3} xl={3} className="accountHeadContent">
+                    <Grid item md={3} lg={3} xl={3} className="accountHeadContent">
                         <CreditCardIcon className="accountHead" fontSize="small"/>&nbsp;
                         <p className="accountHead">IBAN</p>
                     </Grid>
                 </Tooltip>
                 <Tooltip title="SWIFT / BIC of Bank" placement="top">
-                    <Grid md={2} lg={2} xl={2} className="accountHeadContent">
+                    <Grid item md={2} lg={2} xl={2} className="accountHeadContent">
                         <FingerprintIcon className="accountHead" fontSize="small"/>&nbsp;
                         <p className="accountHead">BIC / SWIFT</p>
                     </Grid>
                 </Tooltip>
                 <Tooltip title="Owner of account / depot" placement="top">
-                    <Grid md={2} lg={2} xl={2} className="accountHeadContent">
+                    <Grid item md={2} lg={2} xl={2} className="accountHeadContent">
                         <PersonIcon className="accountHead" fontSize="small"/>&nbsp;
                         <p className="accountHead">Owner</p>
                     </Grid>

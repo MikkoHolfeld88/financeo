@@ -66,6 +66,7 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
 
         if (props?.setState && props?.state !== null && props?.state !== undefined) { // external setState and state handling
             if(props?.referenceValue !== null && props?.referenceValue !== undefined){ // id as referenceValue
+                console.log(event.target.value);
                 dispatch(props?.setState({
                         value: event.target.value,
                         id: props.referenceValue,
