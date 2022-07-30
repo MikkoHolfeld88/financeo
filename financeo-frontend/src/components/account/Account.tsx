@@ -29,7 +29,7 @@ export interface IAccountProps {
     iban?: string,
     bic?: string
     owner?: string,
-    created?: Date
+    created?: string
 }
 
 export default function Account(props: IAccountProps) {
@@ -75,7 +75,7 @@ export default function Account(props: IAccountProps) {
 
     const marginLeft = desktopScreenSize ? "15px" : "0px"; // different margin on desktop and mobile
     const styleAccordionSummary = {
-        border: "2px " + COLORS.SCHEME.mainBackground + " solid",
+        border: "1px " + COLORS.SCHEME.foreground + " solid",
         borderRadius: "4px",
     }
 
@@ -85,7 +85,7 @@ export default function Account(props: IAccountProps) {
         <div style={{marginLeft: marginLeft}}>
             {
                 desktopScreenSize &&
-                <Grid container spacing={2} alignItems="center" justifyItems="center">
+                <Grid container spacing={2} alignItems="center" justifyItems="center" className="gridMain">
                     <Grid md={1} lg={1} xl={1} style={{textAlign: "center", marginTop: "-6px"}}>
                         <Chip
                             label={(props.id + 1).toString()}
@@ -146,6 +146,7 @@ export default function Account(props: IAccountProps) {
                         </Grid>
                     </Tooltip>
                 </Grid>
+
             }
             {
                 mobileScreenSize &&

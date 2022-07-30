@@ -79,14 +79,22 @@ const AccountsAndDepots = () => {
             <Spacer />
             {
                 accounts && accounts.map((account: IAccountProps, index: number) => {
-                    return <Account
-                        key={index}
-                        id={index}
-                        type={account.type}
-                        iban={account.iban}
-                        bic={account.bic}
-                        owner={account.owner}
-                        bank={account.bank}/>
+                    return <React.Fragment>
+                        <Account
+                            key={index}
+                            id={index}
+                            type={account.type}
+                            iban={account.iban}
+                            bic={account.bic}
+                            owner={account.owner}
+                            bank={account.bank}/>
+                        {
+                            desktopScreenSize &&
+                            <Spacer marginTop="10px" />
+                        }
+                    </React.Fragment>
+
+
                 })
             }
         </React.Fragment>

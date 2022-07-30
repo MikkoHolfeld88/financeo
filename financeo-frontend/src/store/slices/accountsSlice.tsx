@@ -41,7 +41,7 @@ export const accountsSlice = createSlice({
                 iban: "IBAN",
                 bic: "BIC",
                 owner: "OWNER",
-                created: moment().toDate()
+                created: moment().toDate().toDateString()
             };
             let newAccountList = state.data ? state.data : [];
             newAccountList.push(addedAccount);
