@@ -21,6 +21,7 @@ Lambda functions simulate necessary business logic that would usually be impleme
 Firebase provides a document based database. 
 Due to personal knowledge data-sensitive business logic is going to be implemented via python, scitkit-learn and tensorflow. 
 NLP and NLU functions are going to be implemented by spacy, nltk and gpt3. 
+Machine Learning models will be trained, accessed and visualized by AWS Sage Maker. 
 
 
 
