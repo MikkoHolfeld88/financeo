@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {v4 as uuidv4} from 'uuid';
 import {IAccountProps} from "../../components/account/Account";
 import moment from "moment/moment";
+import {addData} from "../../services/databaseService/databaseService";
 
 export interface AccountsState {
     data: IAccountProps[];
@@ -35,21 +36,22 @@ export const accountsSlice = createSlice({
             state.data = state.data.filter(account => account.id !== action.payload);
         },
         addAccount: (state, action: PayloadAction<IAccountProps>) => {
-            console.log(action.payload);
-            let uuid = uuidv4();
-            console.log(uuid);
             const addedAccount: IAccountProps = {
-                id: uuid,
+                id: uuidv4(),
                 type: action.payload?.type ? action.payload?.type : 'Account',
-                bank: action.payload?.bank ? action.payload?.bank : 'enter bank',
-                iban: action.payload?.iban ? action.payload?.iban : 'enter iban',
-                bic: action.payload?.bic ? action.payload?.bic : 'enter bic',
-                owner: action.payload?.owner ? action.payload?.owner : 'enter name',
+                bank: action.payload?.bank ? action.payload?.bank : '- not set -',
+                iban: action.payload?.iban ? action.payload?.iban : '- not set -',
+                bic: action.payload?.bic ? action.payload?.bic : '- not set -',
+                owner: action.payload?.owner ? action.payload?.owner : '- not set -',
                 created: moment().toDate().toDateString()
             };
-            let newAccountList = state.data ? state.data : [];
-            newAccountList.push(addedAccount);
-            state.data = newAccountList;
+
+            if(state.data && state.data.length > 0) {
+                state.data.push(addedAccount);
+            }
+            else {
+                state.data = [addedAccount];
+            }
         },
     },
 });

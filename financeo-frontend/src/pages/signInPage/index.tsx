@@ -29,6 +29,7 @@ export function SignInPage() {
         if(accountsStatus === 'idle'){
             getData('accountsAndDepots', uid)
                 .then((documentData) => {
+                    console.log(documentData);
                     dispatch(addAccounts(documentData?.accounts));
                 })
                 .catch((error: any) => {

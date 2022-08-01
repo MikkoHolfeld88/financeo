@@ -1,9 +1,6 @@
 import React from "react";
 import {Grid, Tooltip} from "@mui/material";
-import TextEditFinanceo from "../utils/TextEditFinanceo";
 import "./index.scss";
-import {useTheme} from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import AccountBalanceIconOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';

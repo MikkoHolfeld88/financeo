@@ -36,8 +36,8 @@ export default function DialogFinanceo(props: IDialogFinanceoProps) {
     };
 
     function onConfirmClick(){
-        console.log(props.onCofirmParameters);
         dispatch(props?.onConfirm(props?.onCofirmParameters));
+        return true;
     }
 
     return (
@@ -51,9 +51,9 @@ export default function DialogFinanceo(props: IDialogFinanceoProps) {
                     {props?.title}
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
+
                         {props.children}
-                    </DialogContentText>
+
                 </DialogContent>
                 <DialogActions>
                     <Button

@@ -90,7 +90,7 @@ export default function Account(props: IAccountProps) {
             {
                 desktopScreenSize &&
                 <Grid container spacing={2} alignItems="center" justifyItems="center" className="gridMain">
-                    <Grid md={1} lg={1} xl={1} style={{textAlign: "center", marginTop: "12px"}}>
+                    <Grid item md={1} lg={1} xl={1} style={{textAlign: "center"}}>
                         <Chip
                             label={index}
                             variant="outlined"
@@ -164,23 +164,20 @@ export default function Account(props: IAccountProps) {
                         expandIcon={<ExpandMoreIcon/>}
                         aria-controls="panel1bh-content"
                         id="panel1bh-header">
-                        <Typography>
                             <b>
                                 <TextEditFinanceo
                                     name="bank"
                                     state={props.bank}
                                     setState={updateAccount}
-                                    referenceValue={props.id}
+                                    referenceValue={props.index}
                                     onSave={onSaveValues}
                                     showEditButton={true}
                                 />
                             </b>
-
-                        </Typography>
                     </AccordionSummary>
 
                     <AccordionDetails>
-                        <Typography className="accordionDetails">
+                        <div className="accordionDetails">
                             <Grid container spacing={0} alignItems="center" justifyItems="center">
                                 <Grid item xs={2} sm={2}>
                                     <CategoryOutlinedIcon fontSize="medium"/>&nbsp;
@@ -217,7 +214,7 @@ export default function Account(props: IAccountProps) {
                                         name="iban"
                                         state={props.iban}
                                         setState={updateAccount}
-                                        referenceValue={props.id}
+                                        referenceValue={props.index}
                                         validation={ibanValidation}
                                         formatDisplayFunction={ibanDisplayFunction}
                                         onSave={onSaveValues}
@@ -242,7 +239,7 @@ export default function Account(props: IAccountProps) {
                                         name="bic"
                                         state={props.bic}
                                         setState={updateAccount}
-                                        referenceValue={props.id}
+                                        referenceValue={props.index}
                                         validation={BICValidation}
                                         onSave={onSaveValues}
                                     />
@@ -267,7 +264,7 @@ export default function Account(props: IAccountProps) {
                                         name="owner"
                                         state={props.owner}
                                         setState={updateAccount}
-                                        referenceValue={props.id}
+                                        referenceValue={props.index}
                                         onSave={onSaveValues}
                                     />
                                 </Grid>
@@ -288,7 +285,7 @@ export default function Account(props: IAccountProps) {
                                     </Button>
                                 </Grid>
                             </Grid>
-                        </Typography>
+                        </div>
                     </AccordionDetails>
                 </Accordion>
             }

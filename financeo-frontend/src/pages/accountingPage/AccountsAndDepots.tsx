@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import 'react-edit-text/dist/index.css';
 import {Account, AccountHead} from "../../components/account";
 import {useTheme} from "@mui/material/styles";
@@ -7,6 +7,10 @@ import {RootState} from "../../store/store";
 import {IAccountProps} from "../../components/account/Account";
 import {useSelector} from "react-redux";
 import AddAccountButton from "../../components/account/AddAccountButton";
+import {addData} from "../../services/databaseService/databaseService";
+import {useAuthState} from "react-firebase-hooks/auth";
+import firebase from "firebase/compat";
+import {auth} from "../../services/firebaseService/firebaseService";
 
 export function Spacer(props: any) {
     return (
@@ -15,10 +19,17 @@ export function Spacer(props: any) {
 }
 
 const AccountsAndDepots = () => {
+    const [user] = useAuthState(auth);
     let status = useSelector((state: RootState) => state.accounts.status);
     let accounts = useSelector((state: RootState) => state.accounts.data);
     const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
+
+    useEffect(() => {
+        if(status !== "idle"){
+            addData("accountsAndDepots", user ? user?.uid : "none", {accounts})
+        }
+    }, [accounts && accounts.length]);
 
     return (
         <React.Fragment>
@@ -32,21 +43,21 @@ const AccountsAndDepots = () => {
             <Spacer/>
             {
                 accounts && accounts.map((account: IAccountProps, index: number) => {
-                    return <React.Fragment>
-                        <Account
-                            id={account.id}
-                            key={index}
-                            index={index}
-                            type={account.type}
-                            iban={account.iban}
-                            bic={account.bic}
-                            owner={account.owner}
-                            bank={account.bank}/>
-                        {
-                            desktopScreenSize &&
-                            <Spacer marginTop="10px"/>
-                        }
-                    </React.Fragment>
+                return <React.Fragment key={index + "_reactFragment"}>
+                            <Account
+                                id={account.id}
+                                key={index + "_account"}
+                                index={index}
+                                type={account.type}
+                                iban={account.iban}
+                                bic={account.bic}
+                                owner={account.owner}
+                                bank={account.bank}/>
+                            {
+                                desktopScreenSize &&
+                                <Spacer key={index + "_spacer"} marginTop="10px"/>
+                            }
+                        </React.Fragment>
                 })
             }
         </React.Fragment>

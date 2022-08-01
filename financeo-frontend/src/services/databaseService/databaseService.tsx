@@ -1,5 +1,11 @@
-import {db} from '../firebaseService/firebaseService';
+import {auth, db} from '../firebaseService/firebaseService';
 import {doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import {useAuthState} from "react-firebase-hooks/auth";
+
+const UserUidExtractor = () => {
+    const [ user ] = useAuthState(auth);
+    return user ? user.uid : 'none';
+}
 
 async function getData(path: string, userUid: string ) {
     try {
@@ -21,7 +27,7 @@ export async function updateData(path: string, userUid: string, updateValue: any
     await updateDoc(docRef, updateValue);
 }
 
-async function addData(path: string, userUid: string, addValue: any){
+export async function addData(path: string, userUid: string, addValue: any){
     await setDoc(doc(db, path, userUid), addValue);
 }
 
