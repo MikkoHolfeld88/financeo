@@ -11,6 +11,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Paper, {PaperProps} from "@mui/material/Paper";
 import Draggable from "react-draggable";
+import AccountBalanceIconOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import FingerprintIcon from '@mui/icons-material/Fingerprint';
+import PersonIcon from '@mui/icons-material/Person';
 
 function PaperComponent(props: PaperProps) {
     return (
@@ -35,6 +39,14 @@ export default function AddAccountButton() {
         setOpen(true);
     }
 
+    function resetEntries(){
+        setType("Account");
+        setBank("");
+        setIban("");
+        setBic("");
+        setOwner("");
+    }
+
     function onAdd() {
         dispatch(addAccount({
             type: type,
@@ -43,6 +55,7 @@ export default function AddAccountButton() {
             bic: bic,
             owner: owner,
         }));
+        resetEntries()
     }
 
     const typeOptions = [
@@ -55,6 +68,9 @@ export default function AddAccountButton() {
         display: 'flex',
         alignItems: 'flex-start'
     }
+
+    const onClick = () => {};
+    const onMouseDown = () => {};
 
     return (
         <Box>
@@ -92,7 +108,13 @@ export default function AddAccountButton() {
                                 label="Bank"
                                 variant="outlined"
                                 value={bank}
-                                onChange={(event) => setBank(event.target.value)}/>
+                                onChange={(event) => setBank(event.target.value)}
+                                InputProps={{
+                                    endAdornment: (
+                                        <AccountBalanceIconOutlinedIcon fontSize="small"/>
+                                    )
+                                }}/>
+
                         </FormControl>
                         <FormControl sx={formFieldStyle}>
                             <TextField
@@ -100,7 +122,14 @@ export default function AddAccountButton() {
                                 label="IBAN"
                                 variant="outlined"
                                 value={iban}
-                                onChange={(event) => setIban(event.target.value)}/>
+                                onChange={(event) => setIban(event.target.value)}
+                                InputProps={{
+                                        endAdornment: (
+                                            <CreditCardIcon fontSize="small"/>
+                                        )
+                                    }}/>
+
+
                         </FormControl>
                         <FormControl sx={formFieldStyle}>
                             <TextField
@@ -108,7 +137,12 @@ export default function AddAccountButton() {
                                 label="BIC"
                                 variant="outlined"
                                 value={bic}
-                                onChange={(event) => setBic(event.target.value)}/>
+                                onChange={(event) => setBic(event.target.value)}
+                                InputProps={{
+                                    endAdornment: (
+                                        <FingerprintIcon fontSize="small"/>
+                                    )
+                                }}/>
                         </FormControl>
                         <FormControl sx={formFieldStyle}>
                             <TextField
@@ -116,7 +150,12 @@ export default function AddAccountButton() {
                                 label="Owner"
                                 variant="outlined"
                                 value={owner}
-                                onChange={(event) => setOwner(event.target.value)}/>
+                                onChange={(event) => setOwner(event.target.value)}
+                                InputProps={{
+                                    endAdornment: (
+                                        <PersonIcon fontSize="small"/>
+                                    )
+                                }}/>
                         </FormControl>
                     </DialogContent>
 
