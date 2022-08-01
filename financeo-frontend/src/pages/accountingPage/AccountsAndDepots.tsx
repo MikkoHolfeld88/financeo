@@ -9,7 +9,6 @@ import {useSelector} from "react-redux";
 import AddAccountButton from "../../components/account/AddAccountButton";
 import {addData} from "../../services/databaseService/databaseService";
 import {useAuthState} from "react-firebase-hooks/auth";
-import firebase from "firebase/compat";
 import {auth} from "../../services/firebaseService/firebaseService";
 
 export function Spacer(props: any) {

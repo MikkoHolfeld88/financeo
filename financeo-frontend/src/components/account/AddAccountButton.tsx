@@ -5,7 +5,6 @@ import AddIcon from "@mui/icons-material/Add";
 import {useAppDispatch} from "../../store/store";
 import {addAccount} from "../../store/slices/accountsSlice";
 import {SelectFinanceo} from "../utils";
-import {Spacer} from "../../pages/accountingPage/AccountsAndDepots";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -51,6 +50,12 @@ export default function AddAccountButton() {
         {value: "Depot", label: "Depot"},
     ]
 
+    const formFieldStyle = {
+        marginTop: '7px',
+        display: 'flex',
+        alignItems: 'flex-start'
+    }
+
     return (
         <Box>
             <Tooltip title={"Add new Account / Depot"} placement="right">
@@ -68,24 +73,20 @@ export default function AddAccountButton() {
                     onClose={() => setOpen(false)}
                     PaperComponent={PaperComponent}
                     aria-labelledby="Add new Account / Depot">
+
                     <DialogTitle style={{ cursor: 'move' }} id="financeo-draggable-dialog">
                         Add new Account / Depot
                     </DialogTitle>
-                    <DialogContent>
 
-                        <Spacer marginTop="10px"/>
-                        <FormControl required sx={{display: 'flex', alignItems: 'flex-start'}}>
+                    <DialogContent>
+                        <FormControl required sx={formFieldStyle}>
                             <SelectFinanceo
-                                autoWidth={true}
                                 state={type}
                                 setState={setType}
                                 label="Type *"
                                 options={typeOptions}/>
                         </FormControl>
-
-                        <Spacer marginTop="10px"/>
-
-                        <FormControl sx={{display: 'flex', alignItems: 'flex-start'}}>
+                        <FormControl sx={formFieldStyle}>
                             <TextField
                                 id="input-with-sx"
                                 label="Bank"
@@ -93,10 +94,7 @@ export default function AddAccountButton() {
                                 value={bank}
                                 onChange={(event) => setBank(event.target.value)}/>
                         </FormControl>
-
-                        <Spacer marginTop="10px"/>
-
-                        <FormControl sx={{display: 'flex', alignItems: 'flex-start'}}>
+                        <FormControl sx={formFieldStyle}>
                             <TextField
                                 id="input-with-sx"
                                 label="IBAN"
@@ -104,10 +102,7 @@ export default function AddAccountButton() {
                                 value={iban}
                                 onChange={(event) => setIban(event.target.value)}/>
                         </FormControl>
-
-                        <Spacer marginTop="10px"/>
-
-                        <FormControl sx={{display: 'flex', alignItems: 'flex-start'}}>
+                        <FormControl sx={formFieldStyle}>
                             <TextField
                                 id="input-with-sx"
                                 label="BIC"
@@ -115,10 +110,7 @@ export default function AddAccountButton() {
                                 value={bic}
                                 onChange={(event) => setBic(event.target.value)}/>
                         </FormControl>
-
-                        <Spacer marginTop="10px"/>
-
-                        <FormControl sx={{display: 'flex', alignItems: 'flex-start'}}>
+                        <FormControl sx={formFieldStyle}>
                             <TextField
                                 id="input-with-sx"
                                 label="Owner"
@@ -126,8 +118,8 @@ export default function AddAccountButton() {
                                 value={owner}
                                 onChange={(event) => setOwner(event.target.value)}/>
                         </FormControl>
-
                     </DialogContent>
+
                     <DialogActions>
                         <Button
                             autoFocus

@@ -92,6 +92,7 @@ export default function Account(props: IAccountProps) {
                 <Grid container spacing={2} alignItems="center" justifyItems="center" className="gridMain">
                     <Grid item md={1} lg={1} xl={1} style={{textAlign: "center"}}>
                         <Chip
+                            style={{marginBottom: "5px"}}
                             label={index}
                             variant="outlined"
                             onClick={handleChipClick}/>
