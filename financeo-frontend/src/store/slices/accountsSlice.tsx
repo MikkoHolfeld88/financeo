@@ -53,9 +53,13 @@ export const accountsSlice = createSlice({
                 state.data = [addedAccount];
             }
         },
+        resetAccounts: (state) => {
+            state.data = [];
+            state.status = 'idle';
+        }
     },
 });
 
-export const {addAccounts, updateAccount, deleteAccount, addAccount} = accountsSlice.actions;
+export const {addAccounts, updateAccount, deleteAccount, addAccount, resetAccounts} = accountsSlice.actions;
 
 export default accountsSlice.reducer;

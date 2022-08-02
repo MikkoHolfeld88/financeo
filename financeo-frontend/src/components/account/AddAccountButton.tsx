@@ -2,29 +2,17 @@ import React from "react";
 import Box from "@mui/material/Box";
 import {Button, FormControl, TextField, Tooltip} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import {useAppDispatch} from "../../store/store";
-import {addAccount} from "../../store/slices/accountsSlice";
+import {addAccount, useAppDispatch} from "../../store";
 import {SelectFinanceo} from "../utils";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
-import Paper, {PaperProps} from "@mui/material/Paper";
-import Draggable from "react-draggable";
 import AccountBalanceIconOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import PersonIcon from '@mui/icons-material/Person';
-
-function PaperComponent(props: PaperProps) {
-    return (
-        <Draggable
-            handle="#financeo-draggable-dialog"
-            cancel={'[class*="MuiDialogContent-root"]'}>
-            <Paper {...props} />
-        </Draggable>
-    );
-}
+import {PaperComponent} from "../utils";
 
 export default function AddAccountButton() {
     const dispatch = useAppDispatch();
@@ -39,7 +27,7 @@ export default function AddAccountButton() {
         setOpen(true);
     }
 
-    function resetEntries(){
+    function resetEntries() {
         setType("Account");
         setBank("");
         setIban("");
@@ -55,7 +43,8 @@ export default function AddAccountButton() {
             bic: bic,
             owner: owner,
         }));
-        resetEntries()
+        resetEntries();
+        setOpen(false);
     }
 
     const typeOptions = [
@@ -69,8 +58,10 @@ export default function AddAccountButton() {
         alignItems: 'flex-start'
     }
 
-    const onClick = () => {};
-    const onMouseDown = () => {};
+    const onClick = () => {
+    };
+    const onMouseDown = () => {
+    };
 
     return (
         <Box>
@@ -90,7 +81,7 @@ export default function AddAccountButton() {
                     PaperComponent={PaperComponent}
                     aria-labelledby="Add new Account / Depot">
 
-                    <DialogTitle style={{ cursor: 'move' }} id="financeo-draggable-dialog">
+                    <DialogTitle style={{cursor: 'move'}} id="financeo-draggable-dialog">
                         Add new Account / Depot
                     </DialogTitle>
 
@@ -124,10 +115,10 @@ export default function AddAccountButton() {
                                 value={iban}
                                 onChange={(event) => setIban(event.target.value)}
                                 InputProps={{
-                                        endAdornment: (
-                                            <CreditCardIcon fontSize="small"/>
-                                        )
-                                    }}/>
+                                    endAdornment: (
+                                        <CreditCardIcon fontSize="small"/>
+                                    )
+                                }}/>
 
 
                         </FormControl>

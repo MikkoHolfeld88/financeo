@@ -1,17 +1,28 @@
-import store from "./store"
-import {setErrorMessage, setStatus, setUid} from "./slices/loginSlice";
-import {changeMonth} from "./slices/monthPickerSlice";
-import {changeYear} from "./slices/yearPickerSlice";
-import {addAccounts, updateAccount, deleteAccount} from "./slices/accountsSlice";
+import store, {useAppDispatch, AppDispatch, RootState} from "./store"
+import {setErrorMessage, setStatus, setUid, resetLogin} from "./slices/loginSlice";
+import {changeMonth, resetMonthPicker} from "./slices/monthPickerSlice";
+import {changeYear, resetYearPicker} from "./slices/yearPickerSlice";
+import {addAccounts, addAccount, updateAccount, deleteAccount, resetAccounts} from "./slices/accountsSlice";
 
 export {
     store,
+    useAppDispatch,
     setErrorMessage,
     setStatus,
     setUid,
+    resetLogin,
     changeMonth,
+    resetMonthPicker,
     changeYear,
+    resetYearPicker,
     addAccounts,
+    addAccount,
     updateAccount,
-    deleteAccount
+    deleteAccount,
+    resetAccounts
+}
+
+export type {
+    AppDispatch,
+    RootState
 }

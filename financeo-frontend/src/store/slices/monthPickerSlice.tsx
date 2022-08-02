@@ -18,8 +18,12 @@ export const monthPickerSlice = createSlice({
         changeMonth: (state, action: PayloadAction<number>) => {
             state.value = action.payload
         },
+        resetMonthPicker: (state) => {
+            state.value = moment().month() + 1;
+            state.status = 'loaded';
+        }
     },
 });
 
-export const {changeMonth} = monthPickerSlice.actions;
+export const {changeMonth, resetMonthPicker} = monthPickerSlice.actions;
 export default monthPickerSlice.reducer;

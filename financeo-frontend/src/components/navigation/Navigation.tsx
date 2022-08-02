@@ -17,7 +17,7 @@ import MenuItem from '@mui/material/MenuItem';
 import './style.scss'
 import '../../hovers.css'
 // @ts-ignore
-import testUser from "../../assets/img/mikko.jpg";
+import testUser from "../../assets/img/portrait_placeholder.png";
 
 // @ts-ignore
 import logo from "../../assets/logo/logo_white_large.png";

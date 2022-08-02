@@ -26,7 +26,6 @@ const AccountsAndDepots = () => {
 
     useEffect(() => {
         if(status !== "idle"){
-            console.log(user?.uid);
             addData("accountsAndDepots", user ? user?.uid : "none", {accounts})
         }
     }, [accounts && accounts.length]);

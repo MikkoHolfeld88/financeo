@@ -1,4 +1,4 @@
-import {initializeApp} from "firebase/app";
+import {firebaseApp} from "../../components/firebase";
 import {
     createUserWithEmailAndPassword,
     getAuth,
@@ -10,10 +10,7 @@ import {
 } from "firebase/auth";
 
 import {addDoc, collection, getDocs, getFirestore, query, where} from "firebase/firestore";
-import {firebaseConfig} from "../../components/firebase"
-import {listOfCollectoins} from "../../constants/collections";
 
-const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 const googleProvider = new GoogleAuthProvider();

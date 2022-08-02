@@ -18,8 +18,12 @@ export const yearPickerSlice = createSlice({
         changeYear: (state, action: PayloadAction<number>) => {
             state.value = action.payload
         },
+        resetYearPicker: (state) => {
+            state.value = moment().year();
+            state.status = 'loaded';
+        }
     },
 });
 
-export const {changeYear} = yearPickerSlice.actions;
+export const {changeYear, resetYearPicker} = yearPickerSlice.actions;
 export default yearPickerSlice.reducer;

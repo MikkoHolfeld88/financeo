@@ -19,7 +19,7 @@ export interface IDialogFinanceoProps {
     onCofirmParameters?: any
 }
 
-function PaperComponent(props: PaperProps) {
+export function PaperComponent(props: PaperProps) {
     return (
         <Draggable
             handle="#financeo-draggable-dialog"

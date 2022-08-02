@@ -27,8 +27,13 @@ export const loginSlice = createSlice({
         setStatus: (state, action: PayloadAction<'idle' | 'pending' | 'loaded' | 'failed'>) => {
             state.status = action.payload;
         },
+        resetLogin: (state) => {
+            state.errorMessage = "";
+            state.status = 'idle';
+            state.uid = 'none';
+        }
     },
 });
 
-export const {setErrorMessage, setStatus, setUid} = loginSlice.actions;
+export const {setErrorMessage, setStatus, setUid, resetLogin} = loginSlice.actions;
 export default loginSlice.reducer;
