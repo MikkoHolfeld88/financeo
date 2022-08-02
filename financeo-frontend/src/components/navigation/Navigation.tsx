@@ -43,8 +43,8 @@ const Navigation = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [user] = useAuthState(auth);
-    const hvrFX = 'hvr-skew';
     const dispatch = useAppDispatch();
+    const hvrFX = 'hvr-skew';
 
     // handles logout
     React.useEffect(() => {
@@ -174,7 +174,7 @@ const Navigation = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         {
                             user &&
-                            <Tooltip title="Open account details">
+                            <Tooltip title={"Open account details for '" + user.email + "'"}>
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                     <Avatar alt="Remy Sharp" src={testUser} />
                                 </IconButton>

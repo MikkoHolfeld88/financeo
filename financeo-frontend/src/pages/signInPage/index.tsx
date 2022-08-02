@@ -22,12 +22,13 @@ export function SignInPage() {
     let accountsStatus = useSelector((state: RootState) => state.accounts.status);
 
     function loadData(){
+        console.log("load data");
         loadAccountData();
     }
 
     function loadAccountData(){
         if(accountsStatus === 'idle'){
-            getData('accountsAndDepots/', uid)
+            getData('accountsAndDepots', uid)
                 .then((documentData) => {
                     dispatch(addAccounts(documentData?.accounts));
                 })
