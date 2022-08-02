@@ -2,14 +2,24 @@
 
 .accountHead {
   color: white;
-  text-align: center;
+  text-align: left;
   //font-weight: bold;
   font-size: 18px;
   
   &:hover {
     cursor: pointer;
   }
-  
+}
+
+.accountHeadCenter{
+  color: white;
+  text-align: center;
+  //font-weight: bold;
+  font-size: 18px;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .accountHeadBackground {
@@ -21,7 +31,22 @@
 
 .accountHeadContent {
   display: flex;
+  justify-content: left;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.accountHeadContentCenter {
+  display: flex;
   justify-content: center;
   flex-wrap: wrap;
   align-items: center;
+}
+
+.accountType {
+  color: $textColor1;
+}
+
+.depotType {
+  color: $textColor2;
 }

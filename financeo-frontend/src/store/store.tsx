@@ -1,10 +1,11 @@
+import {configureStore} from '@reduxjs/toolkit';
+import {useDispatch} from "react-redux";
 import counterReducer from './slices/counterSlice';
 import loginReducer from './slices/loginSlice';
 import monthPickerReducer from './slices/monthPickerSlice';
 import yearPickerReducer from './slices/yearPickerSlice';
-import {AsyncThunkAction, configureStore} from '@reduxjs/toolkit';
 import accountsReducer from "./slices/accountsSlice";
-import {useDispatch} from "react-redux";
+import accountPickerReducer from "./slices/accountPickerSlice";
 
 const store = configureStore({
     reducer: {
@@ -12,7 +13,9 @@ const store = configureStore({
         counter: counterReducer,
         monthPicker: monthPickerReducer,
         yearPicker: yearPickerReducer,
+        accountPicker: accountPickerReducer,
         accounts: accountsReducer,
+
     }
 })
 

@@ -2,7 +2,6 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {v4 as uuidv4} from 'uuid';
 import {IAccountProps} from "../../components/account/Account";
 import moment from "moment/moment";
-import {addData} from "../../services/databaseService/databaseService";
 
 export interface AccountsState {
     data: IAccountProps[];
@@ -18,6 +17,24 @@ export const accountsSlice = createSlice({
     name: 'accounts',
     initialState,
     reducers: {
+        addAccount: (state, action: PayloadAction<IAccountProps>) => {
+            const addedAccount: IAccountProps = {
+                id: uuidv4(),
+                type: action.payload?.type ? action.payload?.type : 'Account',
+                bank: action.payload?.bank ? action.payload?.bank : '- not set -',
+                iban: action.payload?.iban ? action.payload?.iban : '- not set -',
+                bic: action.payload?.bic ? action.payload?.bic : '- not set -',
+                owner: action.payload?.owner ? action.payload?.owner : '- not set -',
+                created: moment().toISOString()
+            };
+
+            if(state.data && state.data.length > 0) {
+                state.data.push(addedAccount);
+            }
+            else {
+                state.data = [addedAccount];
+            }
+        },
         addAccounts: (state, action) => {
             state.data = action.payload;
             state.status = 'loaded';
@@ -34,24 +51,6 @@ export const accountsSlice = createSlice({
         },
         deleteAccount: (state, action: PayloadAction<string>) => {
             state.data = state.data.filter(account => account.id !== action.payload);
-        },
-        addAccount: (state, action: PayloadAction<IAccountProps>) => {
-            const addedAccount: IAccountProps = {
-                id: uuidv4(),
-                type: action.payload?.type ? action.payload?.type : 'Account',
-                bank: action.payload?.bank ? action.payload?.bank : '- not set -',
-                iban: action.payload?.iban ? action.payload?.iban : '- not set -',
-                bic: action.payload?.bic ? action.payload?.bic : '- not set -',
-                owner: action.payload?.owner ? action.payload?.owner : '- not set -',
-                created: moment().toDate().toDateString()
-            };
-
-            if(state.data && state.data.length > 0) {
-                state.data.push(addedAccount);
-            }
-            else {
-                state.data = [addedAccount];
-            }
         },
         resetAccounts: (state) => {
             state.data = [];

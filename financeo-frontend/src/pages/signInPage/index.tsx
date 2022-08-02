@@ -1,54 +1,24 @@
 import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {auth, logInWithEmailAndPassword, signInWithGoogle} from "../../services/firebaseService/firebaseService";
-import {useAuthState} from "react-firebase-hooks/auth";
 import "./login.css";
 import {Paper, Stack, TextField, Typography} from "@mui/material";
 import Button from "@mui/material/Button";
 import * as ROUTES from '../../constants/routes';
-import {addAccounts, setStatus, setUid} from "../../store";
-import {RootState, useAppDispatch} from "../../store/store";
-import getData from "../../services/databaseService/databaseService";
-import {useSelector} from "react-redux";
+import StateLoader from "../../store/StateLoader";
+import {useAuthState} from "react-firebase-hooks/auth";
 
 export function SignInPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [user, loading] = useAuthState(auth);
-    let uid = user?.uid ? user?.uid : 'none';
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
-
-    let accountsStatus = useSelector((state: RootState) => state.accounts.status);
-
-    function loadData(){
-        console.log("load data");
-        loadAccountData();
-    }
-
-    function loadAccountData(){
-        if(accountsStatus === 'idle'){
-            getData('accountsAndDepots', uid)
-                .then((documentData) => {
-                    dispatch(addAccounts(documentData?.accounts));
-                })
-                .catch((error: any) => {
-                    process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
-                });
-        }
-    }
+    const [user] = useAuthState(auth);
 
     useEffect(() => {
-        if (loading) {
-            dispatch(setStatus('pending'));
-            return;
-        }
         if (user) {
-            dispatch(setUid(user?.uid ? user?.uid : 'none'));
-            loadData();
             navigate("/overview");
         }
-    }, [user, loading]);
+    }, [user]);
 
     return (
         <div className="login">
@@ -94,6 +64,9 @@ export function SignInPage() {
                     </Stack>
                 </Paper>
             </div>
+
+            <StateLoader/>
+
         </div>
     );
 }

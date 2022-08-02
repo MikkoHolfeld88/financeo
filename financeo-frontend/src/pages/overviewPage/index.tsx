@@ -5,13 +5,15 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
-import {Divider} from "@mui/material";
+import {Divider, FormControl, MenuItem, OutlinedInput, Select} from "@mui/material";
 import {Option, SelectFinanceo} from "../../components/utils"
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {changeMonth, changeYear} from "../../store";
 import "./style.scss"
 import moment from "moment";
+import {SelectChangeEvent} from "@mui/material/Select";
+import {IAccountProps} from "../../components/account/Account";
 
 const selectStyle = {
     margin: "0px 4px 0px 4px",
@@ -52,14 +54,45 @@ const createYearOptions = (years: number[]): Option[] => {
     })
 }
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const AccountSelectMenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+
+const createAccountOptions = (accounts: IAccountProps[]): Option[] => {
+    const options: Option[] = accounts.map((account, index) => {
+        return {
+            value: account?.bank + " (" + (index + 1) + ")",
+            label: account?.bank
+        }
+    });
+
+    return options;
+}
+
 const OverviewPage = () => {
     const [ loading ] = useAuthState(auth);
     const month = useSelector((state: RootState) => state.monthPicker.value);
     const year = useSelector((state: RootState) => state.yearPicker.value);
+    const accounts = useSelector((state: RootState) => state.accounts.data);
 
     useEffect(() => {
         if (loading) return;
     }, [loading])
+
+    const [accountName, setAccountName] = React.useState<string[]>([]);
+
+    const handleAccountChange = (event: SelectChangeEvent<typeof accountName>) => {
+        console.log(event.target.value);
+        const { target: { value }} = event;
+        setAccountName(typeof value === 'string' ? value.split(',') : value);
+    };
 
     return (
         <>
@@ -77,6 +110,33 @@ const OverviewPage = () => {
                         setState={changeMonth}
                         state={month}
                         style={selectStyle}/>
+                    <FormControl>
+                        <Select
+                            label="Accounts/Depots"
+                            multiple
+                            displayEmpty
+                            value={accountName}
+                            onChange={handleAccountChange}
+                            input={<OutlinedInput />}
+                            renderValue={(selected) => {
+                                if (selected.length === 0) {
+                                    return <>Accounts/Depots</>;
+                                }
+
+                                return selected.join(', ');
+                            }}
+                            MenuProps={AccountSelectMenuProps}
+                            inputProps={{ 'aria-label': 'Without label' }}>
+                            {
+                                createAccountOptions(accounts).map((accountOptions, index) => (
+                                    <MenuItem
+                                        key={accountOptions.value}
+                                        value={accountOptions.value}>
+                                        {accountOptions.label + " (" + (index + 1) + ")"}
+                                    </MenuItem>))
+                            }
+                        </Select>
+                    </FormControl>
                 </Container>
             </Box>
 

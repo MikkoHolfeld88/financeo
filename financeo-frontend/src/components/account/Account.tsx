@@ -109,14 +109,18 @@ export default function Account(props: IAccountProps) {
                             onClick={handleChipClick}/>
                     </Grid>
                     <Grid item md={1} lg={1} xl={1}>
-                        <TextEditFinanceo
-                            name="type"
-                            state={props.type}
-                            readonly={true}
-                        />
+                        <b>
+                            <TextEditFinanceo
+                                className={props.type === "Account" ? "accountType" : "depotType"}
+                                name="type"
+                                state={props.type}
+                                readonly={true}/>
+                        </b>
+
                     </Grid>
-                    <Grid item md={3} lg={3} xl={3}>
+                    <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
+                            className={props.type === "Account" ? "accountType" : "depotType"}
                             name="bank"
                             state={props.bank}
                             setState={updateAccount}
@@ -126,6 +130,7 @@ export default function Account(props: IAccountProps) {
                     </Grid>
                     <Grid item md={3} lg={3} xl={3}>
                         <TextEditFinanceo
+                            className={props.type === "Account" ? "accountType" : "depotType"}
                             name="iban"
                             state={props.iban}
                             setState={updateAccount}
@@ -135,8 +140,9 @@ export default function Account(props: IAccountProps) {
                             onSave={onSaveValues}
                         />
                     </Grid>
-                    <Grid item md={1} lg={1} xl={1}>
+                    <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
+                            className={props.type === "Account" ? "accountType" : "depotType"}
                             name="bic"
                             state={props.bic}
                             setState={updateAccount}
@@ -147,6 +153,7 @@ export default function Account(props: IAccountProps) {
                     </Grid>
                     <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
+                            className={props.type === "Account" ? "accountType" : "depotType"}
                             name="owner"
                             state={props.owner}
                             setState={updateAccount}
@@ -176,8 +183,10 @@ export default function Account(props: IAccountProps) {
                         expandIcon={<ExpandMoreIcon/>}
                         aria-controls="panel1bh-content"
                         id="panel1bh-header">
+                        <Tooltip placement="right" title={"Type: " + (props.type !== null && props.type)}>
                             <b>
                                 <TextEditFinanceo
+                                    className={props.type === "Account" ? "accountType" : "depotType"}
                                     name="bank"
                                     state={props.bank}
                                     setState={updateAccount}
@@ -185,7 +194,9 @@ export default function Account(props: IAccountProps) {
                                     onSave={onSaveValues}
                                     showEditButton={true}
                                 />
+
                             </b>
+                        </Tooltip>
                     </AccordionSummary>
 
                     <AccordionDetails>

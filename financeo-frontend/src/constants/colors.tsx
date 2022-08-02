@@ -12,6 +12,8 @@ export const maizeCrayola = '#ffcf56ff';
 export const lightRed = '#e17b7b'
 export const shiningRed = '#ff1616';
 export const black = '#000000FF';
+export const darkGreen = '#17483c';
+export const darkOcca = '#494941';
 
 export const SCHEME = {
     mainBackground: mountainMeadow,
@@ -24,6 +26,8 @@ export const SCHEME = {
     superDark: black,
 
     textBasic: black,
+    textColor1: darkGreen,
+    textColor2: darkOcca
 }
 
 // export const SCHEME1 = {

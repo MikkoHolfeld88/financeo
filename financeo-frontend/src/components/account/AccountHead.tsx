@@ -11,10 +11,10 @@ import PersonIcon from '@mui/icons-material/Person';
 export default function AccountHead() {
     return (
         <div style={{marginLeft: "15px"}}>
-            <Grid container spacing={1} className={"accountHeadBackground"} alignItems="center" justifyItems="center">
+            <Grid container spacing={1} className={"accountHeadBackground"} alignItems="left" justifyItems="left">
                 <Tooltip title="Number of Account entries made in this table" placement="bottom">
-                    <Grid item md={1} lg={1} xl={1} className="accountHeadContent">
-                        <FormatListNumberedIcon className="accountHead" fontSize="small"/>&nbsp;
+                    <Grid item md={1} lg={1} xl={1} className="accountHeadContentCenter">
+                        <FormatListNumberedIcon className="accountHeadCenter" fontSize="small"/>&nbsp;
                         <p className="accountHead">No</p>
                     </Grid>
                 </Tooltip>
@@ -25,7 +25,7 @@ export default function AccountHead() {
                     </Grid>
                 </Tooltip>
                 <Tooltip title="Name of the bank" placement="top">
-                    <Grid item md={3} lg={3} xl={3} className="accountHeadContent">
+                    <Grid item md={2} lg={2} xl={2} className="accountHeadContent">
                         <AccountBalanceIconOutlinedIcon className="accountHead" fontSize="small"/>&nbsp;
                         <p className="accountHead">Bank</p>
                     </Grid>
@@ -37,7 +37,7 @@ export default function AccountHead() {
                     </Grid>
                 </Tooltip>
                 <Tooltip title="SWIFT / BIC of Bank" placement="top">
-                    <Grid item md={1} lg={1} xl={1} className="accountHeadContent">
+                    <Grid item md={2} lg={2} xl={2} className="accountHeadContent">
                         <FingerprintIcon className="accountHead" fontSize="small"/>&nbsp;
                         <p className="accountHead">BIC</p>
                     </Grid>

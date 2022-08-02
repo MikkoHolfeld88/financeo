@@ -6,8 +6,8 @@ import MenuItem from "@mui/material/MenuItem";
 import {useDispatch} from "react-redux";
 
 export type Option = {
-    value: any,
-    label: string,
+    value: any | undefined,
+    label: string | any,
 }
 
 export interface ISelectFinanceoProps {

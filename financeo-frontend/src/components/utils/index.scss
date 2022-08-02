@@ -4,7 +4,7 @@
   margin: 0px;
   padding: 0px;
   max-width: 90%;
-  text-align: center;
+  text-align: left;
   background-color: $mainForeground;
   color: $textBasic;
   font-size: 16px;
@@ -12,19 +12,19 @@
 
 .textEditFinanceoInput {
   max-width: 90%;
-  text-align: center;
+  text-align: left;
   background-color: $mainForeground;
   color: $textBasic;
   font-size: 16px;
 }
 
 .textEditFinanceoInputExceededMaxSize {
-  text-align: center;
+  text-align: left;
   color: $warn;
   font-size: 16px;
 }
 
 .textEditFinanceoInvalid {
-  text-align: center;
+  text-align: left;
   color: $warn;
 }
