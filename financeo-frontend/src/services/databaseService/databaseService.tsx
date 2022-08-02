@@ -3,7 +3,6 @@ import {doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 
 async function getData(path: string, userUid: string) {
     try {
-        console.log(doc(db, path, userUid));
         const docRef = doc(db, path, userUid)
         const docSnap = await getDoc(docRef);
 

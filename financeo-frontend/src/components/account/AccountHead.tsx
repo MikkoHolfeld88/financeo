@@ -10,7 +10,7 @@ import PersonIcon from '@mui/icons-material/Person';
 
 export default function AccountHead() {
     return (
-        <div style={{marginLeft: "15px"}}>
+        <div style={{marginLeft: "8px"}}>
             <Grid container spacing={1} className={"accountHeadBackground"} alignItems="left" justifyItems="left">
                 <Tooltip title="Number of Account entries made in this table" placement="bottom">
                     <Grid item md={1} lg={1} xl={1} className="accountHeadContentCenter">

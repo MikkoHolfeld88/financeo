@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     Accordion,
     AccordionDetails,
@@ -17,7 +17,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Typography from "@mui/material/Typography";
-import {deleteAccount, RootState, updateAccount, useAppDispatch} from "../../store";
+import {deleteAccount, removePickedAccount, RootState, updateAccount, useAppDispatch} from "../../store";
 import {useSelector} from "react-redux";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../services/firebaseService/firebaseService";
@@ -29,6 +29,7 @@ import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import PersonIcon from '@mui/icons-material/Person';
 import {Spacer} from "../../pages/accountingPage/AccountsAndDepots";
 import {PaperComponent} from "../utils";
+import {addData} from "../../services/databaseService/databaseService";
 
 const ibantools = require('ibantools');
 
@@ -51,13 +52,21 @@ export default function Account(props: IAccountProps) {
     const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
     const miniScreenSize = useMediaQuery('(max-width:492px)');
+    const pickedAccounts = useSelector((state: RootState) => state.accountPicker.value);
     const accounts = useSelector((state: RootState) => state.accounts.data);
+    const pickedAccountStatus = useSelector((state: RootState) => state.accountPicker.status);
     const dispatch = useAppDispatch();
 
     const mobileScreenSize = !desktopScreenSize;
     const handleChange = (event: any, setState: any) => {
         setState(event.target.value);
     };
+
+    useEffect(() => {
+        if (pickedAccountStatus !== "idle") {
+            addData("pickedAccounts", uid, {pickedAccounts})
+        }
+    }, [pickedAccounts]);
 
     const ibanValidation = {
         function: ibantools.isValidIBAN,
@@ -74,6 +83,8 @@ export default function Account(props: IAccountProps) {
 
     const onDeleteAccount = () => {
         dispatch(deleteAccount(props.id));
+        props?.index && dispatch(removePickedAccount(props?.index));
+        setDeleteDialogOpen(false);
     }
 
     const handlePanelChangeMobile = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -88,7 +99,7 @@ export default function Account(props: IAccountProps) {
 
     const handleChipClick = () => {}
 
-    const marginLeft = desktopScreenSize ? "15px" : "0px"; // different margin on desktop and mobile
+    const marginLeft = desktopScreenSize ? "8px" : "0px"; // different margin on desktop and mobile
     const styleAccordionSummary = {
         border: "1px " + COLORS.SCHEME.foreground + " solid",
         borderRadius: "4px",

@@ -7,6 +7,8 @@ import Button from "@mui/material/Button";
 import * as ROUTES from '../../constants/routes';
 import StateLoader from "../../store/StateLoader";
 import {useAuthState} from "react-firebase-hooks/auth";
+import {useSelector} from "react-redux";
+import {RootState} from "../../store";
 
 export function SignInPage() {
     const [email, setEmail] = useState("");

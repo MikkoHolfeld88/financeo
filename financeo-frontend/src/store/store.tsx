@@ -15,7 +15,6 @@ const store = configureStore({
         yearPicker: yearPickerReducer,
         accountPicker: accountPickerReducer,
         accounts: accountsReducer,
-
     }
 })
 

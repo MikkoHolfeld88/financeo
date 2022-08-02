@@ -22,7 +22,6 @@ export const loginSlice = createSlice({
         },
         setUid: (state, action: PayloadAction<string>) => {
             state.uid = action.payload;
-            state.status = 'loaded';
         },
         setStatus: (state, action: PayloadAction<'idle' | 'pending' | 'loaded' | 'failed'>) => {
             state.status = action.payload;

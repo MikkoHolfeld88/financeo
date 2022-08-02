@@ -2,21 +2,26 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import moment from "moment";
 
 interface AccountPickerState {
-    value: string[];
+    value: string | string[];
     status: 'idle' | 'pending' | 'loaded' | 'failed';
 }
 
 const initialState: AccountPickerState = {
     value: [],
-    status: 'loaded'
+    status: 'idle'
 }
 
 export const accountPickerSlice = createSlice({
     name: 'accountPicker',
     initialState,
     reducers: {
-        changePickedAccount: (state, action: PayloadAction<string[]>) => {
-            state.value = action.payload
+        changePickedAccounts: (state, action: PayloadAction<string | string[]>) => {
+            state.value = action.payload;
+            state.status = 'loaded';
+        },
+        removePickedAccount: (state, action: PayloadAction<number>) => {
+            // TODO: Add Deletion of AccountPicker
+
         },
         resetAccountPicker: (state) => {
             state.value = [];
@@ -25,5 +30,5 @@ export const accountPickerSlice = createSlice({
     },
 });
 
-export const {changePickedAccount, resetAccountPicker} = accountPickerSlice.actions;
+export const {changePickedAccounts, resetAccountPicker, removePickedAccount} = accountPickerSlice.actions;
 export default accountPickerSlice.reducer;

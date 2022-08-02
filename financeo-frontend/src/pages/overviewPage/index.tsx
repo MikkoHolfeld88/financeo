@@ -5,21 +5,19 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
-import {Divider, FormControl, MenuItem, OutlinedInput, Select} from "@mui/material";
+import {Divider, FormControl, InputLabel, MenuItem, OutlinedInput, Select} from "@mui/material";
 import {Option, SelectFinanceo} from "../../components/utils"
 import {useSelector} from "react-redux";
-import {RootState} from "../../store/store";
-import {changeMonth, changeYear} from "../../store";
+import {RootState, useAppDispatch} from "../../store/store";
+import {changeMonth, changePickedAccounts, changeYear} from "../../store";
 import "./style.scss"
 import moment from "moment";
-import {SelectChangeEvent} from "@mui/material/Select";
 import {IAccountProps} from "../../components/account/Account";
+import {addData} from "../../services/databaseService/databaseService";
 
 const selectStyle = {
     margin: "0px 4px 0px 4px",
 }
-
-const years: number[] = [2018,2019, 2020,2021,2022,2023,2024,2025,2026,2027,2028,2029];
 
 const months: Option[] = [
     {value: 1, label: "January"},
@@ -41,7 +39,7 @@ const calculateYears = (pastYears: number = 10): number[] => {
     const firstYear = moment().year() - pastYears;
 
     const range = (start: number, end: number): number[] => {
-        for (var i = start, list = []; i <= end; list.push(i), i++);
+        for (var i = start, list = []; i <= end; list.push(i), i++) ;
         return list.reverse();
     };
 
@@ -54,17 +52,6 @@ const createYearOptions = (years: number[]): Option[] => {
     })
 }
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const AccountSelectMenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
-
 const createAccountOptions = (accounts: IAccountProps[]): Option[] => {
     const options: Option[] = accounts.map((account, index) => {
         return {
@@ -74,61 +61,61 @@ const createAccountOptions = (accounts: IAccountProps[]): Option[] => {
     });
 
     return options;
+
 }
 
 const OverviewPage = () => {
-    const [ loading ] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
+    const uid = user?.uid ? user?.uid : "none";
+    const dispatch = useAppDispatch();
     const month = useSelector((state: RootState) => state.monthPicker.value);
     const year = useSelector((state: RootState) => state.yearPicker.value);
     const accounts = useSelector((state: RootState) => state.accounts.data);
+    const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
+    const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
 
     useEffect(() => {
         if (loading) return;
-    }, [loading])
+    }, [loading]);
 
-    const [accountName, setAccountName] = React.useState<string[]>([]);
-
-    const handleAccountChange = (event: SelectChangeEvent<typeof accountName>) => {
-        console.log(event.target.value);
-        const { target: { value }} = event;
-        setAccountName(typeof value === 'string' ? value.split(',') : value);
-    };
+    useEffect(() => {
+        if (pickedAccountStatus !== "idle") {
+            addData("pickedAccounts", uid, {pickedAccounts})
+        }
+    }, [pickedAccounts]);
 
     return (
         <>
             <Box>
                 <Container maxWidth="xl" className="overviewHeader">
                     <SelectFinanceo
+                        aria-label="year"
                         label="Year"
                         options={createYearOptions(calculateYears())}
                         setState={changeYear}
                         state={year}
                         style={selectStyle}/>
+
                     <SelectFinanceo
+                        aria-label="month"
                         label="Month"
                         options={months}
                         setState={changeMonth}
                         state={month}
                         style={selectStyle}/>
-                    <FormControl>
-                        <Select
-                            label="Accounts/Depots"
-                            multiple
-                            displayEmpty
-                            value={accountName}
-                            onChange={handleAccountChange}
-                            input={<OutlinedInput />}
-                            renderValue={(selected) => {
-                                if (selected.length === 0) {
-                                    return <>Accounts/Depots</>;
-                                }
 
-                                return selected.join(', ');
-                            }}
-                            MenuProps={AccountSelectMenuProps}
-                            inputProps={{ 'aria-label': 'Without label' }}>
+                    <FormControl sx={{width: 200}}>
+                        <InputLabel id="Accounts and Depots Picker Input Label">Accounts/Depots</InputLabel>
+                        <Select
+                            aria-label="Accounts and Depots Picker"
+                            labelId="Accounts and Depots Picker LabelID"
+                            id="Accounts and Depots Picker ID"
+                            multiple
+                            value={pickedAccounts}
+                            onChange={(event) => dispatch(changePickedAccounts(event.target.value))}
+                            input={<OutlinedInput label="Accounts/Depots"/>}>
                             {
-                                createAccountOptions(accounts).map((accountOptions, index) => (
+                                accounts && createAccountOptions(accounts).map((accountOptions, index) => (
                                     <MenuItem
                                         key={accountOptions.value}
                                         value={accountOptions.value}>
@@ -137,10 +124,10 @@ const OverviewPage = () => {
                             }
                         </Select>
                     </FormControl>
+
                 </Container>
             </Box>
-
-            <Divider />
+            <Divider/>
         </>
     )
 };
