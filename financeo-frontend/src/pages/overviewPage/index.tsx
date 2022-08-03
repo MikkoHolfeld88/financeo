@@ -5,7 +5,7 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
-import {Divider, FormControl, InputLabel, MenuItem, OutlinedInput, Select} from "@mui/material";
+import {Button, Divider, FormControl, InputLabel, MenuItem, OutlinedInput, Select} from "@mui/material";
 import {Option, SelectFinanceo} from "../../components/utils"
 import {useSelector} from "react-redux";
 import {RootState, useAppDispatch} from "../../store/store";
@@ -15,7 +15,6 @@ import moment from "moment";
 import {IAccountProps} from "../../components/account/Account";
 import {addData} from "../../services/databaseService/databaseService";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import {useTheme} from "@mui/material/styles";
 
 const selectStyle = {
     margin: "0px 4px 0px 4px",
@@ -70,11 +69,9 @@ const createAccountOptions = (accounts: IAccountProps[]): AccountOption[] => {
     });
 
     return options;
-
 }
 
 const OverviewPage = () => {
-    const theme = useTheme();
     const dispatch = useAppDispatch();
     const [loading] = useAuthState(auth);
     const uid = useSelector((state: RootState) => state.login.uid);
@@ -82,7 +79,6 @@ const OverviewPage = () => {
     const month = useSelector((state: RootState) => state.monthPicker.value);
     const accounts = useSelector((state: RootState) => state.accounts.data);
     const miniScreenSize = useMediaQuery('(max-width:427.9px)');
-    const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
     const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
     const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
 
@@ -100,13 +96,13 @@ const OverviewPage = () => {
         <>
             <Box>
                 <Container maxWidth="xl" className="overviewHeader">
-                        <SelectFinanceo
-                            aria-label="year"
-                            label="Year"
-                            options={createYearOptions(calculateYears())}
-                            setState={changeYear}
-                            state={year}
-                            style={selectStyle}/>
+                    <SelectFinanceo
+                        aria-label="year"
+                        label="Year"
+                        options={createYearOptions(calculateYears())}
+                        setState={changeYear}
+                        state={year}
+                        style={selectStyle}/>
 
                     <SelectFinanceo
                         aria-label="month"
@@ -137,6 +133,10 @@ const OverviewPage = () => {
                             }
                         </Select>
                     </FormControl>
+
+                    {/*<Button variant="outlined" startIcon={<FileUploadIcon />}>*/}
+                    {/*    Delete*/}
+                    {/*</Button>*/}
 
                 </Container>
             </Box>
