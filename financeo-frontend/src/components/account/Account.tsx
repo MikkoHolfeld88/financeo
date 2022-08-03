@@ -45,17 +45,16 @@ export interface IAccountProps {
 }
 
 export default function Account(props: IAccountProps) {
-    const [user] = useAuthState(auth);
-    const uid = user ? user.uid.toString() : 'none';
+    const theme = useTheme();
     const [expanded, setExpanded] = React.useState<string | false>(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState<boolean>(false);
-    const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
     const miniScreenSize = useMediaQuery('(max-width:492px)');
-    const pickedAccounts = useSelector((state: RootState) => state.accountPicker.value);
-    const accounts = useSelector((state: RootState) => state.accounts.data);
-    const pickedAccountStatus = useSelector((state: RootState) => state.accountPicker.status);
     const dispatch = useAppDispatch();
+    const uid = useSelector((state: RootState) => state.login.uid);
+    const accounts = useSelector((state: RootState) => state.accounts.data);
+    const pickedAccounts = useSelector((state: RootState) => state.accountPicker.value);
+    const pickedAccountStatus = useSelector((state: RootState) => state.accountPicker.status);
 
     const mobileScreenSize = !desktopScreenSize;
     const handleChange = (event: any, setState: any) => {
@@ -64,6 +63,8 @@ export default function Account(props: IAccountProps) {
 
     useEffect(() => {
         if (pickedAccountStatus !== "idle") {
+            // here addData removes one account of pickedAccounts
+            // in case an account has been deleted from the accountList
             addData("pickedAccounts", uid, {pickedAccounts})
         }
     }, [pickedAccounts]);
@@ -97,7 +98,8 @@ export default function Account(props: IAccountProps) {
         updateValue: {accounts}
     };
 
-    const handleChipClick = () => {}
+    const handleChipClick = () => {
+    }
 
     const marginLeft = desktopScreenSize ? "8px" : "0px"; // different margin on desktop and mobile
     const styleAccordionSummary = {
@@ -231,7 +233,7 @@ export default function Account(props: IAccountProps) {
                                 </Grid>
                             </Grid>
 
-                            <Divider />
+                            <Divider/>
 
                             <Grid container spacing={0} alignItems="center" justifyItems="center">
                                 <Grid item xs={2} sm={2}>
@@ -256,7 +258,7 @@ export default function Account(props: IAccountProps) {
                                 </Grid>
                             </Grid>
 
-                            <Divider />
+                            <Divider/>
 
                             <Grid container spacing={0} alignItems="center" justifyItems="center">
                                 <Grid item xs={2} sm={2}>
@@ -280,7 +282,7 @@ export default function Account(props: IAccountProps) {
                                 </Grid>
                             </Grid>
 
-                            <Divider />
+                            <Divider/>
 
                             <Grid container spacing={0} alignItems="center" justifyItems="center">
                                 <Grid item xs={2} sm={2}>
@@ -304,7 +306,7 @@ export default function Account(props: IAccountProps) {
                                 </Grid>
                             </Grid>
 
-                            <Divider />
+                            <Divider/>
                             <Spacer marginTop="10px"/>
 
                             <Grid container spacing={0} alignItems="center" justifyItems="center">
@@ -313,7 +315,7 @@ export default function Account(props: IAccountProps) {
                                         onClick={() => setDeleteDialogOpen(true)}
                                         variant="contained"
                                         color="error"
-                                        startIcon={<DeleteForeverIcon />}
+                                        startIcon={<DeleteForeverIcon/>}
                                         fullWidth>
                                         <Typography>Delete</Typography>
                                     </Button>

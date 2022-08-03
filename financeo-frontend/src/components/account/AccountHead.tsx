@@ -25,13 +25,13 @@ export default function AccountHead() {
                     </Grid>
                 </Tooltip>
                 <Tooltip title="Name of the bank" placement="top">
-                    <Grid item md={2} lg={2} xl={2} className="accountHeadContent">
+                    <Grid item md={2} lg={2} xl={2} className="accountHeadContentCenter">
                         <AccountBalanceIconOutlinedIcon className="accountHead" fontSize="small"/>&nbsp;
                         <p className="accountHead">Bank</p>
                     </Grid>
                 </Tooltip>
                 <Tooltip title="Iban number of account / depot" placement="top">
-                    <Grid item md={3} lg={3} xl={3} className="accountHeadContent">
+                    <Grid item md={3} lg={3} xl={3} className="accountHeadContentCenter">
                         <CreditCardIcon className="accountHead" fontSize="small"/>&nbsp;
                         <p className="accountHead">IBAN</p>
                     </Grid>
@@ -39,7 +39,7 @@ export default function AccountHead() {
                 <Tooltip title="SWIFT / BIC of Bank" placement="top">
                     <Grid item md={2} lg={2} xl={2} className="accountHeadContent">
                         <FingerprintIcon className="accountHead" fontSize="small"/>&nbsp;
-                        <p className="accountHead">BIC</p>
+                        <p className="accountHead">BIC/Swift</p>
                     </Grid>
                 </Tooltip>
                 <Tooltip title="Owner of account / depot" placement="top">

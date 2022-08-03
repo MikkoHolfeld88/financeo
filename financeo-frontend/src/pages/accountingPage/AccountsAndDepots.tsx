@@ -18,15 +18,15 @@ export function Spacer(props: any) {
 }
 
 const AccountsAndDepots = () => {
-    const [user] = useAuthState(auth);
+    const theme = useTheme();
+    let uid = useSelector((state: RootState) => state.login.uid);
     let status = useSelector((state: RootState) => state.accounts.status);
     let accounts = useSelector((state: RootState) => state.accounts.data);
-    const theme = useTheme();
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
 
     useEffect(() => {
         if(status !== "idle"){
-            addData("accountsAndDepots", user ? user?.uid : "none", {accounts})
+            addData("accountsAndDepots", uid,{accounts});
         }
     }, [accounts && accounts.length]);
 

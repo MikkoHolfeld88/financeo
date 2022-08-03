@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import {Button, FormControl, TextField, Tooltip} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import {addAccount, useAppDispatch} from "../../store";
-import {SelectFinanceo} from "../utils";
+import {PaperComponent, SelectFinanceo} from "../utils";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -12,7 +12,6 @@ import AccountBalanceIconOutlinedIcon from '@mui/icons-material/AccountBalanceOu
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import PersonIcon from '@mui/icons-material/Person';
-import {PaperComponent} from "../utils";
 
 export default function AddAccountButton() {
     const dispatch = useAppDispatch();
@@ -57,11 +56,6 @@ export default function AddAccountButton() {
         display: 'flex',
         alignItems: 'flex-start'
     }
-
-    const onClick = () => {
-    };
-    const onMouseDown = () => {
-    };
 
     return (
         <Box>

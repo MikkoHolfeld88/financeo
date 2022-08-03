@@ -14,6 +14,8 @@ import "./style.scss"
 import moment from "moment";
 import {IAccountProps} from "../../components/account/Account";
 import {addData} from "../../services/databaseService/databaseService";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import {useTheme} from "@mui/material/styles";
 
 const selectStyle = {
     margin: "0px 4px 0px 4px",
@@ -72,14 +74,17 @@ const createAccountOptions = (accounts: IAccountProps[]): AccountOption[] => {
 }
 
 const OverviewPage = () => {
-    const [user, loading] = useAuthState(auth);
-    const uid = user?.uid ? user?.uid : "none";
+    const theme = useTheme();
     const dispatch = useAppDispatch();
-    const month = useSelector((state: RootState) => state.monthPicker.value);
+    const [loading] = useAuthState(auth);
+    const uid = useSelector((state: RootState) => state.login.uid);
     const year = useSelector((state: RootState) => state.yearPicker.value);
+    const month = useSelector((state: RootState) => state.monthPicker.value);
     const accounts = useSelector((state: RootState) => state.accounts.data);
-    const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
+    const miniScreenSize = useMediaQuery('(max-width:427.9px)');
+    const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
     const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
+    const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
 
     useEffect(() => {
         if (loading) return;
@@ -95,13 +100,13 @@ const OverviewPage = () => {
         <>
             <Box>
                 <Container maxWidth="xl" className="overviewHeader">
-                    <SelectFinanceo
-                        aria-label="year"
-                        label="Year"
-                        options={createYearOptions(calculateYears())}
-                        setState={changeYear}
-                        state={year}
-                        style={selectStyle}/>
+                        <SelectFinanceo
+                            aria-label="year"
+                            label="Year"
+                            options={createYearOptions(calculateYears())}
+                            setState={changeYear}
+                            state={year}
+                            style={selectStyle}/>
 
                     <SelectFinanceo
                         aria-label="month"
@@ -114,11 +119,12 @@ const OverviewPage = () => {
                     <FormControl sx={{width: 200}}>
                         <InputLabel id="Accounts and Depots Picker Input Label">Accounts/Depots</InputLabel>
                         <Select
+                            sx={{marginTop: !miniScreenSize ? "0px" : "5px", marginLeft: "4px"}}
                             aria-label="Accounts and Depots Picker"
                             labelId="Accounts and Depots Picker LabelID"
                             id="Accounts and Depots Picker ID"
                             multiple
-                            value={pickedAccounts}
+                            value={pickedAccounts ? pickedAccounts : []}
                             onChange={(event) => dispatch(changePickedAccounts(event.target.value))}
                             input={<OutlinedInput label="Accounts/Depots"/>}>
                             {

@@ -12,6 +12,7 @@ async function getData(path: string, userUid: string) {
             console.log("No such document!");
         }
     } catch (error) {
+        console.log("Error at writing data to " + path + "/" + userUid);
         console.log(error)
     }
 }
@@ -25,9 +26,13 @@ export async function updateData(path: string, userUid: string, updateData: any)
 }
 
 export async function addData(path: string, userUid: string, addData: any) {
+    console.log(addData);
     try {
-        await setDoc(doc(db, path, userUid), addData);
+        // uid needs to be added for security reasons
+        // every user is only able to see his own data
+        await setDoc(doc(db, path, userUid), {...addData, uid: userUid});
     } catch (error) {
+        console.log("Could not add data " + addData + " to " + path + "/" + userUid);
         console.log(error);
     }
 }

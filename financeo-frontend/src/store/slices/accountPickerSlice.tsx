@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import moment from "moment";
 
 interface AccountPickerState {
     value: string | string[];
@@ -21,8 +20,8 @@ export const accountPickerSlice = createSlice({
         },
         removePickedAccount: (state, action) => {
             if(typeof state.value === 'object'){
-                state.value.map((account, index) => {
-                    if(account.includes(action.payload)){
+                state.value.map((pickedAccount, index) => {
+                    if(pickedAccount.includes(action.payload)){
                         typeof state.value === 'object' && state.value.splice(index, 1);
                     }
                 })
