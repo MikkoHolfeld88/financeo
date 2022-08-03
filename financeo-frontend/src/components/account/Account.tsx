@@ -57,9 +57,6 @@ export default function Account(props: IAccountProps) {
     const pickedAccountStatus = useSelector((state: RootState) => state.accountPicker.status);
 
     const mobileScreenSize = !desktopScreenSize;
-    const handleChange = (event: any, setState: any) => {
-        setState(event.target.value);
-    };
 
     useEffect(() => {
         if (pickedAccountStatus !== "idle") {
@@ -331,7 +328,7 @@ export default function Account(props: IAccountProps) {
                     onClose={() => setDeleteDialogOpen(false)}
                     PaperComponent={PaperComponent}
                     aria-labelledby="Delete Account / Depot">
-                    <DialogTitle id="title Delete Account / Depot" style={{color: COLORS.SCHEME.warn}}>
+                    <DialogTitle id="Delete Account / Depot" style={{color: COLORS.SCHEME.warn}}>
                         {"Delete " + props.type}
                     </DialogTitle>
                     <DialogContent>

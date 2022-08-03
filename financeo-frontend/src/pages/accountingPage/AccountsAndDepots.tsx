@@ -8,8 +8,6 @@ import {IAccountProps} from "../../components/account/Account";
 import {useSelector} from "react-redux";
 import AddAccountButton from "../../components/account/AddAccountButton";
 import {addData} from "../../services/databaseService/databaseService";
-import {useAuthState} from "react-firebase-hooks/auth";
-import {auth} from "../../services/firebaseService/firebaseService";
 
 export function Spacer(props: any) {
     return (
@@ -25,8 +23,8 @@ const AccountsAndDepots = () => {
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
 
     useEffect(() => {
-        if(status !== "idle"){
-            addData("accountsAndDepots", uid,{accounts});
+        if (status !== "idle") {
+            addData("accountsAndDepots", uid, {accounts});
         }
     }, [accounts && accounts.length]);
 
@@ -42,21 +40,21 @@ const AccountsAndDepots = () => {
             <Spacer/>
             {
                 accounts && accounts.map((account: IAccountProps, index: number) => {
-                return <React.Fragment key={index + "_reactFragment"}>
-                            <Account
-                                id={account.id}
-                                key={index + "_account"}
-                                index={index}
-                                type={account.type}
-                                iban={account.iban}
-                                bic={account.bic}
-                                owner={account.owner}
-                                bank={account.bank}/>
-                            {
-                                desktopScreenSize &&
-                                <Spacer key={index + "_spacer"} marginTop="10px"/>
-                            }
-                        </React.Fragment>
+                    return <React.Fragment key={index + "_reactFragment"}>
+                        <Account
+                            id={account.id}
+                            key={index + "_account"}
+                            index={index}
+                            type={account.type}
+                            iban={account.iban}
+                            bic={account.bic}
+                            owner={account.owner}
+                            bank={account.bank}/>
+                        {
+                            desktopScreenSize &&
+                            <Spacer key={index + "_spacer"} marginTop="10px"/>
+                        }
+                    </React.Fragment>
                 })
             }
         </React.Fragment>

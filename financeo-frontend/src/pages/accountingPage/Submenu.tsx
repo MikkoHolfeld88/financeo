@@ -26,10 +26,9 @@ function TabPanel(props: TabPanelProps) {
         <div
             role="tabpanel"
             hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
+            id={`accounting-submenu-${index}`}
+            aria-labelledby={`accounting-submenu-${index}`}
+            {...other}>
             {value === index && (
                 <Box>
                     <React.Fragment>{children}</React.Fragment>
@@ -39,7 +38,7 @@ function TabPanel(props: TabPanelProps) {
     );
 }
 
-export default function Submenu(props: any) {
+export default function Submenu() {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
