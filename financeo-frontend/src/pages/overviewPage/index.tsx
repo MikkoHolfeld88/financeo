@@ -52,11 +52,18 @@ const createYearOptions = (years: number[]): Option[] => {
     })
 }
 
-const createAccountOptions = (accounts: IAccountProps[]): Option[] => {
-    const options: Option[] = accounts.map((account, index) => {
+export type AccountOption = {
+    value: any | undefined,
+    label: string | any,
+    id: string | any,
+}
+
+const createAccountOptions = (accounts: IAccountProps[]): AccountOption[] => {
+    const options: AccountOption[] = accounts.map((account, index) => {
         return {
             value: account?.bank + " (" + (index + 1) + ")",
-            label: account?.bank
+            label: account?.bank,
+            id: account?.id
         }
     });
 
@@ -117,8 +124,8 @@ const OverviewPage = () => {
                             {
                                 accounts && createAccountOptions(accounts).map((accountOptions, index) => (
                                     <MenuItem
-                                        key={accountOptions.value}
-                                        value={accountOptions.value}>
+                                        key={accountOptions.id}
+                                        value={accountOptions.value + "[ID:" + accountOptions.id + "]"}>
                                         {accountOptions.label + " (" + (index + 1) + ")"}
                                     </MenuItem>))
                             }

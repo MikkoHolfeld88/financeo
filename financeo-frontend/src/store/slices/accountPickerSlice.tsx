@@ -19,13 +19,18 @@ export const accountPickerSlice = createSlice({
             state.value = action.payload;
             state.status = 'loaded';
         },
-        removePickedAccount: (state, action: PayloadAction<number>) => {
-            // TODO: Add Deletion of AccountPicker
-
+        removePickedAccount: (state, action) => {
+            if(typeof state.value === 'object'){
+                state.value.map((account, index) => {
+                    if(account.includes(action.payload)){
+                        typeof state.value === 'object' && state.value.splice(index, 1);
+                    }
+                })
+            }
         },
         resetAccountPicker: (state) => {
             state.value = [];
-            state.status = 'loaded';
+            state.status = 'idle';
         }
     },
 });

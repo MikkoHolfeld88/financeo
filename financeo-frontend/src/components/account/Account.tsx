@@ -83,7 +83,7 @@ export default function Account(props: IAccountProps) {
 
     const onDeleteAccount = () => {
         dispatch(deleteAccount(props.id));
-        props?.index && dispatch(removePickedAccount(props?.index));
+        props?.index && dispatch(removePickedAccount(props?.id));
         setDeleteDialogOpen(false);
     }
 
