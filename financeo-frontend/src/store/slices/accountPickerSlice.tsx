@@ -39,8 +39,6 @@ export const accountPickerSlice = createSlice({
                     })
                 }
             })
-
-
         },
         resetAccountPicker: (state) => {
             state.value = [];

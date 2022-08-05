@@ -41,7 +41,6 @@ export const accountsSlice = createSlice({
         },
         updateAccount: (state, action) => {
             const { value, id } = action.payload;
-            console.log(value);
             const name: 'bank' | 'iban' | 'bic' | 'owner' | 'type' = action.payload.name;
             let updateAccount: IAccountProps = state.data[id];
             if (updateAccount) {

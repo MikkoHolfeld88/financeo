@@ -29,20 +29,3 @@ export const SCHEME = {
     textColor1: darkGreen,
     textColor2: darkOcca
 }
-
-// export const SCHEME1 = {
-//     background: manatee,
-//     foreground: white,
-//     highlight: maximumYellow,
-//     lightdark: spaceCadet,
-//     dark: black,
-// }
-//
-// export const SCHEME2 = {
-//     background: celadon,
-//     foreground: beige,
-//     warn: red,
-//     mainForeground: white,
-//     mainBackground: mountainMeadow,
-//     dark: maizeCrayola,
-// }
