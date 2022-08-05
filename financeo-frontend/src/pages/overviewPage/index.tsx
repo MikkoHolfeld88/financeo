@@ -3,18 +3,29 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../services/firebaseService/firebaseService"
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
-import {Button, Divider, FormControl, InputLabel, MenuItem, OutlinedInput, Select} from "@mui/material";
+import {
+    Button,
+    CircularProgress,
+    Divider,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    OutlinedInput,
+    Select
+} from "@mui/material";
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 import {Option, SelectFinanceo} from "../../components/utils"
 import {useSelector} from "react-redux";
 import {RootState, useAppDispatch} from "../../store/store";
 import {adjustPickedAccounts, changeMonth, changePickedAccounts, changeYear} from "../../store";
-import "./style.scss"
 import moment from "moment";
 import {IAccountProps} from "../../components/account/Account";
 import {addData} from "../../services/databaseService/databaseService";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import {useCSVReader} from "react-papaparse";
+import theme from "../../theme";
+import {Spacer} from "../accountingPage/AccountsAndDepots";
+import "./style.scss"
 
 const selectStyle = {
     margin: "0px 4px 0px 4px",
@@ -74,6 +85,8 @@ const createAccountOptions = (accounts: IAccountProps[]): AccountOption[] => {
 const OverviewPage = () => {
     const dispatch = useAppDispatch();
     const [loading] = useAuthState(auth);
+    const { CSVReader } = useCSVReader();
+    const [loadCSV, setLoadCSV] = React.useState(false);
     const uid = useSelector((state: RootState) => state.login.uid);
     const year = useSelector((state: RootState) => state.yearPicker.value);
     const month = useSelector((state: RootState) => state.monthPicker.value);
@@ -81,6 +94,8 @@ const OverviewPage = () => {
     const miniScreenSize = useMediaQuery('(max-width:427.9px)');
     const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
     const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
+
+    const handleClick = () => {}
 
     useEffect(() => {
         if (loading) return;
@@ -97,7 +112,7 @@ const OverviewPage = () => {
 
     return (
         <>
-            <Box>
+            <Container maxWidth="xl">
                 <Container maxWidth="xl" className="overviewHeader">
                     <SelectFinanceo
                         aria-label="year"
@@ -115,10 +130,14 @@ const OverviewPage = () => {
                         state={month}
                         style={selectStyle}/>
 
+                    {
+                        miniScreenSize && <Spacer marginTop="10px"/>
+                    }
+
                     <FormControl sx={{width: 200}}>
                         <InputLabel id="Accounts and Depots Picker Input Label">Accounts/Depots</InputLabel>
                         <Select
-                            sx={{marginTop: !miniScreenSize ? "0px" : "5px", marginLeft: "4px"}}
+                            sx={{marginTop: !miniScreenSize ? "0px" : "5px", marginLeft: !miniScreenSize ? "7px" : "4px"}}
                             aria-label="Accounts and Depots Picker"
                             labelId="Accounts and Depots Picker LabelID"
                             id="Accounts and Depots Picker ID"
@@ -135,14 +154,51 @@ const OverviewPage = () => {
                                     </MenuItem>))
                             }
                         </Select>
-                    </FormControl>
+                        </FormControl>
+                    {
+                    !loadCSV ?
+                        <CSVReader
+                            onUploadAccepted={(results: any) => {
+                                console.log('---------------------------');
+                                console.log(results);
+                                console.log('---------------------------');
+                            }}>
+                            {({getRootProps, acceptedFile}: any) => (
+                                <>
+                                    <Button
+                                        {...getRootProps()}
+                                        sx={{
+                                            fontSize: "10px",
+                                            height: "56px",
+                                            marginLeft: miniScreenSize ? "4px" : "10px",
+                                            marginTop: !miniScreenSize  ? "0px" : "5px"
+                                        }}
+                                        variant="outlined"
+                                        startIcon={<FileUploadIcon />}>
+                                        {
+                                            acceptedFile ?
+                                            acceptedFile.name.substring(0,4) + "(...).csv" :
+                                            "Upload CSV"
+                                        }
+                                    </Button>
+                                </>
+                            )}
+                        </CSVReader>
 
-                    {/*<Button variant="outlined" startIcon={<FileUploadIcon />}>*/}
-                    {/*    Delete*/}
-                    {/*</Button>*/}
-
+                        :
+                    <Button
+                        sx={{
+                            height: "56px",
+                            marginLeft: !miniScreenSize? "4px" : "7px",
+                            marginTop: !miniScreenSize ? "0px" : "5px"
+                        }}
+                        variant="outlined"
+                        startIcon={<CircularProgress size="1em"/>}>
+                        CSV
+                    </Button>
+                    }
                 </Container>
-            </Box>
+            </Container>
             <Divider/>
         </>
     )
