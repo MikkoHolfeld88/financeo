@@ -1,6 +1,12 @@
 import {db} from '../firebaseService/firebaseService';
 import {doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 
+
+// the database is structured as follows:
+// database/collection/documentID/document/field
+// collectionName depends on the data e.g.: accountsAndDepots
+// documentID represents the uid of the user
+// document is the data itself
 async function getData(path: string, userUid: string) {
     try {
         const docRef = doc(db, path, userUid)
