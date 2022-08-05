@@ -17,7 +17,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Typography from "@mui/material/Typography";
-import {deleteAccount, removePickedAccount, RootState, updateAccount, useAppDispatch} from "../../store";
+import {
+    changePickedAccounts,
+    deleteAccount,
+    removePickedAccount,
+    RootState,
+    updateAccount,
+    useAppDispatch
+} from "../../store";
 import {useSelector} from "react-redux";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../services/firebaseService/firebaseService";

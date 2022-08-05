@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {IAccountProps} from "../../components/account/Account";
 
 interface AccountPickerState {
     value: string | string[];
@@ -27,6 +28,20 @@ export const accountPickerSlice = createSlice({
                 })
             }
         },
+        adjustPickedAccounts: (state, action: PayloadAction<{accounts: IAccountProps[]}>) => {
+            // compares pickedAccounts with allAccounts and removes the ones that are not in allAccounts
+            action.payload.accounts.map((account) => {
+                if(typeof state.value === 'object'){
+                    state.value.map((pickedAccount, index) => {
+                        if(!pickedAccount.includes(account.id)){
+                            typeof state.value === 'object' && state.value.splice(index, 1);
+                        }
+                    })
+                }
+            })
+
+
+        },
         resetAccountPicker: (state) => {
             state.value = [];
             state.status = 'idle';
@@ -34,5 +49,5 @@ export const accountPickerSlice = createSlice({
     },
 });
 
-export const {changePickedAccounts, resetAccountPicker, removePickedAccount} = accountPickerSlice.actions;
+export const {changePickedAccounts, resetAccountPicker, removePickedAccount, adjustPickedAccounts} = accountPickerSlice.actions;
 export default accountPickerSlice.reducer;
