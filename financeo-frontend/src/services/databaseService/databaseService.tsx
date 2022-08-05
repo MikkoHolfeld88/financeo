@@ -3,7 +3,7 @@ import {doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 
 
 // the database is structured as follows:
-// database/collection/documentID/document/field
+// database/collection/documentID/document/fields
 // collectionName depends on the data e.g.: accountsAndDepots
 // documentID represents the uid of the user
 // document is the data itself
