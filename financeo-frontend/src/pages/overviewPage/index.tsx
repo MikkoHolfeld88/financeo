@@ -125,7 +125,8 @@ const OverviewPage = () => {
     return (
         <>
             <Container maxWidth="xl" >
-                <Container className="overviewHeader">
+                <Container className="overviewHeader" maxWidth="xl" style={{display: "flex"}}>
+
                     <Grid container columnSpacing={0} rowSpacing={0.5} justifyContent={!mdScreenSize? "center" : "flex-start"}>
                         <Grid item style={{marginLeft: "4px"}}>
                             <SelectFinanceo
@@ -204,9 +205,8 @@ const OverviewPage = () => {
                                     }
                                 </Grid>
                             }
-
-
                     </Grid>
+
                     {
                         mdScreenSize &&
                         <Grid container justifyContent="flex-end">
@@ -245,6 +245,7 @@ const OverviewPage = () => {
                             </Grid>
                         </Grid>
                     }
+
                 </Container>
             </Container>
 

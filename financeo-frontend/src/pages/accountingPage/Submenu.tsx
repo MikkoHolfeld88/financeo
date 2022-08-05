@@ -8,10 +8,12 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import Box from "@mui/material/Box";
 import AccountsAndDepots from "./AccountsAndDepots";
 import BankersOrders from "./BankersOrders";
-import EarningsAndSpendings from "./EarningsAndSpendings";
+import EarningsAndExpenses from "./EarningsAndExpenses";
 import Savings from "./Savings";
 import Container from "@mui/material/Container";
 import {Divider} from '@mui/material';
+import {useSelector} from "react-redux";
+import {RootState, updatePanel, useAppDispatch} from "../../store";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -39,19 +41,16 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export default function Submenu() {
-    const [value, setValue] = React.useState(0);
-
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
+    const panelValue = useSelector((state: RootState) => state.submenuAccounting.panel);
+    const dispatch = useAppDispatch();
 
     return (
         <>
             <Container maxWidth="xl">
                 <Tabs
-                    value={value}
+                    value={panelValue}
                     variant="scrollable"
-                    onChange={handleChange}
+                    onChange={(event, newValue) => {dispatch(updatePanel(newValue))}}
                     aria-label="Submenu of Accounting"
                     scrollButtons="auto"
                     allowScrollButtonsMobile={true}>
@@ -77,10 +76,10 @@ export default function Submenu() {
             <Divider/>
 
             <Container maxWidth="xl">
-                <TabPanel value={value} index={0}><AccountsAndDepots/></TabPanel>
-                <TabPanel value={value} index={1}><EarningsAndSpendings/></TabPanel>
-                <TabPanel value={value} index={2}><BankersOrders/></TabPanel>
-                <TabPanel value={value} index={3}><Savings/></TabPanel>
+                <TabPanel value={panelValue} index={0}><AccountsAndDepots/></TabPanel>
+                <TabPanel value={panelValue} index={1}><EarningsAndExpenses/></TabPanel>
+                <TabPanel value={panelValue} index={2}><BankersOrders/></TabPanel>
+                <TabPanel value={panelValue} index={3}><Savings/></TabPanel>
             </Container>
         </>
     );

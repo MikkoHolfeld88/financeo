@@ -6,6 +6,7 @@ import monthPickerReducer from './slices/monthPickerSlice';
 import yearPickerReducer from './slices/yearPickerSlice';
 import accountsReducer from "./slices/accountsSlice";
 import accountPickerReducer from "./slices/accountPickerSlice";
+import submenuAccountingReducer from "./slices/submenuAccountingSlice";
 
 const store = configureStore({
     reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
         yearPicker: yearPickerReducer,
         accountPicker: accountPickerReducer,
         accounts: accountsReducer,
+        submenuAccounting: submenuAccountingReducer
     }
 })
 

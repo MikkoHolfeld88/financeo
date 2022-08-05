@@ -9,7 +9,9 @@ import {
     removePickedAccount,
     adjustPickedAccounts
 } from "./slices/accountPickerSlice";
+import {updatePanel, resetSubmenuAccounting} from "./slices/submenuAccountingSlice";
 import StateLoader from "./StateLoader";
+
 
 export {
     store, StateLoader, useAppDispatch,
@@ -17,7 +19,8 @@ export {
     changeMonth, resetMonthPicker,
     changeYear, resetYearPicker,
     addAccount, addAccounts, updateAccount, deleteAccount, resetAccounts,
-    changePickedAccounts, removePickedAccount, adjustPickedAccounts, resetAccountPicker
+    changePickedAccounts, removePickedAccount, adjustPickedAccounts, resetAccountPicker,
+    updatePanel, resetSubmenuAccounting
 }
 
 export type {
