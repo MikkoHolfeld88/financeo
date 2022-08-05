@@ -9,7 +9,7 @@ import {Button, Divider, FormControl, InputLabel, MenuItem, OutlinedInput, Selec
 import {Option, SelectFinanceo} from "../../components/utils"
 import {useSelector} from "react-redux";
 import {RootState, useAppDispatch} from "../../store/store";
-import {changeMonth, changePickedAccounts, changeYear} from "../../store";
+import {adjustPickedAccounts, changeMonth, changePickedAccounts, changeYear} from "../../store";
 import "./style.scss"
 import moment from "moment";
 import {IAccountProps} from "../../components/account/Account";
@@ -88,6 +88,9 @@ const OverviewPage = () => {
 
     useEffect(() => {
         if (pickedAccountStatus !== "idle") {
+            if(pickedAccounts.length > accounts.length){
+                dispatch(adjustPickedAccounts({accounts}));
+            }
             addData("pickedAccounts", uid, {pickedAccounts})
         }
     }, [pickedAccounts]);

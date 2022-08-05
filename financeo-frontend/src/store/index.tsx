@@ -3,7 +3,12 @@ import {setErrorMessage, setStatus, setUid, resetLogin} from "./slices/loginSlic
 import {changeMonth, resetMonthPicker} from "./slices/monthPickerSlice";
 import {changeYear, resetYearPicker} from "./slices/yearPickerSlice";
 import {addAccounts, addAccount, updateAccount, deleteAccount, resetAccounts} from "./slices/accountsSlice";
-import {changePickedAccounts, resetAccountPicker, removePickedAccount} from "./slices/accountPickerSlice";
+import {
+    changePickedAccounts,
+    resetAccountPicker,
+    removePickedAccount,
+    adjustPickedAccounts
+} from "./slices/accountPickerSlice";
 import StateLoader from "./StateLoader";
 
 export {
@@ -12,7 +17,7 @@ export {
     changeMonth, resetMonthPicker,
     changeYear, resetYearPicker,
     addAccount, addAccounts, updateAccount, deleteAccount, resetAccounts,
-    changePickedAccounts, removePickedAccount, resetAccountPicker
+    changePickedAccounts, removePickedAccount, adjustPickedAccounts, resetAccountPicker
 }
 
 export type {
