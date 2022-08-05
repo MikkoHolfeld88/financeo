@@ -148,7 +148,7 @@ const OverviewPage = () => {
                                 style={selectStyle}/>
                         </Grid>
                         <Grid item style={{marginLeft: "4px"}}>
-                            <FormControl sx={{width:mdScreenSize ? "200px" : "150px"}}>
+                            <FormControl sx={{width:mdScreenSize ? "200px" : "170px"}}>
                                 <InputLabel id="Accounts and Depots Picker Input Label">Accounts/Depots</InputLabel>
                                 <Select
                                     aria-label="Accounts and Depots Picker"
