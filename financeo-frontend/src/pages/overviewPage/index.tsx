@@ -7,7 +7,7 @@ import {
     Button,
     CircularProgress,
     Divider,
-    FormControl,
+    FormControl, Grid,
     InputLabel,
     MenuItem,
     OutlinedInput,
@@ -28,7 +28,7 @@ import {Spacer} from "../accountingPage/AccountsAndDepots";
 import "./style.scss"
 
 const selectStyle = {
-    margin: "0px 4px 0px 4px",
+    margin: "0px 0px 0px 0px",
 }
 
 const months: Option[] = [
@@ -82,16 +82,24 @@ const createAccountOptions = (accounts: IAccountProps[]): AccountOption[] => {
     return options;
 }
 
+export type CSVData = {
+    data: any[],
+    errors: any[],
+    meta: any,
+}
+
 const OverviewPage = () => {
     const dispatch = useAppDispatch();
     const [loading] = useAuthState(auth);
     const { CSVReader } = useCSVReader();
     const [loadCSV, setLoadCSV] = React.useState(false);
+    const [newCSVData, setNewCSVData] = React.useState<CSVData>({} as CSVData)
+    const mdScreenSize = useMediaQuery(theme.breakpoints.up('md'));
+    const lgScreenSize = useMediaQuery(theme.breakpoints.up('lg'));
     const uid = useSelector((state: RootState) => state.login.uid);
     const year = useSelector((state: RootState) => state.yearPicker.value);
     const month = useSelector((state: RootState) => state.monthPicker.value);
     const accounts = useSelector((state: RootState) => state.accounts.data);
-    const miniScreenSize = useMediaQuery('(max-width:427.9px)');
     const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
     const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
 
@@ -110,95 +118,136 @@ const OverviewPage = () => {
         }
     }, [pickedAccounts]);
 
+    useEffect(() => {
+        console.log(newCSVData);
+    }, [newCSVData])
+
     return (
         <>
-            <Container maxWidth="xl">
-                <Container maxWidth="xl" className="overviewHeader">
-                    <SelectFinanceo
-                        aria-label="year"
-                        label="Year"
-                        options={createYearOptions(calculateYears())}
-                        setState={changeYear}
-                        state={year}
-                        style={selectStyle}/>
+            <Container maxWidth="xl" >
+                <Container className="overviewHeader">
+                    <Grid container columnSpacing={0} rowSpacing={0.5} justifyContent={!mdScreenSize? "center" : "flex-start"}>
+                        <Grid item style={{marginLeft: "4px"}}>
+                            <SelectFinanceo
+                                aria-label="year"
+                                label="Year"
+                                options={createYearOptions(calculateYears())}
+                                setState={changeYear}
+                                state={year}
+                                style={selectStyle}/>
+                        </Grid>
+                        <Grid item style={{marginLeft: "4px"}}>
+                            <SelectFinanceo
+                                aria-label="month"
+                                label="Month"
+                                options={months}
+                                setState={changeMonth}
+                                state={month}
+                                style={selectStyle}/>
+                        </Grid>
+                        <Grid item style={{marginLeft: "4px"}}>
+                            <FormControl sx={{width:mdScreenSize ? "200px" : "150px"}}>
+                                <InputLabel id="Accounts and Depots Picker Input Label">Accounts/Depots</InputLabel>
+                                <Select
+                                    aria-label="Accounts and Depots Picker"
+                                    labelId="Accounts and Depots Picker LabelID"
+                                    id="Accounts and Depots Picker ID"
+                                    multiple
+                                    value={pickedAccounts ? pickedAccounts : []}
+                                    onChange={(event) => dispatch(changePickedAccounts(event.target.value))}
+                                    input={<OutlinedInput label="Accounts/Depots"/>}>
+                                    {
+                                        accounts && createAccountOptions(accounts).map((accountOptions, index) => (
+                                            <MenuItem
+                                                key={accountOptions.id}
+                                                value={accountOptions.value + "[ID:" + accountOptions.id + "]"}>
+                                                {accountOptions.label + " (" + (index + 1) + ")"}
+                                            </MenuItem>))
+                                    }
+                                </Select>
+                            </FormControl>
+                        </Grid>
 
-                    <SelectFinanceo
-                        aria-label="month"
-                        label="Month"
-                        options={months}
-                        setState={changeMonth}
-                        state={month}
-                        style={selectStyle}/>
-
-                    {
-                        miniScreenSize && <Spacer marginTop="10px"/>
-                    }
-
-                    <FormControl sx={{width: 200}}>
-                        <InputLabel id="Accounts and Depots Picker Input Label">Accounts/Depots</InputLabel>
-                        <Select
-                            sx={{marginTop: !miniScreenSize ? "0px" : "5px", marginLeft: !miniScreenSize ? "7px" : "4px"}}
-                            aria-label="Accounts and Depots Picker"
-                            labelId="Accounts and Depots Picker LabelID"
-                            id="Accounts and Depots Picker ID"
-                            multiple
-                            value={pickedAccounts ? pickedAccounts : []}
-                            onChange={(event) => dispatch(changePickedAccounts(event.target.value))}
-                            input={<OutlinedInput label="Accounts/Depots"/>}>
                             {
-                                accounts && createAccountOptions(accounts).map((accountOptions, index) => (
-                                    <MenuItem
-                                        key={accountOptions.id}
-                                        value={accountOptions.value + "[ID:" + accountOptions.id + "]"}>
-                                        {accountOptions.label + " (" + (index + 1) + ")"}
-                                    </MenuItem>))
+                                !mdScreenSize &&
+                                <Grid item style={{marginLeft: "4px"}}>
+                                    {
+                                        !loadCSV ?
+                                            <CSVReader onUploadAccepted={(results: any) => setNewCSVData(results)}>
+                                                {({getRootProps, acceptedFile}: any) => (
+                                                    <Button
+                                                        {...getRootProps()}
+                                                        sx={{
+                                                            height: "56px",
+                                                            fontSize: "10px",
+                                                        }}
+                                                        variant="outlined"
+                                                        startIcon={<FileUploadIcon />}>
+                                                        {
+                                                            acceptedFile ?
+                                                                acceptedFile.name.substring(0,4) + "(...).csv" :
+                                                                "CSV"
+                                                        }
+                                                    </Button>
+                                                )}
+                                            </CSVReader>
+                                            :
+                                            <Button // shows loading state
+                                                sx={{
+                                                    height: "56px",
+                                                    fontSize: "10px",
+                                                }}
+                                                variant="outlined"
+                                                startIcon={<CircularProgress size="1em"/>}>
+                                                CSV
+                                            </Button>
+                                    }
+                                </Grid>
                             }
-                        </Select>
-                        </FormControl>
-                    {
-                    !loadCSV ?
-                        <CSVReader
-                            onUploadAccepted={(results: any) => {
-                                console.log('---------------------------');
-                                console.log(results);
-                                console.log('---------------------------');
-                            }}>
-                            {({getRootProps, acceptedFile}: any) => (
-                                <>
-                                    <Button
-                                        {...getRootProps()}
-                                        sx={{
-                                            fontSize: "10px",
-                                            height: "56px",
-                                            marginLeft: miniScreenSize ? "4px" : "10px",
-                                            marginTop: !miniScreenSize  ? "0px" : "5px"
-                                        }}
-                                        variant="outlined"
-                                        startIcon={<FileUploadIcon />}>
-                                        {
-                                            acceptedFile ?
-                                            acceptedFile.name.substring(0,4) + "(...).csv" :
-                                            "Upload CSV"
-                                        }
-                                    </Button>
-                                </>
-                            )}
-                        </CSVReader>
 
-                        :
-                    <Button
-                        sx={{
-                            height: "56px",
-                            marginLeft: !miniScreenSize? "4px" : "7px",
-                            marginTop: !miniScreenSize ? "0px" : "5px"
-                        }}
-                        variant="outlined"
-                        startIcon={<CircularProgress size="1em"/>}>
-                        CSV
-                    </Button>
+
+                    </Grid>
+                    {
+                        mdScreenSize &&
+                        <Grid container justifyContent="flex-end">
+                            <Grid item>
+                                {
+                                    !loadCSV ?
+                                        <CSVReader onUploadAccepted={(results: any) => setNewCSVData(results)}>
+                                            {({getRootProps, acceptedFile}: any) => (
+                                                <Button
+                                                    {...getRootProps()}
+                                                    sx={{
+                                                        height: "56px",
+                                                        fontSize: "10px",
+                                                    }}
+                                                    variant="outlined"
+                                                    startIcon={<FileUploadIcon />}>
+                                                    {
+                                                        acceptedFile ?
+                                                            acceptedFile.name.substring(0,4) + "(...).csv" :
+                                                            "CSV"
+                                                    }
+                                                </Button>
+                                            )}
+                                        </CSVReader>
+                                        :
+                                        <Button // shows loading state
+                                            sx={{
+                                                height: "56px",
+                                                fontSize: "10px",
+                                            }}
+                                            variant="outlined"
+                                            startIcon={<CircularProgress size="1em"/>}>
+                                            CSV
+                                        </Button>
+                                }
+                            </Grid>
+                        </Grid>
                     }
                 </Container>
             </Container>
+
             <Divider/>
         </>
     )

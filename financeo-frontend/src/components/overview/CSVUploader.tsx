@@ -118,15 +118,14 @@ export default function CSVUploader() {
                             {},
                             styles.zone,
                             zoneHover && styles.zoneHover
-                        )}
-                    >
+                        )}>
                         {acceptedFile ? (
                             <>
                                 <div style={styles.file}>
                                     <div style={styles.info}>
-                    <span style={styles.size}>
-                      {formatFileSize(acceptedFile.size)}
-                    </span>
+                                        <span style={styles.size}>
+                                          {formatFileSize(acceptedFile.size)}
+                                        </span>
                                         <span style={styles.name}>{acceptedFile.name}</span>
                                     </div>
                                     <div style={styles.progressBar}>
@@ -142,8 +141,7 @@ export default function CSVUploader() {
                                         onMouseOut={(event: Event) => {
                                             event.preventDefault();
                                             setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
-                                        }}
-                                    >
+                                        }}>
                                         <Remove color={removeHoverColor}/>
                                     </div>
                                 </div>
