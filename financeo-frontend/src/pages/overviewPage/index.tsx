@@ -26,6 +26,7 @@ import {useCSVReader} from "react-papaparse";
 import theme from "../../theme";
 import {Spacer} from "../accountingPage/AccountsAndDepots";
 import "./style.scss"
+import CSVUploader from "../../components/overview/CSVUploader";
 
 const selectStyle = {
     margin: "0px 0px 0px 0px",
@@ -172,37 +173,7 @@ const OverviewPage = () => {
                             {
                                 !mdScreenSize &&
                                 <Grid item style={{marginLeft: "4px"}}>
-                                    {
-                                        !loadCSV ?
-                                            <CSVReader onUploadAccepted={(results: any) => setNewCSVData(results)}>
-                                                {({getRootProps, acceptedFile}: any) => (
-                                                    <Button
-                                                        {...getRootProps()}
-                                                        sx={{
-                                                            height: "56px",
-                                                            fontSize: "10px",
-                                                        }}
-                                                        variant="outlined"
-                                                        startIcon={<FileUploadIcon />}>
-                                                        {
-                                                            acceptedFile ?
-                                                                acceptedFile.name.substring(0,4) + "(...).csv" :
-                                                                "CSV"
-                                                        }
-                                                    </Button>
-                                                )}
-                                            </CSVReader>
-                                            :
-                                            <Button // shows loading state
-                                                sx={{
-                                                    height: "56px",
-                                                    fontSize: "10px",
-                                                }}
-                                                variant="outlined"
-                                                startIcon={<CircularProgress size="1em"/>}>
-                                                CSV
-                                            </Button>
-                                    }
+                                    <CSVUploader />
                                 </Grid>
                             }
                     </Grid>
@@ -211,37 +182,7 @@ const OverviewPage = () => {
                         mdScreenSize &&
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                {
-                                    !loadCSV ?
-                                        <CSVReader onUploadAccepted={(results: any) => setNewCSVData(results)}>
-                                            {({getRootProps, acceptedFile}: any) => (
-                                                <Button
-                                                    {...getRootProps()}
-                                                    sx={{
-                                                        height: "56px",
-                                                        fontSize: "10px",
-                                                    }}
-                                                    variant="outlined"
-                                                    startIcon={<FileUploadIcon />}>
-                                                    {
-                                                        acceptedFile ?
-                                                            acceptedFile.name.substring(0,4) + "(...).csv" :
-                                                            "CSV"
-                                                    }
-                                                </Button>
-                                            )}
-                                        </CSVReader>
-                                        :
-                                        <Button // shows loading state
-                                            sx={{
-                                                height: "56px",
-                                                fontSize: "10px",
-                                            }}
-                                            variant="outlined"
-                                            startIcon={<CircularProgress size="1em"/>}>
-                                            CSV
-                                        </Button>
-                                }
+                                <CSVUploader />
                             </Grid>
                         </Grid>
                     }
