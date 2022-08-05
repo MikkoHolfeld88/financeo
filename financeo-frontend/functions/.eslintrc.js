@@ -1,5 +1,5 @@
 module.exports = {
-  root: true,
+  root: "src",
   env: {
     es6: true,
     node: true,
@@ -9,6 +9,6 @@ module.exports = {
     "google",
   ],
   rules: {
-    quotes: ["error", "double"],
+    // quotes: ["error", "double"],
   },
 };

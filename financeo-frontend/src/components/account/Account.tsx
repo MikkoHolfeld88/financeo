@@ -5,7 +5,10 @@ import {
     AccordionSummary,
     Button,
     Chip,
-    Dialog, DialogActions, DialogContent, DialogTitle,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
     Divider,
     Grid,
     Tooltip
@@ -17,17 +20,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Typography from "@mui/material/Typography";
-import {
-    changePickedAccounts,
-    deleteAccount,
-    removePickedAccount,
-    RootState,
-    updateAccount,
-    useAppDispatch
-} from "../../store";
+import {deleteAccount, removePickedAccount, RootState, updateAccount, useAppDispatch} from "../../store";
 import {useSelector} from "react-redux";
-import {useAuthState} from "react-firebase-hooks/auth";
-import {auth} from "../../services/firebaseService/firebaseService";
 import * as COLORS from "../../constants/colors"
 import "./index.scss";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
