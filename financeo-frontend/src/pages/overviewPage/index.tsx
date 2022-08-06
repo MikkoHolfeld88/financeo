@@ -2,11 +2,23 @@ import React, {useEffect} from 'react';
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../services/firebaseService/firebaseService"
 import Container from "@mui/material/Container";
-import {Divider, FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Select} from "@mui/material";
-import {Option, SelectFinanceo} from "../../components/utils"
+import ReactFlow, { MiniMap, Controls } from 'react-flow-renderer';
+import {
+    Button,
+    Dialog, DialogActions,
+    DialogContent, DialogContentText, DialogTitle,
+    Divider,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    OutlinedInput,
+    Select
+} from "@mui/material";
+import {Option, PaperComponent, SelectFinanceo} from "../../components/utils"
 import {useSelector} from "react-redux";
 import {RootState, useAppDispatch} from "../../store/store";
-import {adjustPickedAccounts, changeMonth, changePickedAccounts, changeYear} from "../../store";
+import {adjustPickedAccounts, changeMonth, changePickedAccounts, changeYear, resetCSVUploaderState} from "../../store";
 import moment from "moment";
 import {IAccountProps} from "../../components/account/Account";
 import {addAllData} from "../../services/databaseService/databaseService";
@@ -75,6 +87,8 @@ const OverviewPage = () => {
     const [loading] = useAuthState(auth);
     const mdScreenSize = useMediaQuery(theme.breakpoints.up('md'));
     const lgScreenSize = useMediaQuery(theme.breakpoints.up('lg'));
+    const [uploadedFilename, setUploadedFilename] = React.useState("");
+    const [openMappingDialog, setOpenMappingDialog] = React.useState(false);
     const uid = useSelector((state: RootState) => state.login.uid);
     const year = useSelector((state: RootState) => state.yearPicker.value);
     const month = useSelector((state: RootState) => state.monthPicker.value);
@@ -82,7 +96,10 @@ const OverviewPage = () => {
     const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
     const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
 
-    const handleClick = () => {
+    const closeMappingDialog = () => {
+        dispatch(resetCSVUploaderState());
+        setOpenMappingDialog(false);
+        setUploadedFilename("CSV");
     }
 
     useEffect(() => {
@@ -98,12 +115,14 @@ const OverviewPage = () => {
         }
     }, [pickedAccounts]);
 
+
+    // @ts-ignore
     return (
         <>
             <Container maxWidth="xl">
                 <Container className="overviewHeader" maxWidth="xl" style={{display: "flex"}}>
 
-                    <Grid container columnSpacing={0} rowSpacing={0.5}
+                    <Grid container columnSpacing={0} rowSpacing={0.8}
                           justifyContent={!mdScreenSize ? "center" : "flex-start"}>
                         <Grid item style={{marginLeft: "4px"}}>
                             <SelectFinanceo
@@ -149,16 +168,22 @@ const OverviewPage = () => {
                         {
                             !mdScreenSize &&
                             <Grid item style={{marginLeft: "4px"}}>
-                                <CSVUploader/>
+                                <CSVUploader
+                                    filename={uploadedFilename}
+                                    setFilename={setUploadedFilename}
+                                    setCsvUploaded={setOpenMappingDialog}/>
                             </Grid>
                         }
                     </Grid>
 
-                    {
+                    {   // for mobile screen size
                         mdScreenSize &&
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <CSVUploader/>
+                                <CSVUploader
+                                    filename={uploadedFilename}
+                                    setFilename={setUploadedFilename}
+                                    setCsvUploaded={setOpenMappingDialog}/>
                             </Grid>
                         </Grid>
                     }
@@ -167,6 +192,28 @@ const OverviewPage = () => {
             </Container>
 
             <Divider/>
+
+            <Dialog
+                open={openMappingDialog}
+                onClose={() => setOpenMappingDialog(false)}
+                PaperComponent={PaperComponent}
+                aria-labelledby="CSV Data Mapping Dialog">
+                <DialogTitle id="CSV Data Mapping Dialog Title">
+                    {uploadedFilename}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="CSV Data Mapping Dialog Description">
+                        Please select the columns that you want to use for the data mapping.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => closeMappingDialog()}>Disagree</Button>
+                    <Button onClick={() => closeMappingDialog()} autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
         </>
     )
 };

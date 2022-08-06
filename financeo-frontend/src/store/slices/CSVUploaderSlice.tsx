@@ -34,6 +34,7 @@ export const CSVUploaderSlice = createSlice({
             state.meta = meta;
         },
         resetCSVUploaderState: (state) => {
+            state.head = [];
             state.data = [];
             state.errors = [];
             state.meta = [];
