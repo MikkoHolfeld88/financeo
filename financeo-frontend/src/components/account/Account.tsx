@@ -30,7 +30,7 @@ import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import PersonIcon from '@mui/icons-material/Person';
 import {Spacer} from "../../pages/accountingPage/AccountsAndDepots";
 import {PaperComponent} from "../utils";
-import {addData} from "../../services/databaseService/databaseService";
+import {addAllData} from "../../services/databaseService/databaseService";
 
 const ibantools = require('ibantools');
 
@@ -63,7 +63,7 @@ export default function Account(props: IAccountProps) {
         if (pickedAccountStatus !== "idle") {
             // here addData removes one account of pickedAccounts
             // in case an account has been deleted from the accountList
-            addData("pickedAccounts", uid, {pickedAccounts})
+            addAllData("pickedAccounts", uid, {pickedAccounts})
         }
     }, [pickedAccounts]);
 

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useAppDispatch} from "../../store/store";
 import {
     resetAccountPicker,
-    resetAccounts,
+    resetAccounts, resetCSVUploaderState,
     resetLogin,
     resetMonthPicker,
     resetSubmenuAccounting,
@@ -19,6 +19,7 @@ const SignOutPage = () => {
         dispatch(resetAccounts());
         dispatch(resetAccountPicker())
         dispatch(resetSubmenuAccounting())
+        dispatch(resetCSVUploaderState())
     }
 
     useEffect(() => {

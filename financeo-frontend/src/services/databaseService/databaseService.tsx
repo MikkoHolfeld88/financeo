@@ -1,5 +1,5 @@
 import {db} from '../firebaseService/firebaseService';
-import {doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import {addDoc, collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
 
 
 // the database is structured as follows:
@@ -31,12 +31,26 @@ export async function updateData(path: string, userUid: string, updateData: any)
     }
 }
 
-export async function addData(path: string, userUid: string, addData: any) {
+// addAllData adds all data to the database
+// since data often resembles states, it gets loaded on application start
+// so all the "old" data is available
+// addAllData overwrites everything that is currently in the database
+export async function addAllData(path: string, userUid: string, addData: any) {
     try {
         // uid needs to be added for security reasons
         // every user is only able to see his own data
         await setDoc(doc(db, path, userUid), {...addData, uid: userUid});
     } catch (error) {
+        console.log("Could not add data " + addData + " to " + path + "/" + userUid);
+        console.log(error);
+    }
+}
+
+// addData only adds new data to determined collection in the database
+export async function addData(path: string, userUid: string, addData: any) {
+    try {
+        await addDoc(collection(db, path),  {...addData, uid: userUid});
+    } catch(error) {
         console.log("Could not add data " + addData + " to " + path + "/" + userUid);
         console.log(error);
     }

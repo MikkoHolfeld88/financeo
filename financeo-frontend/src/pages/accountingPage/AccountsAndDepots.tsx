@@ -7,7 +7,7 @@ import {RootState} from "../../store/store";
 import {IAccountProps} from "../../components/account/Account";
 import {useSelector} from "react-redux";
 import AddAccountButton from "../../components/account/AddAccountButton";
-import {addData} from "../../services/databaseService/databaseService";
+import {addAllData} from "../../services/databaseService/databaseService";
 
 export function Spacer(props: any) {
     return (
@@ -17,14 +17,14 @@ export function Spacer(props: any) {
 
 const AccountsAndDepots = () => {
     const theme = useTheme();
-    let uid = useSelector((state: RootState) => state.login.uid);
-    let status = useSelector((state: RootState) => state.accounts.status);
-    let accounts = useSelector((state: RootState) => state.accounts.data);
+    const uid = useSelector((state: RootState) => state.login.uid);
+    const status = useSelector((state: RootState) => state.accounts.status);
+    const accounts = useSelector((state: RootState) => state.accounts.data);
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
 
     useEffect(() => {
         if (status !== "idle") {
-            addData("accountsAndDepots", uid, {accounts});
+            addAllData("accountsAndDepots", uid, {accounts});
         }
     }, [accounts && accounts.length]);
 

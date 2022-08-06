@@ -10,6 +10,7 @@ import {
     adjustPickedAccounts
 } from "./slices/accountPickerSlice";
 import {updatePanel, resetSubmenuAccounting} from "./slices/submenuAccountingSlice";
+import {addCSVData, setCSVUploadError, resetCSVUploaderState, ICSVUploaderProps} from "./slices/CSVUploaderSlice";
 import StateLoader from "./StateLoader";
 
 
@@ -20,10 +21,12 @@ export {
     changeYear, resetYearPicker,
     addAccount, addAccounts, updateAccount, deleteAccount, resetAccounts,
     changePickedAccounts, removePickedAccount, adjustPickedAccounts, resetAccountPicker,
-    updatePanel, resetSubmenuAccounting
+    updatePanel, resetSubmenuAccounting,
+    addCSVData, setCSVUploadError, resetCSVUploaderState
 }
 
 export type {
     AppDispatch,
-    RootState
+    RootState,
+    ICSVUploaderProps
 }

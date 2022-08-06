@@ -2,29 +2,16 @@ import React, {useEffect} from 'react';
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../services/firebaseService/firebaseService"
 import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import {
-    Button,
-    CircularProgress,
-    Divider,
-    FormControl, Grid,
-    InputLabel,
-    MenuItem,
-    OutlinedInput,
-    Select
-} from "@mui/material";
-import FileUploadIcon from '@mui/icons-material/FileUpload';
+import {Divider, FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Select} from "@mui/material";
 import {Option, SelectFinanceo} from "../../components/utils"
 import {useSelector} from "react-redux";
 import {RootState, useAppDispatch} from "../../store/store";
 import {adjustPickedAccounts, changeMonth, changePickedAccounts, changeYear} from "../../store";
 import moment from "moment";
 import {IAccountProps} from "../../components/account/Account";
-import {addData} from "../../services/databaseService/databaseService";
+import {addAllData} from "../../services/databaseService/databaseService";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import {useCSVReader} from "react-papaparse";
 import theme from "../../theme";
-import {Spacer} from "../accountingPage/AccountsAndDepots";
 import "./style.scss"
 import CSVUploader from "../../components/overview/CSVUploader";
 
@@ -83,18 +70,9 @@ const createAccountOptions = (accounts: IAccountProps[]): AccountOption[] => {
     return options;
 }
 
-export type CSVData = {
-    data: any[],
-    errors: any[],
-    meta: any,
-}
-
 const OverviewPage = () => {
     const dispatch = useAppDispatch();
     const [loading] = useAuthState(auth);
-    const { CSVReader } = useCSVReader();
-    const [loadCSV, setLoadCSV] = React.useState(false);
-    const [newCSVData, setNewCSVData] = React.useState<CSVData>({} as CSVData)
     const mdScreenSize = useMediaQuery(theme.breakpoints.up('md'));
     const lgScreenSize = useMediaQuery(theme.breakpoints.up('lg'));
     const uid = useSelector((state: RootState) => state.login.uid);
@@ -104,7 +82,8 @@ const OverviewPage = () => {
     const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
     const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
 
-    const handleClick = () => {}
+    const handleClick = () => {
+    }
 
     useEffect(() => {
         if (loading) return;
@@ -112,23 +91,20 @@ const OverviewPage = () => {
 
     useEffect(() => {
         if (pickedAccountStatus !== "idle") {
-            if(pickedAccounts.length > accounts.length){
+            if (pickedAccounts.length > accounts.length) {
                 dispatch(adjustPickedAccounts({accounts}));
             }
-            addData("pickedAccounts", uid, {pickedAccounts})
+            addAllData("pickedAccounts", uid, {pickedAccounts})
         }
     }, [pickedAccounts]);
 
-    useEffect(() => {
-        console.log(newCSVData);
-    }, [newCSVData])
-
     return (
         <>
-            <Container maxWidth="xl" >
+            <Container maxWidth="xl">
                 <Container className="overviewHeader" maxWidth="xl" style={{display: "flex"}}>
 
-                    <Grid container columnSpacing={0} rowSpacing={0.5} justifyContent={!mdScreenSize? "center" : "flex-start"}>
+                    <Grid container columnSpacing={0} rowSpacing={0.5}
+                          justifyContent={!mdScreenSize ? "center" : "flex-start"}>
                         <Grid item style={{marginLeft: "4px"}}>
                             <SelectFinanceo
                                 aria-label="year"
@@ -148,7 +124,7 @@ const OverviewPage = () => {
                                 style={selectStyle}/>
                         </Grid>
                         <Grid item style={{marginLeft: "4px"}}>
-                            <FormControl sx={{width:mdScreenSize ? "200px" : "170px"}}>
+                            <FormControl sx={{width: mdScreenSize ? "200px" : "170px"}}>
                                 <InputLabel id="Accounts and Depots Picker Input Label">Accounts/Depots</InputLabel>
                                 <Select
                                     aria-label="Accounts and Depots Picker"
@@ -170,19 +146,19 @@ const OverviewPage = () => {
                             </FormControl>
                         </Grid>
 
-                            {
-                                !mdScreenSize &&
-                                <Grid item style={{marginLeft: "4px"}}>
-                                    <CSVUploader />
-                                </Grid>
-                            }
+                        {
+                            !mdScreenSize &&
+                            <Grid item style={{marginLeft: "4px"}}>
+                                <CSVUploader/>
+                            </Grid>
+                        }
                     </Grid>
 
                     {
                         mdScreenSize &&
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <CSVUploader />
+                                <CSVUploader/>
                             </Grid>
                         </Grid>
                     }
