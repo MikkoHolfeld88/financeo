@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../services/firebaseService/firebaseService"
 import Container from "@mui/material/Container";
@@ -15,7 +15,8 @@ import {
     InputLabel,
     MenuItem,
     OutlinedInput,
-    Select
+    Select,
+    Tooltip
 } from "@mui/material";
 import {Option, PaperComponent, SelectFinanceo} from "../../components/utils"
 import {useSelector} from "react-redux";
@@ -28,7 +29,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import theme from "../../theme";
 import "./style.scss"
 import CSVUploader from "../../components/overview/CSVUploader";
-import Flow from '../../components/overview/CSVMapper';
+import CSVMapper from '../../components/overview/CSVMapper';
+import {useResize} from "../../hooks/useResize";
 
 const selectStyle = {
     margin: "0px 0px 0px 0px",
@@ -120,6 +122,7 @@ const OverviewPage = () => {
 
 
     // @ts-ignore
+    // @ts-ignore
     return (
         <>
             <Container maxWidth="xl">
@@ -196,10 +199,9 @@ const OverviewPage = () => {
 
             <Divider/>
 
-
-
-
             <Dialog
+                maxWidth="xl"
+                fullWidth={true}
                 open={openMappingDialog}
                 onClose={() => setOpenMappingDialog(false)}
                 PaperComponent={PaperComponent}
@@ -208,8 +210,17 @@ const OverviewPage = () => {
                     {uploadedFilename}
                 </DialogTitle>
                 <DialogContent>
-                    <div style={{width: "600px", height: "300px"}}>
-                        <Flow />
+                    <div style={{width: "100%", height: "500px"}} >
+                        <DialogContentText>Connect
+                            <Tooltip className="pointer"  placement="bottom" title="Source-nodes represent column-names of incoming CSV data.">
+                                <b> source-nodes </b>
+                            </Tooltip>
+                                to
+                            <Tooltip className="pointer" placement="bottom" title="Target-nodes represent the columns of the table to be completed.">
+                                <b> target-nodes </b>
+                            </Tooltip>
+                                to provide a correct datatranser.</DialogContentText>
+                        <CSVMapper/>
                     </div>
                 </DialogContent>
                 <DialogActions>

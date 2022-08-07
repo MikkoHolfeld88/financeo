@@ -8,20 +8,24 @@ import ReactFlow, {
     Edge,
     EdgeChange,
     NodeChange,
-    Controls, updateEdge, useNodesState, useEdgesState
+    Controls, updateEdge, useNodesState, useEdgesState, useReactFlow, ReactFlowProvider
 } from 'react-flow-renderer';
+import {useSelector} from "react-redux";
+import {RootState} from "../../store";
+import {useResize} from "../../hooks/useResize";
 
 const initialNodes: Node[] = [
     {
         id: 'B',
         type: 'input',
         data: { label: 'child node 1' },
-        position: { x: 10, y: 10 },
+        position: { x: 0, y: 0 },
     },
     {
         id: 'C',
+        type: 'output',
         data: { label: 'child node 2' },
-        position: { x: 10, y: 90 },
+        position: { x: 0, y: 90 },
     },
 ];
 
@@ -29,11 +33,39 @@ const initialEdges: Edge[] = [
     { id: 'b-c', source: 'B', target: 'C' }
 ]
 
-function Flow() {
+
+
+export function Flow() {
     const edgeUpdateSuccessful = useRef(true);
     const [nodes, , onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-    const onConnect = useCallback((params: Edge<any> | Connection) => setEdges((els) => addEdge(params, els)), []);
+    const { setViewport, getViewport } = useReactFlow();
+    const columns = useSelector((state: RootState) => state.CSVUploader.head);
+
+    const onNodeClick = (event: any, node: Node) => {
+        console.log(node);
+    }
+
+    const createNodesFromColumns = (): Node<any>[] => {
+        let nodes: Node[] = [];
+
+        if(columns && columns?.length > 0){
+            nodes = columns.map((columnName: string, index: number) => {
+                return {
+                    id: columnName + "_input",
+                    type: 'input',
+                    data: { label: columnName },
+                    position: { x: 155 * index, y: 0 },
+                }
+            })
+        }
+        return nodes;
+    }
+
+    const onConnect = useCallback((params: Edge<any> | Connection) =>
+        setEdges((els) =>
+            addEdge(params, els))
+        , []);
 
     const onEdgeUpdateStart = useCallback(() => {
         edgeUpdateSuccessful.current = false;
@@ -53,23 +85,35 @@ function Flow() {
         edgeUpdateSuccessful.current = true;
     }, []);
 
-    useEffect(() => {console.log(nodes, edges);}, [nodes, edges]);
-
+    useEffect(() => {
+        console.log(nodes, edges)
+    }, [nodes, edges]);
 
     return (
         <ReactFlow
-            nodes={nodes}
+            nodes={createNodesFromColumns()}
             edges={edges}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
             onEdgeUpdate={onEdgeUpdate}
             onEdgeUpdateStart={onEdgeUpdateStart}
             onEdgeUpdateEnd={onEdgeUpdateEnd}
+            onNodeClick={(event, node: Node) => onNodeClick(event, node)}
+            onConnect={onConnect}
+            nodesDraggable={true}
+            snapToGrid={true}
             fitView>
             <Controls />
         </ReactFlow>
     );
 }
 
-export default Flow;
+const CSVMapper = () => {
+    return (
+        <ReactFlowProvider>
+            <Flow />
+        </ReactFlowProvider>
+    )
+}
+
+export default CSVMapper;
