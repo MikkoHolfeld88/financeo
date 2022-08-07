@@ -2,11 +2,13 @@ import React, {useEffect} from 'react';
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../services/firebaseService/firebaseService"
 import Container from "@mui/material/Container";
-import ReactFlow, { MiniMap, Controls } from 'react-flow-renderer';
 import {
     Button,
-    Dialog, DialogActions,
-    DialogContent, DialogContentText, DialogTitle,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
     Divider,
     FormControl,
     Grid,
@@ -26,6 +28,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import theme from "../../theme";
 import "./style.scss"
 import CSVUploader from "../../components/overview/CSVUploader";
+import Flow from '../../components/overview/CSVMapper';
 
 const selectStyle = {
     margin: "0px 0px 0px 0px",
@@ -193,6 +196,9 @@ const OverviewPage = () => {
 
             <Divider/>
 
+
+
+
             <Dialog
                 open={openMappingDialog}
                 onClose={() => setOpenMappingDialog(false)}
@@ -202,9 +208,9 @@ const OverviewPage = () => {
                     {uploadedFilename}
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="CSV Data Mapping Dialog Description">
-                        Please select the columns that you want to use for the data mapping.
-                    </DialogContentText>
+                    <div style={{width: "600px", height: "300px"}}>
+                        <Flow />
+                    </div>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => closeMappingDialog()}>Disagree</Button>
