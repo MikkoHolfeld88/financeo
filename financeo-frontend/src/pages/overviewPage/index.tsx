@@ -200,7 +200,7 @@ const OverviewPage = () => {
             <Divider/>
 
             <Dialog
-                maxWidth="xl"
+                maxWidth="md"
                 fullWidth={true}
                 open={openMappingDialog}
                 onClose={() => setOpenMappingDialog(false)}
@@ -210,16 +210,16 @@ const OverviewPage = () => {
                     {uploadedFilename}
                 </DialogTitle>
                 <DialogContent>
-                    <div style={{width: "100%", height: "500px"}} >
-                        <DialogContentText>Connect
-                            <Tooltip className="pointer"  placement="bottom" title="Source-nodes represent column-names of incoming CSV data.">
-                                <b> source-nodes </b>
-                            </Tooltip>
-                                to
-                            <Tooltip className="pointer" placement="bottom" title="Target-nodes represent the columns of the table to be completed.">
-                                <b> target-nodes </b>
-                            </Tooltip>
-                                to provide a correct datatranser.</DialogContentText>
+                    <DialogContentText>Connect
+                        <Tooltip className="pointer"  placement="bottom" title="Source-nodes represent column-names of incoming CSV data.">
+                            <b> source-nodes </b>
+                        </Tooltip>
+                            to
+                        <Tooltip className="pointer" placement="bottom" title="Target-nodes represent the columns of the table to be completed.">
+                            <b> target-nodes </b>
+                        </Tooltip>
+                            to provide a correct datatranser.</DialogContentText>
+                    <div style={{height: "500px", border: "solid 1px lightgrey", borderRadius: "4px"}}>
                         <CSVMapper/>
                     </div>
                 </DialogContent>
