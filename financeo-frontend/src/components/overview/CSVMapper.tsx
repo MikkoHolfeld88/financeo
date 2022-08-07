@@ -1,80 +1,99 @@
-import {useEffect, useMemo} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import ReactFlow, {Controls, Node, ReactFlowProvider, useEdgesState, useNodesState} from 'react-flow-renderer';
-import {useSelector} from "react-redux";
-import {RootState} from "../../store";
-import { useCallback } from 'react';
-import { Handle, Position } from 'react-flow-renderer';
-
-const handleStyle = { left: 10 };
+import {useDispatch, useSelector} from "react-redux";
+import {RootState, setClickedNode, useAppDispatch} from "../../store";
+import {Card, CardContent, Typography} from "@mui/material";
 
 const targetNodes: Node[] = [
     {
         id: 'date',
-        type: 'output',
+        type: 'outputFinanceo',
         data: {label: 'Date'},
         position: {x: 0, y: 0},
     },
     {
         id: 'usage', // verwendungszweck
-        type: 'output',
+        type: 'outputFinanceo',
         data: {label: 'Usage'},
         position: {x: 0, y: 0},
     },
     {
         id: 'receiver', // empfänger
-        type: 'output',
+        type: 'outputFinanceo',
         data: {label: 'Receiver'},
         position: {x: 0, y: 0},
     },
     {
         id: 'type',
-        type: 'output',
+        type: 'outputFinanceo',
         data: {label: 'Type'},
         position: {x: 0, y: 0},
     },
     {
         id: 'amount',
-        type: 'output',
+        type: 'outputFinanceo',
         data: {label: 'Amount'},
         position: {x: 0, y: 0},
     }
 ];
 
-function TextUpdaterNode() {
-    const onChange = useCallback((evt: { target: { value: any; }; }) => {
-        console.log(evt.target.value);
-    }, []);
+export function OutputFinanceo(node: any) {
+    return (
+        <Card>
+            <CardContent sx={{ p:0, '&:last-child': { pb: 0 }, padding: "10px"}}>
+                <Typography sx={{ fontSize: 10 }} color="text.secondary" gutterBottom>
+                    TARGET NODE
+                </Typography>
+                <Typography variant="h5" component="div">
+                    {node.data.label}
+                </Typography>
+            </CardContent>
+        </Card>
+    );
+}
+
+export function InputFinanceo(node: any) {
+    const clickedNode = useSelector((state: RootState) => state.CSVMapper.clickedNode);
+    const [clicked, setClicked] = useState(false);
+
+    useEffect(() => {
+        if (clickedNode?.type === 'inputFinanceo') {
+            setClicked(true);
+        }
+    } , [clickedNode]);
 
     return (
-        <>
-            <Handle type="target" position={Position.Left} />
-            <div style={{backgroundColor: "red"}}>
-                <label htmlFor="text">Text:</label>
-                <input id="text" name="text" onChange={onChange} />
-            </div>
-            <Handle type="source" position={Position.Bottom} id="a" />
-            <Handle type="source" position={Position.Bottom} id="b" style={handleStyle} />
-        </>
+        <Card>
+            <CardContent sx={{ p:0, '&:last-child': { pb: 0 },  padding: "10px", color: clicked ? "lightgrey" : "black"}}>
+                <Typography sx={{ fontSize: 10, color: clicked ? "lightgrey" : "black" }} color="text.secondary" gutterBottom>
+                    SOURCE NODE
+                </Typography>
+                <Typography variant="h5" component="div">
+                    {node.data.label}
+                </Typography>
+            </CardContent>
+        </Card>
     );
 }
 
 export function Flow() {
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    const dispatch = useAppDispatch();
     const columns = useSelector((state: RootState) => state.CSVUploader.head);
-    const nodeTypes = useMemo(() => ({ textUpdater: TextUpdaterNode }), []);
+    const nodeTypes = useMemo(() => ({ inputFinanceo: InputFinanceo, outputFinanceo: OutputFinanceo }), []);
 
     useEffect(() => {
         setNodes(createInputNodes());
     }, []);
 
     const onNodeClick = (event: any, node: Node) => {
-        console.log(node);
+        dispatch(setClickedNode(node));
     }
 
     const positionTargetNodes = (inputColumHeightAll: number, basicColumnHeight: number): Node[] => {
-        const x = 200;
-        const y = inputColumHeightAll / 2 - (basicColumnHeight * targetNodes.length) / 2;
+        const x = 400;
+        const y = 0;
 
         targetNodes.forEach((node, index) => {
             node.position = {x: x , y: y + basicColumnHeight * index};
@@ -83,12 +102,12 @@ export function Flow() {
         return targetNodes;
     }
 
-    const createInputNodes = (nodes: Node[] = [], basicWidth: number = 155, basicHeight: number = 50): Node<any>[] => {
+    const createInputNodes = (nodes: Node[] = [], basicWidth: number = 155, basicHeight: number = 80): Node<any>[] => {
         if (columns && columns?.length > 0) {
             nodes = columns.map((columnName: string, index: number) => {
                 return {
                     id: columnName + "_input",
-                    type: 'textUpdater',
+                    type: 'inputFinanceo',
                     data: {label: columnName},
                     position: {x: 0, y: basicHeight * index},
                 }

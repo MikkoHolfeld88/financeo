@@ -26,5 +26,5 @@ export const accountDataSlice = createSlice({
     },
 });
 
-export const {} = accountDataSlice.actions;
+export const {setAccountData, resetAccountData} = accountDataSlice.actions;
 export default accountDataSlice.reducer;

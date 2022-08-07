@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch} from "../../store/store";
 import {
+    resetAccountData,
     resetAccountPicker,
-    resetAccounts, resetCSVUploaderState,
+    resetAccounts, resetCSVMapperState, resetCSVUploaderState,
     resetLogin,
     resetMonthPicker,
     resetSubmenuAccounting,
@@ -13,13 +14,15 @@ const SignOutPage = () => {
     const dispatch = useAppDispatch();
 
     const resetStore = () => {
+        dispatch(resetAccountData())
+        dispatch(resetAccountPicker())
+        dispatch(resetAccounts());
+        dispatch(resetCSVMapperState())
+        dispatch(resetCSVUploaderState())
         dispatch(resetLogin());
         dispatch(resetMonthPicker());
-        dispatch(resetYearPicker());
-        dispatch(resetAccounts());
-        dispatch(resetAccountPicker())
         dispatch(resetSubmenuAccounting())
-        dispatch(resetCSVUploaderState())
+        dispatch(resetYearPicker());
     }
 
     useEffect(() => {
@@ -30,6 +33,5 @@ const SignOutPage = () => {
         <h1>SignOutPage</h1>
     );
 }
-
 
 export default SignOutPage;
