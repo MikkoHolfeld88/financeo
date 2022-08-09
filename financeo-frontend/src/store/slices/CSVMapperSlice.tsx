@@ -4,20 +4,25 @@ import {Node, Edge} from "react-flow-renderer"
 interface ICSVMapperProps {
     nodes: Node[];
     edges: Edge[];
+    maxEdgeMapSize: number;
     clickedNode: Node;
+    clickNodePrev: Node;
 }
 
 interface CSVMapperState {
     nodes: Node[];
     edges: Edge[];
+    maxEdgeMapSize: number;
     clickedNode: Node;
-
+    clickedNodePrev: Node;
 }
 
 const initialState: CSVMapperState = {
     nodes: [],
     edges: [],
-    clickedNode: {id: "", position: {x:-1, y:-1}, data: {}, type: ""}
+    maxEdgeMapSize: 0,
+    clickedNode: {id: "", position: {x: -1, y: -1}, data: {}, type: ""},
+    clickedNodePrev: {id: "", position: {x: -1, y: -1}, data: {}, type: ""}
 }
 
 export const CSVMapperSlice = createSlice({
@@ -27,20 +32,34 @@ export const CSVMapperSlice = createSlice({
         setNodes: (state, action: PayloadAction<Node[]>) => {
             state.nodes = action.payload;
         },
+        addEdge: (state, action: PayloadAction<Edge>) => {
+            state.edges.push(action.payload);
+        },
         setEdges: (state, action: PayloadAction<Edge[]>) => {
             state.edges = action.payload;
         },
+        setMaxEdgeMapSize: (state, action: PayloadAction<number>) => {
+            state.maxEdgeMapSize = action.payload;
+        },
         setClickedNode(state, action: PayloadAction<Node>) {
+            state.clickedNodePrev = state.clickedNode;
             state.clickedNode = action.payload;
         },
         resetCSVMapperState(state) {
             state.nodes = [];
             state.edges = [];
-            state.clickedNode = {id: "", position: {x:-1, y:-1}, data: {}};
+            state.clickedNode = {id: "", position: {x: -1, y: -1}, data: {}};
         }
     },
 });
 
-export const {setNodes, setEdges, setClickedNode, resetCSVMapperState} = CSVMapperSlice.actions;
+export const {
+    setNodes,
+    addEdge,
+    setEdges,
+    setMaxEdgeMapSize,
+    setClickedNode,
+    resetCSVMapperState
+} = CSVMapperSlice.actions;
 export type {ICSVMapperProps};
 export default CSVMapperSlice.reducer;

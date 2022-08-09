@@ -12,7 +12,14 @@ import {
 import {updatePanel, resetSubmenuAccounting} from "./slices/submenuAccountingSlice";
 import {addCSVData, setCSVUploadError, resetCSVUploaderState, ICSVUploaderProps} from "./slices/CSVUploaderSlice";
 import {setAccountData, resetAccountData} from "./slices/accountDataSlice";
-import {setNodes, setEdges, setClickedNode, resetCSVMapperState} from "./slices/CSVMapperSlice";
+import {
+    setNodes,
+    addEdge,
+    setEdges,
+    setMaxEdgeMapSize,
+    setClickedNode,
+    resetCSVMapperState
+} from "./slices/CSVMapperSlice";
 import StateLoader from "./StateLoader";
 
 
@@ -26,7 +33,7 @@ export {
     updatePanel, resetSubmenuAccounting,
     addCSVData, setCSVUploadError, resetCSVUploaderState,
     setAccountData, resetAccountData,
-    setNodes, setEdges, setClickedNode, resetCSVMapperState
+    setNodes, addEdge, setEdges, setMaxEdgeMapSize, setClickedNode, resetCSVMapperState
 }
 
 export type {

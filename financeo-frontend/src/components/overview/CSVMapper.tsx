@@ -1,8 +1,9 @@
 import {useEffect, useMemo, useState} from 'react';
-import ReactFlow, {Controls, Node, ReactFlowProvider, useEdgesState, useNodesState} from 'react-flow-renderer';
+import ReactFlow, {Controls, Edge, Node, ReactFlowProvider, useEdgesState, useNodesState} from 'react-flow-renderer';
 import {useDispatch, useSelector} from "react-redux";
-import {RootState, setClickedNode, useAppDispatch} from "../../store";
-import {Card, CardContent, Typography} from "@mui/material";
+import {RootState, setClickedNode, setEdges, setMaxEdgeMapSize, useAppDispatch} from "../../store";
+import {Card, CardContent, ClickAwayListener, Typography} from "@mui/material";
+import "./index.scss"
 
 const targetNodes: Node[] = [
     {
@@ -37,11 +38,40 @@ const targetNodes: Node[] = [
     }
 ];
 
+const targetEdges: Edge[] = [];
+
 export function OutputFinanceo(node: any) {
+    const dispatch = useAppDispatch();
+    const clickedNode = useSelector((state: RootState) => state.CSVMapper.clickedNode);
+    const prevClickedNode = useSelector((state: RootState) => state.CSVMapper.clickedNodePrev);
+    const clickedOn = clickedNode?.id === node.id;
+    const edges = useSelector((state: RootState) => state.CSVMapper.edges);
+
+    useEffect(() => {
+        if (clickedOn) {
+            prevClickedNode.type === "inputFinanceo" && createEdge();
+        }
+    } , [clickedNode]);
+
+    function createEdge(){
+        const edge = {
+            id: `${node.id}-${clickedNode.id}`,
+            source: node.id,
+            target: clickedNode.id,
+            type: "edge",
+            data: {
+                label: "",
+                weight: 1
+            }
+        };
+        targetEdges.push(edge);
+        dispatch(setEdges(targetEdges));
+    }
+
     return (
-        <Card>
-            <CardContent sx={{ p:0, '&:last-child': { pb: 0 }, padding: "10px"}}>
-                <Typography sx={{ fontSize: 10 }} color="text.secondary" gutterBottom>
+        <Card className={clickedOn ? "blinkOutput" : ""} sx={{}}>
+            <CardContent sx={{ p:0, '&:last-child': { pb: 0 }, padding: "10px", color: clickedOn ? "white" : "" }}>
+                <Typography sx={{ fontSize: 10, color: clickedOn ? "white" : "" }} color="text.secondary" gutterBottom>
                     TARGET NODE
                 </Typography>
                 <Typography variant="h5" component="div">
@@ -54,37 +84,34 @@ export function OutputFinanceo(node: any) {
 
 export function InputFinanceo(node: any) {
     const clickedNode = useSelector((state: RootState) => state.CSVMapper.clickedNode);
-    const [clicked, setClicked] = useState(false);
-
-    useEffect(() => {
-        if (clickedNode?.type === 'inputFinanceo') {
-            setClicked(true);
-        }
-    } , [clickedNode]);
+    const clickedOn = clickedNode?.id === node.id;
 
     return (
-        <Card>
-            <CardContent sx={{ p:0, '&:last-child': { pb: 0 },  padding: "10px", color: clicked ? "lightgrey" : "black"}}>
-                <Typography sx={{ fontSize: 10, color: clicked ? "lightgrey" : "black" }} color="text.secondary" gutterBottom>
-                    SOURCE NODE
-                </Typography>
-                <Typography variant="h5" component="div">
-                    {node.data.label}
-                </Typography>
-            </CardContent>
-        </Card>
+            <Card className={clickedOn ? "blinkInput" : ""} sx={{}}>
+                <CardContent sx={{ p:0, '&:last-child': { pb: 0 },  padding: "10px", color: clickedOn ? "white" : "" }}>
+                    <Typography sx={{ fontSize: 10, color: clickedOn ? "white" : ""}} color={"text.secondary"} gutterBottom>
+                        SOURCE NODE
+                    </Typography>
+                    <Typography variant="h5" component="div">
+                        {node.data.label}
+                    </Typography>
+                </CardContent>
+            </Card>
     );
 }
 
 export function Flow() {
-    const [nodes, setNodes, onNodesChange] = useNodesState([]);
-    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
     const dispatch = useAppDispatch();
+    const [nodes, setNodes, onNodesChange] = useNodesState([]);
+    const [localEdges, setLocalEdges, onLocalEdgesChange] = useEdgesState([]);
     const columns = useSelector((state: RootState) => state.CSVUploader.head);
+    const edges = useSelector((state: RootState) => state.CSVMapper.edges);
     const nodeTypes = useMemo(() => ({ inputFinanceo: InputFinanceo, outputFinanceo: OutputFinanceo }), []);
 
     useEffect(() => {
+        dispatch(setMaxEdgeMapSize(targetNodes.length));
         setNodes(createInputNodes());
+        setLocalEdges(targetEdges);
     }, []);
 
     const onNodeClick = (event: any, node: Node) => {
@@ -120,17 +147,17 @@ export function Flow() {
     }
 
     useEffect(() => {
-        console.log(nodes, edges)
-    }, [nodes, edges]);
+        setLocalEdges(edges);
+    }, [edges]);
 
     return (
         <ReactFlow
             snapToGrid
             nodeTypes={nodeTypes}
             nodes={nodes}
-            edges={edges}
+            edges={localEdges}
             onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
+            onEdgesChange={onLocalEdgesChange}
             onNodeClick={(event, node: Node) => onNodeClick(event, node)}
             fitView>
             <Controls/>
