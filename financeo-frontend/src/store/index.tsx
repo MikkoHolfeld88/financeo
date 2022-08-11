@@ -18,6 +18,7 @@ import {
     setEdges,
     setMaxEdgeMapSize,
     setClickedNode,
+    resetClickedNodePrev,
     resetCSVMapperState
 } from "./slices/CSVMapperSlice";
 import StateLoader from "./StateLoader";
@@ -33,7 +34,7 @@ export {
     updatePanel, resetSubmenuAccounting,
     addCSVData, setCSVUploadError, resetCSVUploaderState,
     setAccountData, resetAccountData,
-    setNodes, addEdge, setEdges, setMaxEdgeMapSize, setClickedNode, resetCSVMapperState
+    setNodes, addEdge, setEdges, setMaxEdgeMapSize, setClickedNode, resetClickedNodePrev, resetCSVMapperState
 }
 
 export type {

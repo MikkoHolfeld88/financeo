@@ -36,6 +36,9 @@ export const CSVMapperSlice = createSlice({
             state.edges.push(action.payload);
         },
         setEdges: (state, action: PayloadAction<Edge[]>) => {
+            action.payload.forEach((edge: Edge, index) => {
+
+            })
             state.edges = action.payload;
         },
         setMaxEdgeMapSize: (state, action: PayloadAction<number>) => {
@@ -45,11 +48,14 @@ export const CSVMapperSlice = createSlice({
             state.clickedNodePrev = state.clickedNode;
             state.clickedNode = action.payload;
         },
+        resetClickedNodePrev(state) {
+            state.clickedNodePrev = {id: "", position: {x: -1, y: -1}, data: {}, type: ""};
+        },
         resetCSVMapperState(state) {
             state.nodes = [];
             state.edges = [];
             state.clickedNode = {id: "", position: {x: -1, y: -1}, data: {}};
-        }
+        },
     },
 });
 
@@ -59,6 +65,7 @@ export const {
     setEdges,
     setMaxEdgeMapSize,
     setClickedNode,
+    resetClickedNodePrev,
     resetCSVMapperState
 } = CSVMapperSlice.actions;
 export type {ICSVMapperProps};

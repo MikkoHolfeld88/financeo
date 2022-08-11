@@ -1,102 +1,116 @@
 import {useEffect, useMemo, useState} from 'react';
-import ReactFlow, {Controls, Edge, Node, ReactFlowProvider, useEdgesState, useNodesState} from 'react-flow-renderer';
+import ReactFlow, {
+    Controls,
+    Edge,
+    Handle,
+    Node,
+    Position,
+    ReactFlowProvider,
+    useEdgesState,
+    useNodesState
+} from 'react-flow-renderer';
 import {useDispatch, useSelector} from "react-redux";
-import {RootState, setClickedNode, setEdges, setMaxEdgeMapSize, useAppDispatch} from "../../store";
+import {resetClickedNodePrev, RootState, setClickedNode, setEdges, setMaxEdgeMapSize, useAppDispatch} from "../../store";
 import {Card, CardContent, ClickAwayListener, Typography} from "@mui/material";
 import "./index.scss"
 
 const targetNodes: Node[] = [
     {
-        id: 'date',
+        id: 'date_output',
         type: 'outputFinanceo',
         data: {label: 'Date'},
         position: {x: 0, y: 0},
     },
     {
-        id: 'usage', // verwendungszweck
+        id: 'usage_output', // verwendungszweck
         type: 'outputFinanceo',
         data: {label: 'Usage'},
         position: {x: 0, y: 0},
     },
     {
-        id: 'receiver', // empfänger
+        id: 'receiver_output', // empfänger
         type: 'outputFinanceo',
         data: {label: 'Receiver'},
         position: {x: 0, y: 0},
     },
     {
-        id: 'type',
+        id: 'type_output',
         type: 'outputFinanceo',
         data: {label: 'Type'},
         position: {x: 0, y: 0},
     },
     {
-        id: 'amount',
+        id: 'amount_output',
         type: 'outputFinanceo',
         data: {label: 'Amount'},
         position: {x: 0, y: 0},
     }
 ];
 
-const targetEdges: Edge[] = [];
+let targetEdges: Edge[] = [];
 
 export function OutputFinanceo(node: any) {
     const dispatch = useAppDispatch();
     const clickedNode = useSelector((state: RootState) => state.CSVMapper.clickedNode);
     const prevClickedNode = useSelector((state: RootState) => state.CSVMapper.clickedNodePrev);
-    const clickedOn = clickedNode?.id === node.id;
-    const edges = useSelector((state: RootState) => state.CSVMapper.edges);
+    const clicked = clickedNode?.id === node.id;
 
     useEffect(() => {
-        if (clickedOn) {
-            prevClickedNode.type === "inputFinanceo" && createEdge();
+        if (clicked) {
+            if(prevClickedNode.type === "inputFinanceo" && clickedNode.type === "outputFinanceo"){
+                const edge = {
+                    id: `${prevClickedNode.id}-${clickedNode.id}`,
+                    source: prevClickedNode.id,
+                    target: clickedNode.id,
+                };
+                targetEdges = [...targetEdges, edge];
+                dispatch(setEdges(targetEdges));
+                dispatch(resetClickedNodePrev());
+            };
         }
     } , [clickedNode]);
 
-    function createEdge(){
-        const edge = {
-            id: `${node.id}-${clickedNode.id}`,
-            source: node.id,
-            target: clickedNode.id,
-            type: "edge",
-            data: {
-                label: "",
-                weight: 1
-            }
-        };
-        targetEdges.push(edge);
-        dispatch(setEdges(targetEdges));
-    }
-
     return (
-        <Card className={clickedOn ? "blinkOutput" : ""} sx={{}}>
-            <CardContent sx={{ p:0, '&:last-child': { pb: 0 }, padding: "10px", color: clickedOn ? "white" : "" }}>
-                <Typography sx={{ fontSize: 10, color: clickedOn ? "white" : "" }} color="text.secondary" gutterBottom>
-                    TARGET NODE
-                </Typography>
-                <Typography variant="h5" component="div">
-                    {node.data.label}
-                </Typography>
-            </CardContent>
-        </Card>
-    );
-}
-
-export function InputFinanceo(node: any) {
-    const clickedNode = useSelector((state: RootState) => state.CSVMapper.clickedNode);
-    const clickedOn = clickedNode?.id === node.id;
-
-    return (
-            <Card className={clickedOn ? "blinkInput" : ""} sx={{}}>
-                <CardContent sx={{ p:0, '&:last-child': { pb: 0 },  padding: "10px", color: clickedOn ? "white" : "" }}>
-                    <Typography sx={{ fontSize: 10, color: clickedOn ? "white" : ""}} color={"text.secondary"} gutterBottom>
-                        SOURCE NODE
+        <>
+            <Handle
+                type="target"
+                position={Position.Left}
+                id={`InputHandle_${node.id}`}/>
+            <Card className={clicked ? "blinkOutput" : ""} sx={{}}>
+                <CardContent sx={{ p:0, '&:last-child': { pb: 0 }, padding: "10px", color: clicked ? "white" : "" }}>
+                    <Typography sx={{ fontSize: 10, color: clicked ? "white" : "" }} color="text.secondary" gutterBottom>
+                        TARGET NODE
                     </Typography>
                     <Typography variant="h5" component="div">
                         {node.data.label}
                     </Typography>
                 </CardContent>
             </Card>
+        </>
+    );
+}
+
+export function InputFinanceo(node: any) {
+    const clickedNode = useSelector((state: RootState) => state.CSVMapper.clickedNode);
+    const clicked = clickedNode?.id === node.id;
+
+    return (
+        <>
+            <Handle
+                type="source"
+                position={Position.Right}
+                id={`InputHandle_${node.id}`}/>
+            <Card className={clicked ? "blinkInput" : ""} sx={{}}>
+                <CardContent sx={{ p:0, '&:last-child': { pb: 0 },  padding: "10px", color: clicked ? "white" : "" }}>
+                    <Typography sx={{ fontSize: 10, color: clicked ? "white" : ""}} color={"text.secondary"} gutterBottom>
+                                    SOURCE NODE
+                    </Typography>
+                    <Typography variant="h5" component="div">
+                        {node.data.label}
+                    </Typography>
+                </CardContent>
+            </Card>
+        </>
     );
 }
 
@@ -111,8 +125,11 @@ export function Flow() {
     useEffect(() => {
         dispatch(setMaxEdgeMapSize(targetNodes.length));
         setNodes(createInputNodes());
-        setLocalEdges(targetEdges);
     }, []);
+
+    useEffect(() => {
+        setLocalEdges(edges);
+    } , [edges]);
 
     const onNodeClick = (event: any, node: Node) => {
         dispatch(setClickedNode(node));
@@ -140,15 +157,10 @@ export function Flow() {
                 }
             })
         }
-
         nodes.push(...positionTargetNodes(basicHeight * columns?.length, basicHeight));
 
         return nodes;
     }
-
-    useEffect(() => {
-        setLocalEdges(edges);
-    }, [edges]);
 
     return (
         <ReactFlow
