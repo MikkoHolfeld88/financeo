@@ -4,6 +4,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import {useDispatch} from "react-redux";
+import {FormHelperText} from "@mui/material";
 
 export type Option = {
     value: any | undefined,
@@ -20,6 +21,10 @@ export interface ISelectFinanceoProps {
     fontSize?: number
     useState?: boolean,
     autoWidth?: boolean,
+    error?: {
+        active?: boolean,
+        message?: string,
+    }
 }
 
 export default function SelectFinanceo(props: ISelectFinanceoProps) {
@@ -52,7 +57,7 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
     }
 
     return (
-            <FormControl sx={props.style && props.style}>
+            <FormControl sx={props.style && props.style} error={props?.error?.active}>
                 <InputLabel id={props.label + "_inputLabel"}>{props.label}</InputLabel>
                 <Select
                     autoWidth={props.autoWidth}
@@ -68,6 +73,7 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
                         })
                     }
                 </Select>
+                <FormHelperText>{props?.error?.message && props?.error?.message}</FormHelperText>
             </FormControl>
     );
 }

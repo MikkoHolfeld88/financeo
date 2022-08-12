@@ -41,10 +41,6 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
     const [visibleValidationSnackbar, setValidationSnackbarVisibility] = React.useState(false);
     const [validField, setFieldValidity] = React.useState(true);
 
-    const handleMaxCharSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        setMaxCharSnackbarVisibility(false);
-    };
-
     const handleValidationSnackbarClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -137,7 +133,7 @@ export default function TextEditFinanceo(props: ITextEditFinanceoProps) {
                 }}
                 autoHideDuration={5000}
                 open={visibleMaxCharSnackbar}
-                onClose={handleMaxCharSnackbarClose}>
+                onClose={() => setMaxCharSnackbarVisibility(false)}>
                 <Alert severity={"error"}>Exceeded maximum character length!</Alert>
             </Snackbar>
 

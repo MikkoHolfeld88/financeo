@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react';
+import {useEffect, useMemo} from 'react';
 import ReactFlow, {
     Controls,
     Edge,
@@ -7,40 +7,46 @@ import ReactFlow, {
     Position,
     ReactFlowProvider,
     useEdgesState,
-    useNodesState
+    useNodesState,
+    getBezierPath,
+    getMarkerEnd, MiniMap,
 } from 'react-flow-renderer';
-import {useDispatch, useSelector} from "react-redux";
-import {resetClickedNodePrev, RootState, setClickedNode, setEdges, setMaxEdgeMapSize, useAppDispatch} from "../../store";
-import {Card, CardContent, ClickAwayListener, Typography} from "@mui/material";
+import {GetBezierPathParams} from "react-flow-renderer/dist/esm/components/Edges/BezierEdge";
+import {useSelector} from "react-redux";
+import {resetClickedNodePrev, RootState, setClickedNode, setEdges, useAppDispatch} from "../../store";
+import {SCHEME} from "../../constants/colors";
+import {Card, CardContent, Typography} from "@mui/material";
 import "./index.scss"
+import useMediaQuery from "@mui/material/useMediaQuery";
+import theme from "../../theme";
 
 const targetNodes: Node[] = [
     {
-        id: 'date_output',
+        id: '0_date_output',
         type: 'outputFinanceo',
         data: {label: 'Date'},
         position: {x: 0, y: 0},
     },
     {
-        id: 'usage_output', // verwendungszweck
+        id: '1_usage_output', // verwendungszweck
         type: 'outputFinanceo',
         data: {label: 'Usage'},
         position: {x: 0, y: 0},
     },
     {
-        id: 'receiver_output', // empfänger
+        id: '2_receiver_output', // empfänger
         type: 'outputFinanceo',
         data: {label: 'Receiver'},
         position: {x: 0, y: 0},
     },
     {
-        id: 'type_output',
+        id: '3_type_output',
         type: 'outputFinanceo',
         data: {label: 'Type'},
         position: {x: 0, y: 0},
     },
     {
-        id: 'amount_output',
+        id: '4_amount_output',
         type: 'outputFinanceo',
         data: {label: 'Amount'},
         position: {x: 0, y: 0},
@@ -48,6 +54,53 @@ const targetNodes: Node[] = [
 ];
 
 let targetEdges: Edge[] = [];
+
+export function createHead(){
+    return targetNodes.map((node: Node) => {
+        return node.data.label;
+    })
+}
+
+export function EdgeFinanceo({
+       id ,
+       sourceX ,
+       sourceY ,
+       targetX ,
+       targetY ,
+       sourcePosition,
+       targetPosition,
+       data,
+       markerEnd,
+    }: GetBezierPathParams | any) {
+    const edgePath = getBezierPath({
+        sourceX,
+        sourceY,
+        sourcePosition,
+        targetX,
+        targetY,
+        targetPosition,
+    });
+
+    return (
+        <>
+            <path
+                id={id}
+                style={{strokeWidth: '2px', stroke: SCHEME.mainBackgroundLight}}
+                className="react-flow__edge-path"
+                d={edgePath}
+                markerEnd={markerEnd}
+            />
+            <text>
+                <textPath
+                    href={`#${id}`}
+                    style={{ fontSize: '18px' }}
+                    startOffset="50%"
+                    textAnchor="middle">
+                </textPath>
+            </text>
+        </>
+    );
+}
 
 export function OutputFinanceo(node: any) {
     const dispatch = useAppDispatch();
@@ -57,9 +110,10 @@ export function OutputFinanceo(node: any) {
 
     useEffect(() => {
         if (clicked) {
-            if(prevClickedNode.type === "inputFinanceo" && clickedNode.type === "outputFinanceo"){
+            if (prevClickedNode.type === "inputFinanceo" && clickedNode.type === "outputFinanceo") {
                 const edge = {
                     id: `${prevClickedNode.id}-${clickedNode.id}`,
+                    type: 'edgeFinanceo',
                     source: prevClickedNode.id,
                     target: clickedNode.id,
                 };
@@ -68,17 +122,18 @@ export function OutputFinanceo(node: any) {
                 dispatch(resetClickedNodePrev());
             };
         }
-    } , [clickedNode]);
+    }, [clickedNode]);
 
     return (
         <>
             <Handle
+                style={{backgroundColor: "transparent", borderColor: "transparent"}}
                 type="target"
                 position={Position.Left}
-                id={`InputHandle_${node.id}`}/>
-            <Card className={clicked ? "blinkOutput" : ""} sx={{}}>
-                <CardContent sx={{ p:0, '&:last-child': { pb: 0 }, padding: "10px", color: clicked ? "white" : "" }}>
-                    <Typography sx={{ fontSize: 10, color: clicked ? "white" : "" }} color="text.secondary" gutterBottom>
+                id={`OutputHandle_${node.id}`}/>
+            <Card className={clicked ? "blinkOutput" : ""} sx={{backgroundColor: clicked ? SCHEME.mainBackground : "white"}}>
+                <CardContent sx={{p: 0, '&:last-child': {pb: 0}, padding: "10px", color: clicked ? "white" : clickedNode ? "grey" : ""}}>
+                    <Typography sx={{fontSize: 10, color: clicked ? "white" : clickedNode ? "grey" : ""}} color="text.secondary" gutterBottom>
                         TARGET NODE
                     </Typography>
                     <Typography variant="h5" component="div">
@@ -97,13 +152,15 @@ export function InputFinanceo(node: any) {
     return (
         <>
             <Handle
+                style={{backgroundColor: "transparent", borderColor: "transparent"}}
                 type="source"
                 position={Position.Right}
                 id={`InputHandle_${node.id}`}/>
-            <Card className={clicked ? "blinkInput" : ""} sx={{}}>
-                <CardContent sx={{ p:0, '&:last-child': { pb: 0 },  padding: "10px", color: clicked ? "white" : "" }}>
-                    <Typography sx={{ fontSize: 10, color: clicked ? "white" : ""}} color={"text.secondary"} gutterBottom>
-                                    SOURCE NODE
+            <Card className={clicked ? "blinkInput" : ""} sx={{backgroundColor: clicked ? SCHEME.mainBackground : "white"}}>
+                <CardContent sx={{p: 0, '&:last-child': {pb: 0}, padding: "10px", color: clicked ? "white" : ""}}>
+                    <Typography sx={{fontSize: 10, color: clicked ? "white" : ""}} color={"text.secondary"}
+                                gutterBottom>
+                        SOURCE NODE
                     </Typography>
                     <Typography variant="h5" component="div">
                         {node.data.label}
@@ -116,20 +173,22 @@ export function InputFinanceo(node: any) {
 
 export function Flow() {
     const dispatch = useAppDispatch();
-    const [nodes, setNodes, onNodesChange] = useNodesState([]);
+    const lgScreenSize = useMediaQuery(theme.breakpoints.up('lg'));
+    const [nodes, setNodes, onLocalNodesChange] = useNodesState([]);
     const [localEdges, setLocalEdges, onLocalEdgesChange] = useEdgesState([]);
-    const columns = useSelector((state: RootState) => state.CSVUploader.head);
+    const nodeTypes = useMemo(() => ({inputFinanceo: InputFinanceo, outputFinanceo: OutputFinanceo}), []);
+    const edgeTypes = useMemo(() => ({edgeFinanceo: EdgeFinanceo}), []);
     const edges = useSelector((state: RootState) => state.CSVMapper.edges);
-    const nodeTypes = useMemo(() => ({ inputFinanceo: InputFinanceo, outputFinanceo: OutputFinanceo }), []);
+    const columns = useSelector((state: RootState) => state.CSVUploader.head);
 
     useEffect(() => {
-        dispatch(setMaxEdgeMapSize(targetNodes.length));
         setNodes(createInputNodes());
     }, []);
 
     useEffect(() => {
+        targetEdges = edges;
         setLocalEdges(edges);
-    } , [edges]);
+    }, [edges]);
 
     const onNodeClick = (event: any, node: Node) => {
         dispatch(setClickedNode(node));
@@ -140,7 +199,7 @@ export function Flow() {
         const y = 0;
 
         targetNodes.forEach((node, index) => {
-            node.position = {x: x , y: y + basicColumnHeight * index};
+            node.position = {x: x, y: y + basicColumnHeight * index};
         });
 
         return targetNodes;
@@ -150,7 +209,7 @@ export function Flow() {
         if (columns && columns?.length > 0) {
             nodes = columns.map((columnName: string, index: number) => {
                 return {
-                    id: columnName + "_input",
+                    id: index.toString() + "_" + columnName + "_input",
                     type: 'inputFinanceo',
                     data: {label: columnName},
                     position: {x: 0, y: basicHeight * index},
@@ -165,13 +224,15 @@ export function Flow() {
     return (
         <ReactFlow
             snapToGrid
-            nodeTypes={nodeTypes}
             nodes={nodes}
             edges={localEdges}
-            onNodesChange={onNodesChange}
+            nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
+            onNodesChange={onLocalNodesChange}
             onEdgesChange={onLocalEdgesChange}
             onNodeClick={(event, node: Node) => onNodeClick(event, node)}
             fitView>
+            { lgScreenSize && <MiniMap />}
             <Controls/>
         </ReactFlow>
     );

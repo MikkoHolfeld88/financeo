@@ -10,13 +10,21 @@ import {
     adjustPickedAccounts
 } from "./slices/accountPickerSlice";
 import {updatePanel, resetSubmenuAccounting} from "./slices/submenuAccountingSlice";
-import {addCSVData, setCSVUploadError, resetCSVUploaderState, ICSVUploaderProps} from "./slices/CSVUploaderSlice";
+import {
+    addCSVData,
+    setCSVUploadError,
+    setHead,
+    mapData,
+    setAccountName,
+    resetCSVUploaderState,
+    ICSVUploaderProps
+} from "./slices/CSVUploaderSlice";
 import {setAccountData, resetAccountData} from "./slices/accountDataSlice";
 import {
     setNodes,
     addEdge,
     setEdges,
-    setMaxEdgeMapSize,
+    resetEdges,
     setClickedNode,
     resetClickedNodePrev,
     resetCSVMapperState
@@ -32,9 +40,9 @@ export {
     addAccount, addAccounts, updateAccount, deleteAccount, resetAccounts,
     changePickedAccounts, removePickedAccount, adjustPickedAccounts, resetAccountPicker,
     updatePanel, resetSubmenuAccounting,
-    addCSVData, setCSVUploadError, resetCSVUploaderState,
+    addCSVData, setCSVUploadError, setHead, mapData, setAccountName, resetCSVUploaderState,
     setAccountData, resetAccountData,
-    setNodes, addEdge, setEdges, setMaxEdgeMapSize, setClickedNode, resetClickedNodePrev, resetCSVMapperState
+    setNodes, addEdge, setEdges, resetEdges, setClickedNode, resetClickedNodePrev, resetCSVMapperState
 }
 
 export type {

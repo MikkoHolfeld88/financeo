@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {Edge} from "react-flow-renderer";
 
 interface ICSVUploaderProps {
     data: string[][];
@@ -11,13 +12,15 @@ interface CSVUploaderState {
     data: string[][];
     errors: any[];
     meta: any[];
+    accountName?: string; // account the data belong to
 }
 
 const initialState: CSVUploaderState = {
     head: [],
     data: [],
     errors: [],
-    meta: []
+    meta: [],
+    accountName: ""
 }
 
 export const CSVUploaderSlice = createSlice({
@@ -33,6 +36,39 @@ export const CSVUploaderSlice = createSlice({
             state.errors = errors;
             state.meta = meta;
         },
+        setHead: (state, action: PayloadAction<string[]>) => {
+            state.head = action.payload;
+        },
+        mapData(state, action: PayloadAction<Edge[]>) {
+            let mappedRows: any[][] = [];
+            let mappedColumns: any[] = [];
+
+            state.data.map((row: string[], rowIndex: number) => {
+              action.payload.map((edge: Edge) => {
+                  const sourceIndex = Number(edge.source.split("_")[0]);
+                  if(sourceIndex === rowIndex) {
+                      mappedColumns.push(row[sourceIndex]);
+                  }
+              });
+              mappedRows.push(mappedColumns);
+            })
+
+            console.log(mappedColumns)
+            console.log(mappedRows);
+
+            state.data = mappedRows;
+
+            // let mappingTable: {from: number, to: number}[] = [];
+            // action.payload.forEach((edge: Edge) => {
+            //     mappingTable.push({
+            //         from: Number(edge.source.split("_")[0]),
+            //         to: Number(edge.target.split("_")[0])});
+            // })
+
+        },
+        setAccountName(state, action: PayloadAction<string>) {
+            state.accountName = action.payload;
+        },
         resetCSVUploaderState: (state) => {
             state.head = [];
             state.data = [];
@@ -42,6 +78,6 @@ export const CSVUploaderSlice = createSlice({
     },
 });
 
-export const {addCSVData, setCSVUploadError, resetCSVUploaderState} = CSVUploaderSlice.actions;
+export const {addCSVData, setCSVUploadError, setHead, mapData,setAccountName, resetCSVUploaderState} = CSVUploaderSlice.actions;
 export type {ICSVUploaderProps};
 export default CSVUploaderSlice.reducer;

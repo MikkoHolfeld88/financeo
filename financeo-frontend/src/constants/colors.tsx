@@ -6,6 +6,7 @@
 
 export const white = '#ffffffff';
 export const mountainMeadow = '#3ab795ff';
+export const mountainMeadowLight = '#79bba9';
 export const celadon = '#e8f8ed';
 export const beige = '#edead0ff';
 export const maizeCrayola = '#ffcf56ff';
@@ -17,6 +18,7 @@ export const darkOcca = '#494941';
 
 export const SCHEME = {
     mainBackground: mountainMeadow,
+    mainBackgroundLight: mountainMeadowLight,
     background: celadon,
     mainForeground: white,
     foreground: beige,

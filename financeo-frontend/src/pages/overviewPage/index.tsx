@@ -3,6 +3,7 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../services/firebaseService/firebaseService"
 import Container from "@mui/material/Container";
 import {
+    Alert,
     Button,
     Dialog,
     DialogActions,
@@ -21,7 +22,14 @@ import {
 import {Option, PaperComponent, SelectFinanceo} from "../../components/utils"
 import {useSelector} from "react-redux";
 import {RootState, useAppDispatch} from "../../store/store";
-import {adjustPickedAccounts, changeMonth, changePickedAccounts, changeYear, resetCSVUploaderState} from "../../store";
+import {
+    adjustPickedAccounts,
+    changeMonth,
+    changePickedAccounts,
+    changeYear, resetCSVMapperState,
+    resetCSVUploaderState, resetEdges,
+    setEdges, mapData, setHead, setAccountName
+} from "../../store";
 import moment from "moment";
 import {IAccountProps} from "../../components/account/Account";
 import {addAllData} from "../../services/databaseService/databaseService";
@@ -29,8 +37,10 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import theme from "../../theme";
 import "./style.scss"
 import CSVUploader from "../../components/overview/CSVUploader";
-import CSVMapper from '../../components/overview/CSVMapper';
+import CSVMapper, {createHead} from '../../components/overview/CSVMapper';
 import {useResize} from "../../hooks/useResize";
+import {ICSVMapperProps} from "../../store/slices/CSVMapperSlice";
+import Snackbar from "@mui/material/Snackbar";
 
 const selectStyle = {
     margin: "0px 0px 0px 0px",
@@ -91,21 +101,18 @@ const OverviewPage = () => {
     const dispatch = useAppDispatch();
     const [loading] = useAuthState(auth);
     const mdScreenSize = useMediaQuery(theme.breakpoints.up('md'));
-    const lgScreenSize = useMediaQuery(theme.breakpoints.up('lg'));
     const [uploadedFilename, setUploadedFilename] = React.useState("");
     const [openMappingDialog, setOpenMappingDialog] = React.useState(false);
+    const [cantUpload, setCantUpload] = React.useState(false);
     const uid = useSelector((state: RootState) => state.login.uid);
     const year = useSelector((state: RootState) => state.yearPicker.value);
     const month = useSelector((state: RootState) => state.monthPicker.value);
     const accounts = useSelector((state: RootState) => state.accounts.data);
-    const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
+    const selectedEdges = useSelector((state: RootState) => state.CSVMapper.edges);
+    const accountMapperName = useSelector((state: RootState) => state.CSVUploader.accountName);
     const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
-
-    const closeMappingDialog = () => {
-        dispatch(resetCSVUploaderState());
-        setOpenMappingDialog(false);
-        setUploadedFilename("CSV");
-    }
+    const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
+    const CSVMapperState: ICSVMapperProps = useSelector((state: RootState) => state.CSVMapper);
 
     useEffect(() => {
         if (loading) return;
@@ -120,9 +127,29 @@ const OverviewPage = () => {
         }
     }, [pickedAccounts]);
 
+    const onUploadClick = () => {
+        if(accountMapperName === "") {
+            setCantUpload(true);
+        } else {
+            dispatch(setHead(createHead()));
+            dispatch(mapData(selectedEdges));
+            // save Data to Database
+            closeMappingDialog()
+        }
 
-    // @ts-ignore
-    // @ts-ignore
+    }
+
+    const closeMappingDialog = () => {
+        dispatch(resetCSVUploaderState());
+        dispatch(resetCSVMapperState());
+        setOpenMappingDialog(false);
+        setUploadedFilename("CSV");
+    }
+
+    function onResetEdges(){
+        dispatch(resetEdges());
+    }
+
     return (
         <>
             <Container maxWidth="xl">
@@ -210,26 +237,60 @@ const OverviewPage = () => {
                     {uploadedFilename}
                 </DialogTitle>
                 <DialogContent>
-                    <DialogContentText>Connect
-                        <Tooltip className="pointer"  placement="bottom" title="Source-nodes represent column-names of incoming CSV data.">
-                            <b> source-nodes </b>
-                        </Tooltip>
-                            to
-                        <Tooltip className="pointer" placement="bottom" title="Target-nodes represent the columns of the table to be completed.">
-                            <b> target-nodes </b>
-                        </Tooltip>
-                            to provide a correct datatranser.</DialogContentText>
-                    <div style={{height: "500px", border: "solid 1px lightgrey", borderRadius: "4px"}}>
+                    <Grid container
+                          justifyContent="space-between"
+                          alignItems="center">
+                        <Grid item>
+                            <DialogContentText>
+                                Connect
+                                <Tooltip className="pointer"  placement="bottom" title="Source-nodes represent column-names of incoming CSV data.">
+                                    <b> source-nodes </b>
+                                </Tooltip>
+                                to
+                                <Tooltip className="pointer" placement="bottom" title="Target-nodes represent the columns of the table to be completed.">
+                                    <b> target-nodes </b>
+                                </Tooltip>
+                                to provide a correct datatransfer.
+                            </DialogContentText>
+                        </Grid>
+                        <Grid item>
+                            <Button size="small" variant="outlined" onClick={onResetEdges}>Reset edges</Button>
+                        </Grid>
+                    </Grid>
+
+                    <div style={{height: "500px", border: "solid 1px lightgrey", borderRadius: "4px", marginTop: "5px"}}>
                         <CSVMapper/>
                     </div>
+
                 </DialogContent>
+                <SelectFinanceo
+                    aria-label="Account"
+                    label="Account"
+                    options={createAccountOptions(accounts)}
+                    setState={setAccountName}
+                    state={accountMapperName}
+                    autoWidth={true}
+                    error={
+                        active: cantUpload,
+                        message: "Please select an account."
+                    }
+                    style={{marginLeft: "25px", marginRight: "25px"}}/>
                 <DialogActions>
-                    <Button onClick={() => closeMappingDialog()}>Disagree</Button>
-                    <Button onClick={() => closeMappingDialog()} autoFocus>
-                        Agree
-                    </Button>
+                    <Button onClick={() => closeMappingDialog()}>Cancel</Button>
+                    <Button onClick={() => onUploadClick()} autoFocus>Upload</Button>
                 </DialogActions>
             </Dialog>
+
+            <Snackbar
+                anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center"
+                }}
+                autoHideDuration={5000}
+                open={cantUpload}
+                onClose={() => setCantUpload(false)}>
+                <Alert severity={"error"}>You need to select an account that matches your data!</Alert>
+            </Snackbar>
 
         </>
     )
