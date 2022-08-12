@@ -56,7 +56,6 @@ export const CSVUploaderSlice = createSlice({
             state.data = mappedRows;
         },
         setAccountName(state, action: PayloadAction<string>) {
-            console.log("hello");
             state.accountName = action.payload;
         },
         resetCSVUploaderState: (state) => {

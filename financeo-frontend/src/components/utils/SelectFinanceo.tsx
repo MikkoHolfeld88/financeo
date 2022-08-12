@@ -49,11 +49,9 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
     };
 
     const givenHandleChange = (event: SelectChangeEvent) => {
-        console.log("use strict");
         if(props.useState){
             props.setState(event.target.value as string);
         } else {
-            console.log("here");
             dispatch(props.setState(event.target.value));
         }
     }
