@@ -5,6 +5,7 @@ interface ICSVUploaderProps {
     data: string[][];
     errors: any[];
     meta: any[];
+    accountName?: string;
 }
 
 interface CSVUploaderState {
@@ -20,7 +21,7 @@ const initialState: CSVUploaderState = {
     data: [],
     errors: [],
     meta: [],
-    accountName: ""
+    accountName: " "
 }
 
 export const CSVUploaderSlice = createSlice({
@@ -44,29 +45,18 @@ export const CSVUploaderSlice = createSlice({
             let mappedColumns: any[] = [];
 
             state.data.map((row: string[], rowIndex: number) => {
-              action.payload.map((edge: Edge) => {
+                action.payload.map((edge: Edge) => {
                   const sourceIndex = Number(edge.source.split("_")[0]);
                   if(sourceIndex === rowIndex) {
                       mappedColumns.push(row[sourceIndex]);
                   }
-              });
-              mappedRows.push(mappedColumns);
+                });
+                mappedRows.push(mappedColumns);
             })
-
-            console.log(mappedColumns)
-            console.log(mappedRows);
-
             state.data = mappedRows;
-
-            // let mappingTable: {from: number, to: number}[] = [];
-            // action.payload.forEach((edge: Edge) => {
-            //     mappingTable.push({
-            //         from: Number(edge.source.split("_")[0]),
-            //         to: Number(edge.target.split("_")[0])});
-            // })
-
         },
         setAccountName(state, action: PayloadAction<string>) {
+            console.log("hello");
             state.accountName = action.payload;
         },
         resetCSVUploaderState: (state) => {
@@ -74,6 +64,7 @@ export const CSVUploaderSlice = createSlice({
             state.data = [];
             state.errors = [];
             state.meta = [];
+            state.accountName = " ";
         }
     },
 });

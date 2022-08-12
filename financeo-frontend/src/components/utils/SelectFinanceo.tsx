@@ -29,7 +29,7 @@ export interface ISelectFinanceoProps {
 
 export default function SelectFinanceo(props: ISelectFinanceoProps) {
     const dispatch = useDispatch();
-    const externallyControlled = props.state && props.setState; // state and setState injected by parent
+    const externallyControlled = props?.state && props?.setState; // state and setState injected by parent
 
     const determineInitialState = (): any => {
         if(!props?.defaultValue){ return '' }
@@ -41,7 +41,7 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
         return '';
     }
 
-    // if externally Controlled defaultValue is already given
+    // if externally Controlled defaultValue is given
     const [state, setState] = React.useState(determineInitialState());
 
     const localHandleChange = (event: SelectChangeEvent) => {
@@ -49,9 +49,11 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
     };
 
     const givenHandleChange = (event: SelectChangeEvent) => {
+        console.log("use strict");
         if(props.useState){
             props.setState(event.target.value as string);
         } else {
+            console.log("here");
             dispatch(props.setState(event.target.value));
         }
     }
@@ -73,7 +75,10 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
                         })
                     }
                 </Select>
-                <FormHelperText>{props?.error?.message && props?.error?.message}</FormHelperText>
+                {
+                    props?.error?.active &&
+                    <FormHelperText>{props?.error?.message && props?.error?.message}</FormHelperText>
+                }
             </FormControl>
     );
 }

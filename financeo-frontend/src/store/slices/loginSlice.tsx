@@ -7,7 +7,7 @@ interface LoginState {
 }
 
 const initialState: LoginState = {
-    errorMessage: "",
+    errorMessage: " ",
     status: 'idle',
     uid: 'none'
 }

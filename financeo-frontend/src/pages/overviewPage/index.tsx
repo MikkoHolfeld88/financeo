@@ -86,15 +86,27 @@ export type AccountOption = {
 }
 
 const createAccountOptions = (accounts: IAccountProps[]): AccountOption[] => {
-    const options: AccountOption[] = accounts.map((account, index) => {
+    return accounts.map((account, index) => {
         return {
             value: account?.bank + " (" + (index + 1) + ")",
             label: account?.bank,
             id: account?.id
         }
     });
+}
 
-    return options;
+export type BasicAccountOption = {
+    value: any | undefined,
+    label: string | any,
+}
+
+const createBasicAccountOptions = (accounts: IAccountProps[]): BasicAccountOption[] => {
+    return accounts.map((account, index) => {
+        return {
+            value: account?.bank + " (" + (index + 1) + ")",
+            label: account?.bank
+        }
+    });
 }
 
 const OverviewPage = () => {
@@ -109,7 +121,7 @@ const OverviewPage = () => {
     const month = useSelector((state: RootState) => state.monthPicker.value);
     const accounts = useSelector((state: RootState) => state.accounts.data);
     const selectedEdges = useSelector((state: RootState) => state.CSVMapper.edges);
-    const accountMapperName = useSelector((state: RootState) => state.CSVUploader.accountName);
+    const accountName = useSelector((state: RootState) => state.CSVUploader.accountName);
     const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
     const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
     const CSVMapperState: ICSVMapperProps = useSelector((state: RootState) => state.CSVMapper);
@@ -128,7 +140,8 @@ const OverviewPage = () => {
     }, [pickedAccounts]);
 
     const onUploadClick = () => {
-        if(accountMapperName === "") {
+        console.log(accountName);
+        if(accountName === "") {
             setCantUpload(true);
         } else {
             dispatch(setHead(createHead()));
@@ -264,16 +277,15 @@ const OverviewPage = () => {
 
                 </DialogContent>
                 <SelectFinanceo
-                    aria-label="Account"
-                    label="Account"
-                    options={createAccountOptions(accounts)}
+                    aria-label="accountName"
+                    label="Account Name"
+                    options={createBasicAccountOptions(accounts)}
                     setState={setAccountName}
-                    state={accountMapperName}
-                    autoWidth={true}
-                    error={
+                    state={accountName}
+                    error={{
                         active: cantUpload,
                         message: "Please select an account."
-                    }
+                    }}
                     style={{marginLeft: "25px", marginRight: "25px"}}/>
                 <DialogActions>
                     <Button onClick={() => closeMappingDialog()}>Cancel</Button>
