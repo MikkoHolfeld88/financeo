@@ -2,7 +2,8 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Edge} from "react-flow-renderer";
 
 interface ICSVUploaderProps {
-    data: string[][];
+    data: string[][] | any;
+    mappedData: any;
     errors: any[];
     meta: any[];
     accountName?: string;
@@ -11,6 +12,7 @@ interface ICSVUploaderProps {
 interface CSVUploaderState {
     head: string[];
     data: string[][];
+    mappedData: any;
     errors: any[];
     meta: any[];
     accountName?: string; // account the data belong to
@@ -19,6 +21,7 @@ interface CSVUploaderState {
 const initialState: CSVUploaderState = {
     head: [],
     data: [],
+    mappedData: [],
     errors: [],
     meta: [],
     accountName: " "
@@ -41,19 +44,24 @@ export const CSVUploaderSlice = createSlice({
             state.head = action.payload;
         },
         mapData(state, action: PayloadAction<Edge[]>) {
-            let mappedRows: any[][] = [];
-            let mappedColumns: any[] = [];
+            let actionPayloadCopy = [...action.payload]
+            const sortedActionPayload = actionPayloadCopy.sort((a, b) =>
+                Number(a.target.split("_")[0]) - Number(b.target.split("_")[0]));
 
-            state.data.map((row: string[], rowIndex: number) => {
-                action.payload.map((edge: Edge) => {
-                  const sourceIndex = Number(edge.source.split("_")[0]);
-                  if(sourceIndex === rowIndex) {
-                      mappedColumns.push(row[sourceIndex]);
-                  }
-                });
+            let mappedRows: any = [];
+
+            state.data.map((row: string[]) => {
+                let mappedColumns: any = {};
+                sortedActionPayload.map((edge: Edge) => {
+                    const sourceIndex = Number(edge.source.split("_")[0]);
+                    const targetName = edge.target.split("_")[1];
+
+                    mappedColumns[targetName] = row[sourceIndex];
+                })
                 mappedRows.push(mappedColumns);
             })
-            state.data = mappedRows;
+
+            state.mappedData = mappedRows;
         },
         setAccountName(state, action: PayloadAction<string>) {
             state.accountName = action.payload;

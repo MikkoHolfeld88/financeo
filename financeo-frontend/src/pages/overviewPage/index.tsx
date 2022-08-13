@@ -28,7 +28,7 @@ import {
     changePickedAccounts,
     changeYear, resetCSVMapperState,
     resetCSVUploaderState, resetEdges,
-    setEdges, mapData, setHead, setAccountName
+    setEdges, mapData, setHead, setAccountName, ICSVUploaderProps
 } from "../../store";
 import moment from "moment";
 import {IAccountProps} from "../../components/account/Account";
@@ -116,15 +116,16 @@ const OverviewPage = () => {
     const [uploadedFilename, setUploadedFilename] = React.useState("");
     const [openMappingDialog, setOpenMappingDialog] = React.useState(false);
     const [cantUpload, setCantUpload] = React.useState(false);
+    const [uploadInitiated, setUploadInitiated] = React.useState(false);
     const uid = useSelector((state: RootState) => state.login.uid);
     const year = useSelector((state: RootState) => state.yearPicker.value);
     const month = useSelector((state: RootState) => state.monthPicker.value);
     const accounts = useSelector((state: RootState) => state.accounts.data);
     const selectedEdges = useSelector((state: RootState) => state.CSVMapper.edges);
     const accountName = useSelector((state: RootState) => state.CSVUploader.accountName);
+    const mappedData = useSelector((state: RootState) => state.CSVUploader.mappedData);
     const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
     const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
-    const CSVMapperState: ICSVMapperProps = useSelector((state: RootState) => state.CSVMapper);
 
     useEffect(() => {
         if (loading) return;
@@ -140,17 +141,28 @@ const OverviewPage = () => {
     }, [pickedAccounts]);
 
     const onUploadClick = () => {
-        console.log(accountName);
-        if(accountName === "") {
+        if(accountName === " " || accountName === ""){
             setCantUpload(true);
         } else {
             dispatch(setHead(createHead()));
             dispatch(mapData(selectedEdges));
-            // save Data to Database
-            closeMappingDialog()
+            // Save to dataBase
+            dispatch(resetCSVMapperState());
+            setUploadInitiated(true);
+            setOpenMappingDialog(false);
+            setUploadedFilename("CSV");
         }
-
     }
+
+    useEffect(() => {
+        if (uploadInitiated) {
+            addAllData("mappedData", uid, {mappedData});
+            dispatch(resetCSVUploaderState());
+            setUploadInitiated(false);
+        }
+    }, [mappedData]);
+
+
 
     const closeMappingDialog = () => {
         dispatch(resetCSVUploaderState());
