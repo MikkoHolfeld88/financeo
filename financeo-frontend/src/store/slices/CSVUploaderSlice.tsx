@@ -56,10 +56,13 @@ export const CSVUploaderSlice = createSlice({
                     const sourceIndex = Number(edge.source.split("_")[0]);
                     const targetName = edge.target.split("_")[1];
 
-                    mappedColumns[targetName] = row[sourceIndex];
+                    if (row[sourceIndex] !== undefined) {
+                        mappedColumns[targetName] = row[sourceIndex];
+                    }
                 })
+
                 mappedRows.push(mappedColumns);
-            })
+            });
 
             state.mappedData = mappedRows;
         },

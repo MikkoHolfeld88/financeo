@@ -32,7 +32,7 @@ import {
 } from "../../store";
 import moment from "moment";
 import {IAccountProps} from "../../components/account/Account";
-import {addAllData} from "../../services/databaseService/databaseService";
+import {addAllData, addData} from "../../services/databaseService/databaseService";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import theme from "../../theme";
 import "./style.scss"
@@ -116,7 +116,6 @@ const OverviewPage = () => {
     const [uploadedFilename, setUploadedFilename] = React.useState("");
     const [openMappingDialog, setOpenMappingDialog] = React.useState(false);
     const [cantUpload, setCantUpload] = React.useState(false);
-    const [uploadInitiated, setUploadInitiated] = React.useState(false);
     const uid = useSelector((state: RootState) => state.login.uid);
     const year = useSelector((state: RootState) => state.yearPicker.value);
     const month = useSelector((state: RootState) => state.monthPicker.value);
@@ -140,29 +139,27 @@ const OverviewPage = () => {
         }
     }, [pickedAccounts]);
 
+    useEffect(() => {
+        if (mappedData.length > 0) {
+            addData("accountData", uid, {
+                account: accountName,
+                data: mappedData,
+                created: moment().toISOString()
+            });
+        };
+    }, [mappedData])
+
     const onUploadClick = () => {
         if(accountName === " " || accountName === ""){
             setCantUpload(true);
         } else {
             dispatch(setHead(createHead()));
             dispatch(mapData(selectedEdges));
-            // Save to dataBase
             dispatch(resetCSVMapperState());
-            setUploadInitiated(true);
             setOpenMappingDialog(false);
             setUploadedFilename("CSV");
         }
     }
-
-    useEffect(() => {
-        if (uploadInitiated) {
-            addAllData("mappedData", uid, {mappedData});
-            dispatch(resetCSVUploaderState());
-            setUploadInitiated(false);
-        }
-    }, [mappedData]);
-
-
 
     const closeMappingDialog = () => {
         dispatch(resetCSVUploaderState());
