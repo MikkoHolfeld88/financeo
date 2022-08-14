@@ -1,5 +1,8 @@
 import {db} from '../firebaseService/firebaseService';
 import {addDoc, collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import {FirebaseDatabaseError} from "firebase-admin/lib/utils/error";
+import { FirebaseError } from 'firebase/app';
+
 
 
 // the database is structured as follows:
@@ -25,9 +28,15 @@ async function getData(path: string, userUid: string) {
 
 export async function updateData(path: string, userUid: string, updateData: any) {
     try {
-        await updateDoc(doc(db, path, userUid), updateData);
-    } catch (error) {
-        console.log(error)
+        const docRef = doc(db, path, userUid);
+        await updateDoc(docRef, updateData);
+    } catch (error: unknown) {
+        if (error instanceof FirebaseError){
+            // could not find
+            addAllData(path, userUid, updateData)
+        } else {
+            console.log(error);
+        }
     }
 }
 

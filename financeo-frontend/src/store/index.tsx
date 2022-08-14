@@ -19,7 +19,6 @@ import {
     resetCSVUploaderState,
     ICSVUploaderProps
 } from "./slices/CSVUploaderSlice";
-import {setAccountData, resetAccountData} from "./slices/accountDataSlice";
 import {
     setNodes,
     addEdge,
@@ -29,6 +28,7 @@ import {
     resetClickedNodePrev,
     resetCSVMapperState
 } from "./slices/CSVMapperSlice";
+import {setAccountingData, resetAccountingData} from "./slices/accountingDataSlice";
 import StateLoader from "./StateLoader";
 
 
@@ -41,8 +41,8 @@ export {
     changePickedAccounts, removePickedAccount, adjustPickedAccounts, resetAccountPicker,
     updatePanel, resetSubmenuAccounting,
     addCSVData, setCSVUploadError, setHead, mapData, setAccountName, resetCSVUploaderState,
-    setAccountData, resetAccountData,
-    setNodes, addEdge, setEdges, resetEdges, setClickedNode, resetClickedNodePrev, resetCSVMapperState
+    setNodes, addEdge, setEdges, resetEdges, setClickedNode, resetClickedNodePrev, resetCSVMapperState,
+    setAccountingData, resetAccountingData
 }
 
 export type {

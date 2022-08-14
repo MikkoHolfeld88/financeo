@@ -16,11 +16,13 @@ export const yearPickerSlice = createSlice({
     initialState,
     reducers: {
         changeYear: (state, action: PayloadAction<number>) => {
-            state.value = action.payload
+            state.status = 'pending';
+            state.value = action.payload;
+            state.status = 'loaded';
         },
         resetYearPicker: (state) => {
             state.value = moment().year();
-            state.status = 'loaded';
+            state.status = 'idle';
         }
     },
 });

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch} from "../../store/store";
 import {
-    resetAccountData,
+    resetAccountingData,
     resetAccountPicker,
     resetAccounts, resetCSVMapperState, resetCSVUploaderState,
     resetLogin,
@@ -14,7 +14,7 @@ const SignOutPage = () => {
     const dispatch = useAppDispatch();
 
     const resetStore = () => {
-        dispatch(resetAccountData())
+        dispatch(resetAccountingData())
         dispatch(resetAccountPicker())
         dispatch(resetAccounts());
         dispatch(resetCSVMapperState())

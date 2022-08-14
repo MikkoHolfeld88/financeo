@@ -7,7 +7,7 @@ import accountsReducer from "./slices/accountsSlice";
 import accountPickerReducer from "./slices/accountPickerSlice";
 import submenuAccountingReducer from "./slices/submenuAccountingSlice";
 import CSVUploaderReducer from "./slices/CSVUploaderSlice";
-import accountDataReducer from "./slices/accountDataSlice";
+import accountingDataReducer from "./slices/accountingDataSlice"
 import CSVMapperReducer from "./slices/CSVMapperSlice";
 
 const store = configureStore({
@@ -20,7 +20,8 @@ const store = configureStore({
         submenuAccounting: submenuAccountingReducer,
         CSVUploader: CSVUploaderReducer,
         CSVMapper: CSVMapperReducer,
-        accountData: accountDataReducer,
+        // accountData: accountDataReducer,
+        accountingData: accountingDataReducer
     }
 })
 

@@ -2,14 +2,14 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 interface LoginState {
     errorMessage?: string;
-    status: 'idle' | 'pending' | 'loaded' | 'failed';
     uid: string | 'none';
+    status: 'idle' | 'pending' | 'loaded' | 'failed';
 }
 
 const initialState: LoginState = {
     errorMessage: " ",
-    status: 'idle',
-    uid: 'none'
+    uid: 'none',
+    status: 'idle'
 }
 
 export const loginSlice = createSlice({

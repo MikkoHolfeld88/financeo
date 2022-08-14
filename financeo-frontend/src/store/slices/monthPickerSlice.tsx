@@ -16,11 +16,13 @@ export const monthPickerSlice = createSlice({
     initialState,
     reducers: {
         changeMonth: (state, action: PayloadAction<number>) => {
-            state.value = action.payload
+            state.status = 'pending';
+            state.value = action.payload;
+            state.status = 'loaded';
         },
         resetMonthPicker: (state) => {
             state.value = moment().month() + 1;
-            state.status = 'loaded';
+            state.status = 'idle';
         }
     },
 });

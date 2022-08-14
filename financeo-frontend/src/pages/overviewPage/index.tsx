@@ -32,7 +32,7 @@ import {
 } from "../../store";
 import moment from "moment";
 import {IAccountProps} from "../../components/account/Account";
-import {addAllData, addData} from "../../services/databaseService/databaseService";
+import {addAllData, addData, updateData} from "../../services/databaseService/databaseService";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import theme from "../../theme";
 import "./style.scss"
@@ -41,6 +41,7 @@ import CSVMapper, {createHead} from '../../components/overview/CSVMapper';
 import {useResize} from "../../hooks/useResize";
 import {ICSVMapperProps} from "../../store/slices/CSVMapperSlice";
 import Snackbar from "@mui/material/Snackbar";
+import {randomUUID} from "crypto";
 
 const selectStyle = {
     margin: "0px 0px 0px 0px",
@@ -96,14 +97,14 @@ const createAccountOptions = (accounts: IAccountProps[]): AccountOption[] => {
 }
 
 export type BasicAccountOption = {
-    value: any | undefined,
+    value: string,
     label: string | any,
 }
 
 const createBasicAccountOptions = (accounts: IAccountProps[]): BasicAccountOption[] => {
     return accounts.map((account, index) => {
         return {
-            value: account?.bank + " (" + (index + 1) + ")",
+            value: account.id,
             label: account?.bank
         }
     });
@@ -121,10 +122,11 @@ const OverviewPage = () => {
     const month = useSelector((state: RootState) => state.monthPicker.value);
     const accounts = useSelector((state: RootState) => state.accounts.data);
     const selectedEdges = useSelector((state: RootState) => state.CSVMapper.edges);
-    const accountName = useSelector((state: RootState) => state.CSVUploader.accountName);
+    const accountId = useSelector((state: RootState) => state.CSVUploader.accountId);
     const mappedData = useSelector((state: RootState) => state.CSVUploader.mappedData);
     const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
     const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
+    const accountingData = useSelector((state: RootState) => state.accountingData.value);
 
     useEffect(() => {
         if (loading) return;
@@ -139,18 +141,23 @@ const OverviewPage = () => {
         }
     }, [pickedAccounts]);
 
-    useEffect(() => {
+    useEffect(() => { // save mappedData to database on notice
         if (mappedData.length > 0) {
-            addData("accountData", uid, {
-                account: accountName,
-                data: mappedData,
-                created: moment().toISOString()
-            });
+
+            const mappedAccountingData = {[accountId]: {
+                    data: mappedData,
+                    created: moment().toISOString(),
+                    accountName: accounts.find((account: IAccountProps) => account.id === accountId)?.bank
+                }
+            };
+
+            updateData("accountingData", uid, {mappedAccountingData});
+            dispatch(resetCSVUploaderState())
         };
     }, [mappedData])
 
     const onUploadClick = () => {
-        if(accountName === " " || accountName === ""){
+        if(accountId === " " || accountId === ""){ // did not chose account
             setCantUpload(true);
         } else {
             dispatch(setHead(createHead()));
@@ -290,7 +297,7 @@ const OverviewPage = () => {
                     label="Account Name"
                     options={createBasicAccountOptions(accounts)}
                     setState={setAccountName}
-                    state={accountName}
+                    state={accountId}
                     error={{
                         active: cantUpload,
                         message: "Please select an account."

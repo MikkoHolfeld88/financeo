@@ -6,6 +6,7 @@ interface ICSVMapperProps {
     edges: Edge[];
     clickedNode?: Node;
     clickNodePrev?: Node;
+    status: 'idle' | 'pending' | 'loaded' | 'failed';
 }
 
 interface CSVMapperState {
@@ -13,13 +14,15 @@ interface CSVMapperState {
     edges: Edge[];
     clickedNode: Node;
     clickedNodePrev: Node;
+    status: 'idle' | 'pending' | 'loaded' | 'failed';
 }
 
 const initialState: CSVMapperState = {
     nodes: [],
     edges: [],
     clickedNode: {id: "", position: {x: -1, y: -1}, data: {}, type: ""},
-    clickedNodePrev: {id: "", position: {x: -1, y: -1}, data: {}, type: ""}
+    clickedNodePrev: {id: "", position: {x: -1, y: -1}, data: {}, type: ""},
+    status: 'idle'
 }
 
 export const CSVMapperSlice = createSlice({
@@ -36,6 +39,7 @@ export const CSVMapperSlice = createSlice({
             state.edges = [];
         },
         setEdges: (state, action: PayloadAction<Edge[]>) => {
+            state.status = 'pending';
             const newEdge = action.payload[action.payload.length - 1];
 
             const updateIndexTarget = state.edges.findIndex((edge: Edge) => edge.target === newEdge.target);
@@ -57,6 +61,7 @@ export const CSVMapperSlice = createSlice({
             }
 
             state.edges.filter(edge => edge); // remove empty edges
+            state.status = 'loaded';
         },
         setClickedNode(state, action: PayloadAction<Node>) {
             state.clickedNodePrev = state.clickedNode;
@@ -71,6 +76,7 @@ export const CSVMapperSlice = createSlice({
             state.edges = [];
             state.clickedNode = {id: "", position: {x: -1, y: -1}, data: {}};
             state.clickedNodePrev = {id: "", position: {x: -1, y: -1}, data: {}};
+            state.status = 'idle';
         },
     },
 });

@@ -6,7 +6,8 @@ interface ICSVUploaderProps {
     mappedData: any;
     errors: any[];
     meta: any[];
-    accountName?: string;
+    accountId: string;
+    status: 'idle' | 'pending' | 'loaded' | 'failed';
 }
 
 interface CSVUploaderState {
@@ -15,7 +16,8 @@ interface CSVUploaderState {
     mappedData: any;
     errors: any[];
     meta: any[];
-    accountName?: string; // account the data belong to
+    accountId: string; // account the data belong to
+    status: 'idle' | 'pending' | 'loaded' | 'failed'
 }
 
 const initialState: CSVUploaderState = {
@@ -24,7 +26,8 @@ const initialState: CSVUploaderState = {
     mappedData: [],
     errors: [],
     meta: [],
-    accountName: " "
+    accountId: " ",
+    status: 'idle',
 }
 
 export const CSVUploaderSlice = createSlice({
@@ -34,6 +37,7 @@ export const CSVUploaderSlice = createSlice({
         addCSVData: (state, action: PayloadAction<string[][]>) => {
             state.head = action.payload[0];
             state.data = action.payload.filter((value: string[], index: number) => 0 !== index);
+            state.status = 'pending';
         },
         setCSVUploadError: (state, action: PayloadAction<ICSVUploaderProps>) => {
             const {errors, meta} = action.payload;
@@ -42,6 +46,7 @@ export const CSVUploaderSlice = createSlice({
         },
         setHead: (state, action: PayloadAction<string[]>) => {
             state.head = action.payload;
+            state.status = 'pending';
         },
         mapData(state, action: PayloadAction<Edge[]>) {
             let actionPayloadCopy = [...action.payload]
@@ -65,16 +70,18 @@ export const CSVUploaderSlice = createSlice({
             });
 
             state.mappedData = mappedRows;
+            state.status = 'loaded';
         },
         setAccountName(state, action: PayloadAction<string>) {
-            state.accountName = action.payload;
+            state.accountId = action.payload;
         },
         resetCSVUploaderState: (state) => {
             state.head = [];
             state.data = [];
             state.errors = [];
             state.meta = [];
-            state.accountName = " ";
+            state.mappedData = [];
+            state.accountId = " ";
         }
     },
 });
