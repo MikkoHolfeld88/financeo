@@ -1,10 +1,12 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
+import moment from "moment";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {auth} from "../../services/firebaseService/firebaseService"
-import Container from "@mui/material/Container";
+import {addAllData, updateData} from "../../services/databaseService/databaseService";
 import {
     Alert,
     Button,
+    Container,
     Dialog,
     DialogActions,
     DialogContent,
@@ -17,98 +19,45 @@ import {
     MenuItem,
     OutlinedInput,
     Select,
-    Tooltip
+    Snackbar,
+    Tooltip,
+    useMediaQuery
 } from "@mui/material";
-import {Option, PaperComponent, SelectFinanceo} from "../../components/utils"
+import {PaperComponent, SelectFinanceo} from "../../components/utils"
 import {useSelector} from "react-redux";
-import {RootState, useAppDispatch} from "../../store/store";
 import {
     adjustPickedAccounts,
     changeMonth,
     changePickedAccounts,
-    changeYear, resetCSVMapperState,
-    resetCSVUploaderState, resetEdges,
-    setEdges, mapData, setHead, setAccountName, ICSVUploaderProps, setAccountingData
+    changeYear,
+    mapData,
+    resetCSVMapperState,
+    resetCSVUploaderState,
+    resetEdges,
+    RootState,
+    setAccountingData,
+    setAccountName,
+    setHead,
+    useAppDispatch
 } from "../../store";
-import moment from "moment";
 import {IAccountProps} from "../../components/account/Account";
-import {addAllData, addData, updateData} from "../../services/databaseService/databaseService";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import theme from "../../theme";
-import "./style.scss"
 import CSVUploader from "../../components/overview/CSVUploader";
 import CSVMapper, {createHead} from '../../components/overview/CSVMapper';
-import {useResize} from "../../hooks/useResize";
-import {ICSVMapperProps} from "../../store/slices/CSVMapperSlice";
-import Snackbar from "@mui/material/Snackbar";
-import {randomUUID} from "crypto";
+import theme from "../../theme";
+import "./style.scss"
+import {
+    calculateYears,
+    createAccountOptions,
+    createBasicAccountOptions,
+    createYearOptions,
+    months
+} from "../../components/overview/SelectOptionCreation";
 
 const selectStyle = {
     margin: "0px 0px 0px 0px",
 }
 
-const months: Option[] = [
-    {value: 1, label: "January"},
-    {value: 2, label: "February"},
-    {value: 3, label: "March"},
-    {value: 4, label: "April"},
-    {value: 5, label: "May"},
-    {value: 6, label: "June"},
-    {value: 7, label: "July"},
-    {value: 8, label: "August"},
-    {value: 9, label: "September"},
-    {value: 10, label: "October"},
-    {value: 11, label: "November"},
-    {value: 12, label: "December"},
-];
 
-const calculateYears = (pastYears: number = 10): number[] => {
-    const latestYear = moment().year();
-    const firstYear = moment().year() - pastYears;
-
-    const range = (start: number, end: number): number[] => {
-        for (var i = start, list = []; i <= end; list.push(i), i++) ;
-        return list.reverse();
-    };
-
-    return range(firstYear, latestYear);
-}
-
-const createYearOptions = (years: number[]): Option[] => {
-    return years.map((year) => {
-        return ({value: year, label: year.toString()})
-    })
-}
-
-export type AccountOption = {
-    value: any | undefined,
-    label: string | any,
-    id: string | any,
-}
-
-const createAccountOptions = (accounts: IAccountProps[]): AccountOption[] => {
-    return accounts.map((account, index) => {
-        return {
-            value: account?.bank + " (" + (index + 1) + ")",
-            label: account?.bank,
-            id: account?.id
-        }
-    });
-}
-
-export type BasicAccountOption = {
-    value: string,
-    label: string | any,
-}
-
-const createBasicAccountOptions = (accounts: IAccountProps[]): BasicAccountOption[] => {
-    return accounts.map((account, index) => {
-        return {
-            value: account.id,
-            label: account?.bank
-        }
-    });
-}
 
 const OverviewPage = () => {
     const dispatch = useAppDispatch();
@@ -143,12 +92,14 @@ const OverviewPage = () => {
 
     useEffect(() => { // save mappedData to database on notice
         if (mappedData.length > 0) {
-            const newAccountingData = {[accountId]: {
+            const newAccountingData = {
+                [accountId]: {
                     data: mappedData,
                     created: moment().toISOString(),
                     accountName: accounts.find((account: IAccountProps) => account.id === accountId)?.bank
                 }
             };
+            //TODO: check if accountId is in accountingData and if so, update it, otherwise add it
 
             // save accountingData to database, if exisiting, update otherwise add
             updateData("accountingData", uid,
@@ -158,11 +109,12 @@ const OverviewPage = () => {
             // adapt new database info to state
             dispatch(setAccountingData({...accountingData, ...newAccountingData}))
             dispatch(resetCSVUploaderState())
-        };
+        }
+        ;
     }, [mappedData])
 
     const onUploadClick = () => {
-        if(accountId === " " || accountId === ""){ // did not chose account
+        if (accountId === " " || accountId === "") { // did not chose account
             setCantUpload(true);
         } else {
             dispatch(setHead(createHead()));
@@ -180,7 +132,7 @@ const OverviewPage = () => {
         setUploadedFilename("CSV");
     }
 
-    function onResetEdges(){
+    function onResetEdges() {
         dispatch(resetEdges());
     }
 
@@ -277,11 +229,13 @@ const OverviewPage = () => {
                         <Grid item>
                             <DialogContentText>
                                 Connect
-                                <Tooltip className="pointer"  placement="bottom" title="Source-nodes represent column-names of incoming CSV data.">
+                                <Tooltip className="pointer" placement="bottom"
+                                         title="Source-nodes represent column-names of incoming CSV data.">
                                     <b> source-nodes </b>
                                 </Tooltip>
                                 to
-                                <Tooltip className="pointer" placement="bottom" title="Target-nodes represent the columns of the table to be completed.">
+                                <Tooltip className="pointer" placement="bottom"
+                                         title="Target-nodes represent the columns of the table to be completed.">
                                     <b> target-nodes </b>
                                 </Tooltip>
                                 to provide a correct datatransfer.
@@ -292,7 +246,8 @@ const OverviewPage = () => {
                         </Grid>
                     </Grid>
 
-                    <div style={{height: "500px", border: "solid 1px lightgrey", borderRadius: "4px", marginTop: "5px"}}>
+                    <div
+                        style={{height: "500px", border: "solid 1px lightgrey", borderRadius: "4px", marginTop: "5px"}}>
                         <CSVMapper/>
                     </div>
 
