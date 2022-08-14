@@ -28,7 +28,7 @@ import {
     resetClickedNodePrev,
     resetCSVMapperState
 } from "./slices/CSVMapperSlice";
-import {setAccountingData, resetAccountingData} from "./slices/accountingDataSlice";
+import {setAccountingData, resetAccountingData, AccountingDataValueType} from "./slices/accountingDataSlice";
 import StateLoader from "./StateLoader";
 
 
@@ -42,11 +42,12 @@ export {
     updatePanel, resetSubmenuAccounting,
     addCSVData, setCSVUploadError, setHead, mapData, setAccountName, resetCSVUploaderState,
     setNodes, addEdge, setEdges, resetEdges, setClickedNode, resetClickedNodePrev, resetCSVMapperState,
-    setAccountingData, resetAccountingData
+    setAccountingData, resetAccountingData,
 }
 
 export type {
     AppDispatch,
     RootState,
-    ICSVUploaderProps
+    ICSVUploaderProps,
+    AccountingDataValueType
 }

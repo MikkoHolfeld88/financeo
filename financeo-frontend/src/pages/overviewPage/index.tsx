@@ -28,7 +28,7 @@ import {
     changePickedAccounts,
     changeYear, resetCSVMapperState,
     resetCSVUploaderState, resetEdges,
-    setEdges, mapData, setHead, setAccountName, ICSVUploaderProps
+    setEdges, mapData, setHead, setAccountName, ICSVUploaderProps, setAccountingData
 } from "../../store";
 import moment from "moment";
 import {IAccountProps} from "../../components/account/Account";
@@ -143,15 +143,20 @@ const OverviewPage = () => {
 
     useEffect(() => { // save mappedData to database on notice
         if (mappedData.length > 0) {
-
-            const mappedAccountingData = {[accountId]: {
+            const newAccountingData = {[accountId]: {
                     data: mappedData,
                     created: moment().toISOString(),
                     accountName: accounts.find((account: IAccountProps) => account.id === accountId)?.bank
                 }
             };
 
-            updateData("accountingData", uid, {mappedAccountingData});
+            // save accountingData to database, if exisiting, update otherwise add
+            updateData("accountingData", uid,
+                accountingData
+                    ? {...accountingData, ...newAccountingData}
+                    : {...newAccountingData});
+            // adapt new database info to state
+            dispatch(setAccountingData({...accountingData, ...newAccountingData}))
             dispatch(resetCSVUploaderState())
         };
     }, [mappedData])

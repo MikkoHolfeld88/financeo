@@ -4,8 +4,9 @@ import {IAccountProps} from "../../components/account/Account";
 type AccountingDataValueType = {
     [key: string]: {
         data: any[],
-        created: string
-    }
+        created: string,
+        accountName?: string
+    },
 }
 
 interface AccountingDataState {
@@ -35,4 +36,5 @@ export const accountingDataSlice = createSlice({
 });
 
 export const {setAccountingData, resetAccountingData} = accountingDataSlice.actions;
+export type {AccountingDataValueType};
 export default accountingDataSlice.reducer;

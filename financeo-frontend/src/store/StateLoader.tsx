@@ -7,7 +7,7 @@ import getData from "../services/databaseService/databaseService";
 import {addAccounts} from "./slices/accountsSlice";
 import {changePickedAccounts} from "./slices/accountPickerSlice";
 import {setStatus, setUid} from "./slices/loginSlice";
-import {setAccountingData} from "./slices/accountingDataSlice";
+import {AccountingDataValueType, setAccountingData} from "./slices/accountingDataSlice";
 
 export default function StateLoader(){
     const dispatch = useAppDispatch();
@@ -51,8 +51,9 @@ export default function StateLoader(){
     function loadAccountingData(){
         if(accountsStatus === 'idle'){
             getData('accountingData', uid)
-                .then((documentData) => {
-                    dispatch(setAccountingData(documentData?.data));
+                .then((documentData: AccountingDataValueType | any) => {
+                    const { uid, ...accountingData } = documentData;
+                    dispatch(setAccountingData(accountingData));
                 })
                 .catch((error: any) => {
                     process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
