@@ -11,6 +11,12 @@ const initialState: AccountPickerState = {
     status: 'idle'
 }
 
+interface IAccountPickerValueProps {
+    name: string,
+    label: string,
+    id: string
+}
+
 export const accountPickerSlice = createSlice({
     name: 'accountPicker',
     initialState,

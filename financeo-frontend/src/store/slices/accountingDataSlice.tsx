@@ -3,10 +3,18 @@ import {IAccountProps} from "../../components/account/Account";
 
 type AccountingDataValueType = {
     [key: string]: {
-        data: any[],
-        created: string,
+        data: AccountingData[],
+        created?: string,
         accountName?: string
     },
+}
+
+interface AccountingData {
+    usage: string,
+    type: string,
+    amount: string,
+    date: string,
+    receiver: string
 }
 
 interface AccountingDataState {

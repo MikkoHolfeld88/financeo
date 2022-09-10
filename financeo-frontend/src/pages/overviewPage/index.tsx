@@ -26,6 +26,7 @@ import {
 import {PaperComponent, SelectFinanceo} from "../../components/utils"
 import {useSelector} from "react-redux";
 import {
+    AccountingDataValueType,
     adjustPickedAccounts,
     changeMonth,
     changePickedAccounts,
@@ -52,11 +53,11 @@ import {
     createYearOptions,
     months
 } from "../../components/overview/SelectOptionCreation";
+import AccountingDataTable from "../../components/overview/AccountingDataTable";
 
 const selectStyle = {
     margin: "0px 0px 0px 0px",
 }
-
 
 
 const OverviewPage = () => {
@@ -90,28 +91,33 @@ const OverviewPage = () => {
         }
     }, [pickedAccounts]);
 
-    useEffect(() => { // save mappedData to database on notice
+    useEffect(() => {
         if (mappedData.length > 0) {
-            const newAccountingData = {
-                [accountId]: {
-                    data: mappedData,
-                    created: moment().toISOString(),
-                    accountName: accounts.find((account: IAccountProps) => account.id === accountId)?.bank
-                }
-            };
-            //TODO: check if accountId is in accountingData and if so, update it, otherwise add it
+            const newAccountingData: AccountingDataValueType = createNewAccountinData();
 
-            // save accountingData to database, if exisiting, update otherwise add
-            updateData("accountingData", uid,
-                accountingData
-                    ? {...accountingData, ...newAccountingData}
-                    : {...newAccountingData});
-            // adapt new database info to state
+            updateData(
+                "accountingData", uid,
+                accountingData ?
+                    {...accountingData, ...newAccountingData} :
+                    {...newAccountingData});
             dispatch(setAccountingData({...accountingData, ...newAccountingData}))
             dispatch(resetCSVUploaderState())
         }
         ;
     }, [mappedData])
+
+    function createNewAccountinData(): AccountingDataValueType   {
+        return  {
+            [accountId]: {
+                data: mappedData,
+                created: moment().toISOString(),
+                accountName: getAccountName()
+            }};
+    }
+
+    function getAccountName(): string | any {
+        return accounts.find((account: IAccountProps) => account.id === accountId)?.bank;
+    }
 
     const onUploadClick = () => {
         if (accountId === " " || accountId === "") { // did not chose account
@@ -211,6 +217,8 @@ const OverviewPage = () => {
             </Container>
 
             <Divider/>
+
+            <AccountingDataTable />
 
             <Dialog
                 maxWidth="md"
