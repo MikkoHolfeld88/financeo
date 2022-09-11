@@ -11,12 +11,6 @@ const initialState: AccountPickerState = {
     status: 'idle'
 }
 
-interface IAccountPickerValueProps {
-    name: string,
-    label: string,
-    id: string
-}
-
 export const accountPickerSlice = createSlice({
     name: 'accountPicker',
     initialState,
@@ -27,7 +21,7 @@ export const accountPickerSlice = createSlice({
         },
         removePickedAccount: (state, action) => {
             if(typeof state.value === 'object'){
-                state.value.map((pickedAccount, index) => {
+                state.value.forEach((pickedAccount, index) => {
                     if(pickedAccount.includes(action.payload)){
                         typeof state.value === 'object' && state.value.splice(index, 1);
                     }
@@ -36,9 +30,9 @@ export const accountPickerSlice = createSlice({
         },
         adjustPickedAccounts: (state, action: PayloadAction<{accounts: IAccountProps[]}>) => {
             // compares pickedAccounts with allAccounts and removes the ones that are not in allAccounts
-            action.payload.accounts.map((account) => {
+            action.payload.accounts.forEach((account) => {
                 if(typeof state.value === 'object'){
-                    state.value.map((pickedAccount, index) => {
+                    state.value.forEach((pickedAccount, index) => {
                         if(!pickedAccount.includes(account.id)){
                             typeof state.value === 'object' && state.value.splice(index, 1);
                         }

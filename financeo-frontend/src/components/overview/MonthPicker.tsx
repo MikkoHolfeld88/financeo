@@ -1,6 +1,6 @@
 import {SelectFinanceo} from "../utils";
-import {calculateYears, createYearOptions, months} from "./SelectOptionCreation";
-import {changeMonth, changeYear, RootState} from "../../store";
+import {months} from "./SelectOptionCreation";
+import {changeMonth, RootState} from "../../store";
 import {useSelector} from "react-redux";
 import React from "react";
 

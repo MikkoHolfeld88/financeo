@@ -1,13 +1,12 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {IAccountProps} from "../../store";
 
-interface submenuAccountingSlice {
+interface ISubmenuAccountingSliceProps {
     panel: number;
     panelName?: string;
     status: 'idle' | 'pending' | 'loaded' | 'failed';
 }
 
-const initialState: submenuAccountingSlice = {
+const initialState: ISubmenuAccountingSliceProps = {
     panel: 0,
     panelName: "accountsAndDepots",
     status: 'loaded'

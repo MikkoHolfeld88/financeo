@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {IAccountProps} from "../../store";
 
 type AccountingDataValueType = {
     [key: string]: {

@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Paper, {PaperProps} from '@mui/material/Paper';
 import Draggable from 'react-draggable';
@@ -35,7 +34,7 @@ export default function DialogFinanceo(props: IDialogFinanceoProps) {
         props.setOpen(false);
     };
 
-    function onConfirmClick(){
+    function onConfirmClick() {
         dispatch(props?.onConfirm(props?.onCofirmParameters));
         return true;
     }
@@ -47,12 +46,12 @@ export default function DialogFinanceo(props: IDialogFinanceoProps) {
                 onClose={handleClose}
                 PaperComponent={PaperComponentFinanceo}
                 aria-labelledby={props?.title ? props?.title : "financeo-draggable-dialog"}>
-                <DialogTitle style={{ cursor: 'move' }} id="financeo-draggable-dialog">
+                <DialogTitle style={{cursor: 'move'}} id="financeo-draggable-dialog">
                     {props?.title}
                 </DialogTitle>
                 <DialogContent>
 
-                        {props.children}
+                    {props.children}
 
                 </DialogContent>
                 <DialogActions>
