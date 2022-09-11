@@ -13,7 +13,7 @@ export interface IDialogFinanceoProps {
     setOpen: any,
     title?: string,
     children: any,
-    confirmButtonText?: any
+    confirmButtonText?: any,
     onConfirm?: any,
     onCofirmParameters?: any
 }

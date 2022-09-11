@@ -1,9 +1,24 @@
 import {FormControl, InputLabel, MenuItem, OutlinedInput, Select, useMediaQuery} from "@mui/material";
-import {changePickedAccounts, RootState, useAppDispatch} from "../../store";
-import {createAccountOptions} from "./SelectOptionCreation";
+import {changePickedAccounts, IAccountProps, RootState, useAppDispatch} from "../../store";
 import React from "react";
 import {useSelector} from "react-redux";
 import theme from "../../theme";
+
+export type AccountOption = {
+    value: any | undefined,
+    label: string | any,
+    id: string | any,
+}
+
+export const createAccountOptions = (accounts: IAccountProps[]): AccountOption[] => {
+    return accounts.map((account, index) => {
+        return {
+            value: account?.bank + " (" + (index + 1) + ")",
+            label: account?.bank,
+            id: account?.id
+        }
+    });
+}
 
 export default function AccountPicker() {
     const dispatch = useAppDispatch();
@@ -12,6 +27,10 @@ export default function AccountPicker() {
     const accounts = useSelector((state: RootState) => state.accounts.data);
 
     const formControlStyle = {width: mdScreenSize ? "200px" : "170px"};
+
+    function onChange(event: any){
+        dispatch(changePickedAccounts(event.target.value));
+    }
 
     return (
         <FormControl sx={formControlStyle}>
@@ -22,14 +41,14 @@ export default function AccountPicker() {
                 id="Accounts and Depots Picker ID"
                 multiple
                 value={pickedAccounts ? pickedAccounts : []}
-                onChange={(event) => dispatch(changePickedAccounts(event.target.value))}
+                onChange={(event) => onChange(event)}
                 input={<OutlinedInput label="Accounts/Depots"/>}>
                 {
-                    accounts && createAccountOptions(accounts).map((accountOptions, index) => (
+                    accounts && createAccountOptions(accounts).map((accountOption, index) => (
                         <MenuItem
-                            key={accountOptions.id}
-                            value={accountOptions.value + "[ID:" + accountOptions.id + "]"}>
-                            {accountOptions.label + " (" + (index + 1) + ")"}
+                            key={accountOption.id}
+                            value={accountOption.value + " [ID: " + accountOption.id + "]"}>
+                            {accountOption.label + " (" + (index + 1) + ")"}
                         </MenuItem>))
                 }
             </Select>

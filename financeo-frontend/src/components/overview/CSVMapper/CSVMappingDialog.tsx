@@ -1,5 +1,6 @@
 import {useSelector} from "react-redux";
 import {
+    IAccountProps,
     mapData,
     resetCSVMapperState,
     resetCSVUploaderState,
@@ -20,8 +21,21 @@ import {
     Tooltip
 } from "@mui/material";
 import {PaperComponentFinanceo, SelectFinanceo} from "../../utils";
-import {createBasicAccountOptions} from "../SelectOptionCreation";
 import CSVMapper, {createNodeHead} from "./CSVMapper";
+
+export type BasicAccountOption = {
+    value: string,
+    label: string | any,
+}
+
+export const createBasicAccountOptions = (accounts: IAccountProps[]): BasicAccountOption[] => {
+    return accounts.map((account, index) => {
+        return {
+            value: account.id,
+            label: account?.bank
+        }
+    });
+}
 
 interface ICSVMappingDialogProps {
     visible: boolean;
