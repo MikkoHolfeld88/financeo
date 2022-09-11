@@ -1,6 +1,6 @@
 import {Option} from "../utils";
 import moment from "moment";
-import {IAccountProps} from "../account/Account";
+import {IAccountProps} from "../../store";
 
 export type AccountOption = {
     value: any | undefined,

@@ -1,9 +1,19 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {v4 as uuidv4} from 'uuid';
-import {IAccountProps} from "../../components/account/Account";
 import moment from "moment/moment";
 
-export interface AccountsState {
+interface IAccountProps {
+    id?: any,
+    type: "Account" | "Depot" | null,
+    bank?: string,
+    iban?: string,
+    bic?: string
+    owner?: string,
+    created?: string,
+    index?: number
+}
+
+interface AccountsState {
     data: IAccountProps[];
     status: 'idle' | 'loaded' | 'pending' | 'failed';
 }
@@ -59,5 +69,5 @@ export const accountsSlice = createSlice({
 });
 
 export const {addAccounts, updateAccount, deleteAccount, addAccount, resetAccounts} = accountsSlice.actions;
-
+export type {IAccountProps, AccountsState};
 export default accountsSlice.reducer;

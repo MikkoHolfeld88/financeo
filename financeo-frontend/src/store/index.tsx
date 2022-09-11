@@ -2,7 +2,7 @@ import store, {useAppDispatch, AppDispatch, RootState} from "./store"
 import {setErrorMessage, setStatus, setUid, resetLogin} from "./slices/loginSlice";
 import {changeMonth, resetMonthPicker} from "./slices/monthPickerSlice";
 import {changeYear, resetYearPicker} from "./slices/yearPickerSlice";
-import {addAccounts, addAccount, updateAccount, deleteAccount, resetAccounts} from "./slices/accountsSlice";
+import {addAccounts, addAccount, updateAccount, deleteAccount, resetAccounts, IAccountProps} from "./slices/accountsSlice";
 import {
     changePickedAccounts,
     resetAccountPicker,
@@ -46,6 +46,7 @@ export {
 }
 
 export type {
+    IAccountProps,
     AppDispatch,
     RootState,
     ICSVUploaderProps,

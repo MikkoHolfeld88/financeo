@@ -20,7 +20,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Typography from "@mui/material/Typography";
-import {deleteAccount, removePickedAccount, RootState, updateAccount, useAppDispatch} from "../../store";
+import {deleteAccount, removePickedAccount, RootState, updateAccount, useAppDispatch, IAccountProps} from "../../store";
 import {useSelector} from "react-redux";
 import * as COLORS from "../../constants/colors"
 import "./index.scss";
@@ -34,16 +34,7 @@ import {addAllData} from "../../services/databaseService/databaseService";
 
 const ibantools = require('ibantools');
 
-export interface IAccountProps {
-    id?: any,
-    type: "Account" | "Depot" | null,
-    bank?: string,
-    iban?: string,
-    bic?: string
-    owner?: string,
-    created?: string,
-    index?: number
-}
+
 
 export default function Account(props: IAccountProps) {
     const theme = useTheme();

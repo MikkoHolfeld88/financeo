@@ -41,7 +41,7 @@ import {
     setHead,
     useAppDispatch
 } from "../../store";
-import {IAccountProps} from "../../components/account/Account";
+import {IAccountProps} from "../../store";
 import CSVUploader from "../../components/overview/CSVUploader";
 import CSVMapper, {createHead} from '../../components/overview/CSVMapper';
 import theme from "../../theme";

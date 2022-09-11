@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {IAccountProps} from "../../components/account/Account";
+import {IAccountProps} from "../../store";
 
 interface submenuAccountingSlice {
     panel: number;

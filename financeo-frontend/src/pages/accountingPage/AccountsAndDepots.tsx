@@ -4,7 +4,7 @@ import {Account, AccountHead} from "../../components/account";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {RootState} from "../../store/store";
-import {IAccountProps} from "../../components/account/Account";
+import {IAccountProps} from "../../store";
 import {useSelector} from "react-redux";
 import AddAccountButton from "../../components/account/AddAccountButton";
 import {addAllData} from "../../services/databaseService/databaseService";
