@@ -1,24 +1,24 @@
-import {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import ReactFlow, {
     Controls,
     Edge,
+    getBezierPath,
     Handle,
+    MiniMap,
     Node,
     Position,
     ReactFlowProvider,
     useEdgesState,
     useNodesState,
-    getBezierPath,
-    getMarkerEnd, MiniMap,
 } from 'react-flow-renderer';
 import {GetBezierPathParams} from "react-flow-renderer/dist/esm/components/Edges/BezierEdge";
 import {useSelector} from "react-redux";
-import {resetClickedNodePrev, RootState, setClickedNode, setEdges, useAppDispatch} from "../../store";
-import {SCHEME} from "../../constants/colors";
+import {resetClickedNodePrev, RootState, setClickedNode, setEdges, useAppDispatch} from "../../../store";
+import {SCHEME} from "../../../constants/colors";
 import {Card, CardContent, Typography} from "@mui/material";
-import "./index.scss"
+import "../index.scss"
 import useMediaQuery from "@mui/material/useMediaQuery";
-import theme from "../../theme";
+import theme from "../../../theme";
 
 const targetNodes: Node[] = [
     {
@@ -55,7 +55,7 @@ const targetNodes: Node[] = [
 
 let targetEdges: Edge[] = [];
 
-export function createHead(){
+export function createNodeHead(){
     return targetNodes.map((node: Node) => {
         return node.data.label;
     })
@@ -102,7 +102,7 @@ export function EdgeFinanceo({
     );
 }
 
-export function OutputFinanceo(node: any) {
+export function OutputFinanceoNode(node: any) {
     const dispatch = useAppDispatch();
     const clickedNode = useSelector((state: RootState) => state.CSVMapper.clickedNode);
     const prevClickedNode = useSelector((state: RootState) => state.CSVMapper.clickedNodePrev);
@@ -145,7 +145,7 @@ export function OutputFinanceo(node: any) {
     );
 }
 
-export function InputFinanceo(node: any) {
+export function InputFinanceoNode(node: any) {
     const clickedNode = useSelector((state: RootState) => state.CSVMapper.clickedNode);
     const clicked = clickedNode?.id === node.id;
 
@@ -176,7 +176,7 @@ export function Flow() {
     const lgScreenSize = useMediaQuery(theme.breakpoints.up('lg'));
     const [nodes, setNodes, onLocalNodesChange] = useNodesState([]);
     const [localEdges, setLocalEdges, onLocalEdgesChange] = useEdgesState([]);
-    const nodeTypes = useMemo(() => ({inputFinanceo: InputFinanceo, outputFinanceo: OutputFinanceo}), []);
+    const nodeTypes = useMemo(() => ({inputFinanceo: InputFinanceoNode, outputFinanceo: OutputFinanceoNode}), []);
     const edgeTypes = useMemo(() => ({edgeFinanceo: EdgeFinanceo}), []);
     const edges = useSelector((state: RootState) => state.CSVMapper.edges);
     const columns = useSelector((state: RootState) => state.CSVUploader.head);

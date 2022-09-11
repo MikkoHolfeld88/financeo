@@ -1,12 +1,12 @@
 import SelectFinanceo, {ISelectFinanceoProps, Option} from "./SelectFinanceo"
-import DialogFinanceo, {PaperComponent} from "./DialogFinanceo";
+import DialogFinanceo, {PaperComponentFinanceo} from "./DialogFinanceo";
 import TextEditFinanceo from "./TextEditFinanceo";
 
 export {
     SelectFinanceo,
     DialogFinanceo,
     TextEditFinanceo,
-    PaperComponent,
+    PaperComponentFinanceo,
 }
 
 export type {

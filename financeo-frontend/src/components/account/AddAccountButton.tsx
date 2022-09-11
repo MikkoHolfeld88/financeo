@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import {Button, FormControl, TextField, Tooltip} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import {addAccount, useAppDispatch} from "../../store";
-import {PaperComponent, SelectFinanceo} from "../utils";
+import {PaperComponentFinanceo, SelectFinanceo} from "../utils";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -72,7 +72,7 @@ export default function AddAccountButton() {
                 <Dialog
                     open={open}
                     onClose={() => setOpen(false)}
-                    PaperComponent={PaperComponent}
+                    PaperComponent={PaperComponentFinanceo}
                     aria-labelledby="Add new Account / Depot">
 
                     <DialogTitle style={{cursor: 'move'}} id="financeo-draggable-dialog">

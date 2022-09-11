@@ -2,10 +2,7 @@ import React, {useEffect} from 'react';
 import {useCSVReader,} from 'react-papaparse';
 import {Button, CircularProgress} from "@mui/material";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import {addCSVData, ICSVUploaderProps, useAppDispatch, setCSVUploadError, RootState} from "../../store";
-import moment from "moment/moment";
-import {addAllData, addData} from "../../services/databaseService/databaseService";
-import {useSelector} from "react-redux";
+import {addCSVData, ICSVUploaderProps, setCSVUploadError, useAppDispatch} from "../../store";
 
 interface ICSVUploaderComponentProps {
     setCsvUploaded?: any;

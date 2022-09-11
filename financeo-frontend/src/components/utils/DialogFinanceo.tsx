@@ -19,7 +19,7 @@ export interface IDialogFinanceoProps {
     onCofirmParameters?: any
 }
 
-export function PaperComponent(props: PaperProps) {
+export function PaperComponentFinanceo(props: PaperProps) {
     return (
         <Draggable
             handle="#financeo-draggable-dialog"
@@ -45,7 +45,7 @@ export default function DialogFinanceo(props: IDialogFinanceoProps) {
             <Dialog
                 open={props.open}
                 onClose={handleClose}
-                PaperComponent={PaperComponent}
+                PaperComponent={PaperComponentFinanceo}
                 aria-labelledby={props?.title ? props?.title : "financeo-draggable-dialog"}>
                 <DialogTitle style={{ cursor: 'move' }} id="financeo-draggable-dialog">
                     {props?.title}

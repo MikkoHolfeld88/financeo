@@ -29,7 +29,7 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import PersonIcon from '@mui/icons-material/Person';
 import {Spacer} from "../../pages/accountingPage/AccountsAndDepots";
-import {PaperComponent} from "../utils";
+import {PaperComponentFinanceo} from "../utils";
 import {addAllData} from "../../services/databaseService/databaseService";
 
 const ibantools = require('ibantools');
@@ -318,7 +318,7 @@ export default function Account(props: IAccountProps) {
                 <Dialog
                     open={deleteDialogOpen}
                     onClose={() => setDeleteDialogOpen(false)}
-                    PaperComponent={PaperComponent}
+                    PaperComponent={PaperComponentFinanceo}
                     aria-labelledby="Delete Account / Depot">
                     <DialogTitle id="Delete Account / Depot" style={{color: COLORS.SCHEME.warn}}>
                         {"Delete " + props.type}
