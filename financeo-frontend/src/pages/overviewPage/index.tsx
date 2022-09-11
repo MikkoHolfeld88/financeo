@@ -8,7 +8,7 @@ import {useSelector} from "react-redux";
 import {
     AccountingDataValueType,
     adjustPickedAccounts,
-    IAccountProps,
+    IAccountProps, removeDuplicatePickedAccounts,
     resetCSVUploaderState,
     RootState,
     setAccountingData,
@@ -49,6 +49,9 @@ const OverviewPage = () => {
         if (pickedAccountStatus !== "idle") {
             if (pickedAccounts.length > accounts.length) {
                 dispatch(adjustPickedAccounts({accounts}));
+            }
+            if(pickedAccounts.length != new Set(pickedAccounts).size) {
+                dispatch(removeDuplicatePickedAccounts());
             }
             addAllData("pickedAccounts", uid, {pickedAccounts})
         }

@@ -40,6 +40,9 @@ export const accountPickerSlice = createSlice({
                 }
             })
         },
+        removeDuplicatePickedAccounts: (state) => {
+            state.value = Array.from(new Set(state.value));
+        },
         resetAccountPicker: (state) => {
             state.value = [];
             state.status = 'idle';
@@ -47,5 +50,5 @@ export const accountPickerSlice = createSlice({
     },
 });
 
-export const {changePickedAccounts, resetAccountPicker, removePickedAccount, adjustPickedAccounts} = accountPickerSlice.actions;
+export const {changePickedAccounts, resetAccountPicker, removePickedAccount, adjustPickedAccounts, removeDuplicatePickedAccounts} = accountPickerSlice.actions;
 export default accountPickerSlice.reducer;

@@ -7,7 +7,8 @@ import {
     changePickedAccounts,
     resetAccountPicker,
     removePickedAccount,
-    adjustPickedAccounts
+    adjustPickedAccounts,
+    removeDuplicatePickedAccounts
 } from "./slices/accountPickerSlice";
 import {updatePanel, resetSubmenuAccounting} from "./slices/submenuAccountingSlice";
 import {
@@ -28,7 +29,7 @@ import {
     resetClickedNodePrev,
     resetCSVMapperState
 } from "./slices/CSVMapperSlice";
-import {setAccountingData, resetAccountingData, AccountingDataValueType} from "./slices/accountingDataSlice";
+import {setAccountingData, resetAccountingData, AccountingDataValueType, AccountingDataType} from "./slices/accountingDataSlice";
 import StateLoader from "./StateLoader";
 
 
@@ -38,7 +39,7 @@ export {
     changeMonth, resetMonthPicker,
     changeYear, resetYearPicker,
     addAccount, addAccounts, updateAccount, deleteAccount, resetAccounts,
-    changePickedAccounts, removePickedAccount, adjustPickedAccounts, resetAccountPicker,
+    changePickedAccounts, removePickedAccount, adjustPickedAccounts, resetAccountPicker, removeDuplicatePickedAccounts,
     updatePanel, resetSubmenuAccounting,
     addCSVData, setCSVUploadError, setHead, mapData, setAccountName, resetCSVUploaderState,
     setNodes, addEdge, setEdges, resetEdges, setClickedNode, resetClickedNodePrev, resetCSVMapperState,
@@ -50,5 +51,6 @@ export type {
     AppDispatch,
     RootState,
     ICSVUploaderProps,
-    AccountingDataValueType
+    AccountingDataValueType,
+    AccountingDataType
 }

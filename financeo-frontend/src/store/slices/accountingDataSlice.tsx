@@ -1,12 +1,14 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 type AccountingDataValueType = {
-    [key: string]: {
-        data: AccountingData[],
-        created?: string,
-        accountName?: string
-    },
-}
+    [key: string]: AccountingDataType
+};
+
+type AccountingDataType = {
+    data: AccountingData[],
+    created?: string,
+    accountName?: string
+};
 
 interface AccountingData {
     usage: string,
@@ -43,5 +45,5 @@ export const accountingDataSlice = createSlice({
 });
 
 export const {setAccountingData, resetAccountingData} = accountingDataSlice.actions;
-export type {AccountingDataValueType};
+export type {AccountingDataValueType, AccountingDataType};
 export default accountingDataSlice.reducer;
