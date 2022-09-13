@@ -8,7 +8,7 @@ import {
     resetAccountPicker,
     removePickedAccount,
     adjustPickedAccounts,
-    removeDuplicatePickedAccounts
+    IAccountPickerProps
 } from "./slices/accountPickerSlice";
 import {updatePanel, resetSubmenuAccounting} from "./slices/submenuAccountingSlice";
 import {
@@ -39,7 +39,7 @@ export {
     changeMonth, resetMonthPicker,
     changeYear, resetYearPicker,
     addAccount, addAccounts, updateAccount, deleteAccount, resetAccounts,
-    changePickedAccounts, removePickedAccount, adjustPickedAccounts, resetAccountPicker, removeDuplicatePickedAccounts,
+    changePickedAccounts, removePickedAccount, adjustPickedAccounts, resetAccountPicker,
     updatePanel, resetSubmenuAccounting,
     addCSVData, setCSVUploadError, setHead, mapData, setAccountName, resetCSVUploaderState,
     setNodes, addEdge, setEdges, resetEdges, setClickedNode, resetClickedNodePrev, resetCSVMapperState,
@@ -52,5 +52,6 @@ export type {
     RootState,
     ICSVUploaderProps,
     AccountingDataValueType,
-    AccountingDataType
+    AccountingDataType,
+    IAccountPickerProps
 }

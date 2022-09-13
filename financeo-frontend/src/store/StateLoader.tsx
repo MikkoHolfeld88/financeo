@@ -39,11 +39,11 @@ export default function StateLoader(){
         if(accountPickerStatus === 'idle'){
             getData('pickedAccounts', uid)
                 .then((documentData) => {
-                    dispatch(changePickedAccounts(documentData?.pickedAccounts));
+                    dispatch(changePickedAccounts({pickedAccounts: documentData?.pickedAccounts, ids: documentData?.ids}));
                 })
                 .catch((error: any) => {
                     process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
-                    dispatch(changePickedAccounts([]));
+                    dispatch(changePickedAccounts({pickedAccounts: [], ids: []}));
                 });
         }
     }

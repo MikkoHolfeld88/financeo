@@ -9,9 +9,16 @@ import * as COLOR from "../../constants/colors";
 
 export function AccountingDataTable() {
     const dispatch = useAppDispatch();
-    const pickedAccounts: string[] | string = useSelector((state: RootState) => state.accountPicker.value);
+    const pickedAccounts: string[] | string = useSelector((state: RootState) => state.accountPicker.pickedAccounts);
+    const pickedAccountIDs: string[] | string = useSelector((state: RootState) => state.accountPicker.ids);
     const accountingData: AccountingDataValueType[] = useSelector((state: RootState) => state.accountingData.value);
     const accounts = useSelector((state: RootState) => state.accounts.data);
+
+    function createAccountData(){
+        // typeof pickedAccounts === "object" && pickedAccountIDs.forEach((account) => {
+        //
+        // })
+    }
 
     return (
         <Container maxWidth="xl">

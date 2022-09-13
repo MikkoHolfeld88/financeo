@@ -23,13 +23,26 @@ export const createAccountOptions = (accounts: IAccountProps[]): AccountOption[]
 export default function AccountPicker() {
     const dispatch = useAppDispatch();
     const mdScreenSize = useMediaQuery(theme.breakpoints.up('md'));
-    const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
+    const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.pickedAccounts);
     const accounts = useSelector((state: RootState) => state.accounts.data);
 
     const formControlStyle = {width: mdScreenSize ? "200px" : "170px"};
 
     function onChange(event: any){
-        dispatch(changePickedAccounts(event.target.value));
+        const pickedAccounts: string[] = event.target.value;
+        let pickedAccountIds: string[] = [];
+
+        accounts.forEach((account) => {
+            pickedAccounts.forEach((pickedAccount) => {
+                if (pickedAccount.includes(account.id)) {
+                    pickedAccountIds.push(account.id);
+                }
+            })
+        })
+
+        dispatch(changePickedAccounts({
+            pickedAccounts: event.target.value,
+            ids: pickedAccountIds}));
     }
 
     return (

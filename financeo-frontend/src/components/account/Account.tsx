@@ -45,7 +45,7 @@ export default function Account(props: IAccountProps) {
     const dispatch = useAppDispatch();
     const uid = useSelector((state: RootState) => state.login.uid);
     const accounts = useSelector((state: RootState) => state.accounts.data);
-    const pickedAccounts = useSelector((state: RootState) => state.accountPicker.value);
+    const pickedAccounts = useSelector((state: RootState) => state.accountPicker.pickedAccounts);
     const pickedAccountStatus = useSelector((state: RootState) => state.accountPicker.status);
 
     const mobileScreenSize = !desktopScreenSize;

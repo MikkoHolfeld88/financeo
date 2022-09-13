@@ -8,7 +8,7 @@ import {useSelector} from "react-redux";
 import {
     AccountingDataValueType,
     adjustPickedAccounts,
-    IAccountProps, removeDuplicatePickedAccounts,
+    IAccountProps,
     resetCSVUploaderState,
     RootState,
     setAccountingData,
@@ -34,7 +34,8 @@ const OverviewPage = () => {
     const accounts = useSelector((state: RootState) => state.accounts.data);
     const accountId = useSelector((state: RootState) => state.CSVUploader.accountId);
     const mappedData = useSelector((state: RootState) => state.CSVUploader.mappedData);
-    const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.value);
+    const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.pickedAccounts);
+    const pickedAccountsIds: string | string[] = useSelector((state: RootState) => state.accountPicker.ids);
     const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
     const accountingData = useSelector((state: RootState) => state.accountingData.value);
 
@@ -50,10 +51,7 @@ const OverviewPage = () => {
             if (pickedAccounts.length > accounts.length) {
                 dispatch(adjustPickedAccounts({accounts}));
             }
-            if(pickedAccounts.length != new Set(pickedAccounts).size) {
-                dispatch(removeDuplicatePickedAccounts());
-            }
-            addAllData("pickedAccounts", uid, {pickedAccounts})
+            addAllData("pickedAccounts", uid, {pickedAccounts: pickedAccounts, ids: pickedAccountsIds})
         }
     }, [pickedAccounts]);
 
