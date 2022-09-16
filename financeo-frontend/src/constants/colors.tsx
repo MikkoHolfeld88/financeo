@@ -15,6 +15,9 @@ export const shiningRed = '#ff1616';
 export const black = '#000000FF';
 export const darkGreen = '#17483c';
 export const darkOcca = '#494941';
+export const account = '#7e60d9';
+export const depot = '#bb60d9';
+export const creditCard = '#60b9d9';
 
 export const SCHEME = {
     mainBackground: mountainMeadow,
@@ -29,5 +32,10 @@ export const SCHEME = {
 
     textBasic: black,
     textColor1: darkGreen,
-    textColor2: darkOcca
+    textColor2: darkOcca,
+
+    ACCOUNT_COLOR: "green",
+    DEPOT_COLOR: "red",
+    CREDIT_CARD_COLOR: "blue",
 }
+

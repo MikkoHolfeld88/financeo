@@ -16,7 +16,7 @@ import PersonIcon from '@mui/icons-material/Person';
 export default function AddAccountButton() {
     const dispatch = useAppDispatch();
     const [open, setOpen] = React.useState(false);
-    const [type, setType] = React.useState<"Account" | "Depot">("Account");
+    const [type, setType] = React.useState<"Account" | "Depot" | "Creditcard">("Account");
     const [bank, setBank] = React.useState("");
     const [iban, setIban] = React.useState("");
     const [bic, setBic] = React.useState("");
@@ -49,6 +49,7 @@ export default function AddAccountButton() {
     const typeOptions = [
         {value: "Account", label: "Account"},
         {value: "Depot", label: "Depot"},
+        {value: "Creditcard", label: "Credit Card"},
     ]
 
     const formFieldStyle = {

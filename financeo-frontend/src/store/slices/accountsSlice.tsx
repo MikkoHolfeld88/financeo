@@ -4,7 +4,7 @@ import moment from "moment/moment";
 
 interface IAccountProps {
     id?: any,
-    type: "Account" | "Depot" | null,
+    type: "Account" | "Depot" | "Creditcard" | null,
     bank?: string,
     iban?: string,
     bic?: string
@@ -69,5 +69,6 @@ export const accountsSlice = createSlice({
 });
 
 export const {addAccounts, updateAccount, deleteAccount, addAccount, resetAccounts} = accountsSlice.actions;
+
 export type {IAccountProps, AccountsState};
 export default accountsSlice.reducer;

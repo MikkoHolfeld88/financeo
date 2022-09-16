@@ -1,9 +1,6 @@
 import {db} from '../firebaseService/firebaseService';
-import {addDoc, collection, doc, getDoc, query, setDoc, updateDoc, where} from "firebase/firestore";
-import {FirebaseDatabaseError} from "firebase-admin/lib/utils/error";
-import { FirebaseError } from 'firebase/app';
-
-
+import {addDoc, collection, doc, getDoc, setDoc, updateDoc} from "firebase/firestore";
+import {FirebaseError} from 'firebase/app';
 
 // the database is structured as follows:
 // database/collection/documentID/document/fields

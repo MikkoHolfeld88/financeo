@@ -45,9 +45,13 @@
 }
 
 .accountType {
-  color: $textColor1;
+  color: $ACCOUNT_COLOR;
 }
 
 .depotType {
-  color: $textColor2;
+  color: $DEPOT_COLOR;
+}
+
+.creditCardType {
+  color: $CREDIT_CARD_COLOR;
 }

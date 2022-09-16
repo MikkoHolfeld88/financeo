@@ -67,6 +67,17 @@ export default function Account(props: IAccountProps) {
         function: ibantools.isValidBIC,
         message: "BIC is not valid!"
     }
+
+    const getAccountTypeStyle = () => {
+        if (props.type === "Account") {
+            return "accountType";
+        } else if (props.type === "Depot") {
+            return "depotType";
+        } else if (props.type === "Creditcard") {
+            return "creditCardType";
+        }
+    }
+
     const ibanDisplayFunction = (iban: string) => {
         return iban.replace(/[a-zA-Z0-9_]{4}(?=.)/g, '$& ')
     }
@@ -87,8 +98,7 @@ export default function Account(props: IAccountProps) {
         updateValue: {accounts}
     };
 
-    const handleChipClick = () => {
-    }
+    const handleChipClick = () => {}
 
     const marginLeft = desktopScreenSize ? "8px" : "0px"; // different margin on desktop and mobile
     const styleAccordionSummary = {
@@ -113,7 +123,7 @@ export default function Account(props: IAccountProps) {
                     <Grid item md={1} lg={1} xl={1}>
                         <b>
                             <TextEditFinanceo
-                                className={props.type === "Account" ? "accountType" : "depotType"}
+                                className={getAccountTypeStyle()}
                                 name="type"
                                 state={props.type}
                                 readonly={true}/>
@@ -122,7 +132,7 @@ export default function Account(props: IAccountProps) {
                     </Grid>
                     <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
-                            className={props.type === "Account" ? "accountType" : "depotType"}
+                            className={getAccountTypeStyle()}
                             name="bank"
                             state={props.bank}
                             setState={updateAccount}
@@ -132,7 +142,7 @@ export default function Account(props: IAccountProps) {
                     </Grid>
                     <Grid item md={3} lg={3} xl={3}>
                         <TextEditFinanceo
-                            className={props.type === "Account" ? "accountType" : "depotType"}
+                            className={getAccountTypeStyle()}
                             name="iban"
                             state={props.iban}
                             setState={updateAccount}
@@ -144,7 +154,7 @@ export default function Account(props: IAccountProps) {
                     </Grid>
                     <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
-                            className={props.type === "Account" ? "accountType" : "depotType"}
+                            className={getAccountTypeStyle()}
                             name="bic"
                             state={props.bic}
                             setState={updateAccount}
@@ -155,7 +165,7 @@ export default function Account(props: IAccountProps) {
                     </Grid>
                     <Grid item md={2} lg={2} xl={2}>
                         <TextEditFinanceo
-                            className={props.type === "Account" ? "accountType" : "depotType"}
+                            className={getAccountTypeStyle()}
                             name="owner"
                             state={props.owner}
                             setState={updateAccount}
@@ -166,7 +176,7 @@ export default function Account(props: IAccountProps) {
                     <Tooltip placement="left" title={"Delete account No. '" + index + "'"}>
                         <Grid item md={1} lg={1} xl={1} sx={{textAlign: "center"}}>
                             <IconButton onClick={() => setDeleteDialogOpen(true)} aria-label="open account view">
-                                <DeleteForeverIcon sx={{color: COLORS.SCHEME.error}}/>
+                                <DeleteForeverIcon sx={{color: COLORS.SCHEME.warn}}/>
                             </IconButton>
                         </Grid>
                     </Tooltip>
@@ -188,7 +198,7 @@ export default function Account(props: IAccountProps) {
                         <Tooltip placement="right" title={"Type: " + (props.type !== null && props.type)}>
                             <b>
                                 <TextEditFinanceo
-                                    className={props.type === "Account" ? "accountType" : "depotType"}
+                                    className={getAccountTypeStyle()}
                                     name="bank"
                                     state={props.bank}
                                     setState={updateAccount}
@@ -302,8 +312,8 @@ export default function Account(props: IAccountProps) {
                                 <Grid item xs={12} sm={12}>
                                     <Button
                                         onClick={() => setDeleteDialogOpen(true)}
-                                        variant="contained"
-                                        color="error"
+                                        variant="outlined"
+                                        color="warning"
                                         startIcon={<DeleteForeverIcon/>}
                                         fullWidth>
                                         <Typography>Delete</Typography>
@@ -320,7 +330,7 @@ export default function Account(props: IAccountProps) {
                     onClose={() => setDeleteDialogOpen(false)}
                     PaperComponent={PaperComponentFinanceo}
                     aria-labelledby="Delete Account / Depot">
-                    <DialogTitle id="Delete Account / Depot" style={{color: COLORS.SCHEME.warn}}>
+                    <DialogTitle id="Delete Account" style={{color: COLORS.SCHEME.warn}}>
                         {"Delete " + props.type}
                     </DialogTitle>
                     <DialogContent>
