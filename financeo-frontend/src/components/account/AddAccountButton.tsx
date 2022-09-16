@@ -60,7 +60,7 @@ export default function AddAccountButton() {
 
     return (
         <Box>
-            <Tooltip title={"Add new Account / Depot"} placement="right">
+            <Tooltip title={"Add new Account"} placement="right">
                 <Button
                     onClick={openAddAccountDialog}
                     variant="outlined"
@@ -74,10 +74,10 @@ export default function AddAccountButton() {
                     open={open}
                     onClose={() => setOpen(false)}
                     PaperComponent={PaperComponentFinanceo}
-                    aria-labelledby="Add new Account / Depot">
+                    aria-labelledby="Add new Account">
 
                     <DialogTitle style={{cursor: 'move'}} id="financeo-draggable-dialog">
-                        Add new Account / Depot
+                        Add new Account
                     </DialogTitle>
 
                     <DialogContent>

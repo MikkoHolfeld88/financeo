@@ -1,47 +1,24 @@
 import React, {useEffect} from "react";
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Button,
-    Chip,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Divider,
-    Grid,
-    Tooltip
-} from "@mui/material";
-import TextEditFinanceo from "../utils/TextEditFinanceo";
-import IconButton from "@mui/material/IconButton";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Typography from "@mui/material/Typography";
-import {deleteAccount, removePickedAccount, RootState, updateAccount, useAppDispatch, IAccountProps} from "../../store";
+import {deleteAccount, IAccountProps, removePickedAccount, RootState, useAppDispatch} from "../../store";
 import {useSelector} from "react-redux";
 import * as COLORS from "../../constants/colors"
 import "./index.scss";
-import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import FingerprintIcon from '@mui/icons-material/Fingerprint';
-import PersonIcon from '@mui/icons-material/Person';
-import {Spacer} from "../../pages/accountingPage/AccountsAndDepots";
 import {PaperComponentFinanceo} from "../utils";
 import {addAllData} from "../../services/databaseService/databaseService";
+import AccountDesktop from "./AccountDesktop";
+import AccountMobile from "./AccountMobile";
 
 const ibantools = require('ibantools');
 
 
-
 export default function Account(props: IAccountProps) {
     const theme = useTheme();
-    const [expanded, setExpanded] = React.useState<string | false>(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState<boolean>(false);
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
-    const miniScreenSize = useMediaQuery('(max-width:492px)');
     const dispatch = useAppDispatch();
     const uid = useSelector((state: RootState) => state.login.uid);
     const accounts = useSelector((state: RootState) => state.accounts.data);
@@ -68,19 +45,17 @@ export default function Account(props: IAccountProps) {
         message: "BIC is not valid!"
     }
 
-    const getAccountTypeStyle = () => {
-        if (props.type === "Account") {
-            return "accountType";
-        } else if (props.type === "Depot") {
+    function getAccountStyle() {
+        if(props.type === "Depot") {
             return "depotType";
-        } else if (props.type === "Creditcard") {
-            return "creditCardType";
         }
-    }
 
-    const ibanDisplayFunction = (iban: string) => {
-        return iban.replace(/[a-zA-Z0-9_]{4}(?=.)/g, '$& ')
-    }
+        if(props.type === "Creditcard") {
+            return "creditcardType";
+        }
+
+        return "accountType";
+    };
 
     const onDeleteAccount = () => {
         dispatch(deleteAccount(props.id));
@@ -88,23 +63,13 @@ export default function Account(props: IAccountProps) {
         setDeleteDialogOpen(false);
     }
 
-    const handlePanelChangeMobile = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-        setExpanded(isExpanded ? panel : false);
-    };
-
     const onSaveValues = {
         path: 'accountsAndDepots',
         uid: uid,
         updateValue: {accounts}
     };
 
-    const handleChipClick = () => {}
-
     const marginLeft = desktopScreenSize ? "8px" : "0px"; // different margin on desktop and mobile
-    const styleAccordionSummary = {
-        border: "1px " + COLORS.SCHEME.foreground + " solid",
-        borderRadius: "4px",
-    }
 
     const index = (props?.index !== null && props?.index !== undefined) && (props?.index + 1).toString();
 
@@ -112,217 +77,36 @@ export default function Account(props: IAccountProps) {
         <div style={{marginLeft: marginLeft}}>
             {
                 desktopScreenSize &&
-                <Grid container spacing={1} alignItems="center" justifyItems="center" className="gridMain">
-                    <Grid item md={1} lg={1} xl={1} style={{textAlign: "center"}}>
-                        <Chip
-                            style={{marginBottom: "5px"}}
-                            label={index}
-                            variant="outlined"
-                            onClick={handleChipClick}/>
-                    </Grid>
-                    <Grid item md={1} lg={1} xl={1}>
-                        <b>
-                            <TextEditFinanceo
-                                className={getAccountTypeStyle()}
-                                name="type"
-                                state={props.type}
-                                readonly={true}/>
-                        </b>
-
-                    </Grid>
-                    <Grid item md={2} lg={2} xl={2}>
-                        <TextEditFinanceo
-                            className={getAccountTypeStyle()}
-                            name="bank"
-                            state={props.bank}
-                            setState={updateAccount}
-                            referenceValue={props.index}
-                            onSave={onSaveValues}
-                        />
-                    </Grid>
-                    <Grid item md={3} lg={3} xl={3}>
-                        <TextEditFinanceo
-                            className={getAccountTypeStyle()}
-                            name="iban"
-                            state={props.iban}
-                            setState={updateAccount}
-                            referenceValue={props.index}
-                            validation={ibanValidation}
-                            formatDisplayFunction={ibanDisplayFunction}
-                            onSave={onSaveValues}
-                        />
-                    </Grid>
-                    <Grid item md={2} lg={2} xl={2}>
-                        <TextEditFinanceo
-                            className={getAccountTypeStyle()}
-                            name="bic"
-                            state={props.bic}
-                            setState={updateAccount}
-                            referenceValue={props.index}
-                            validation={BICValidation}
-                            onSave={onSaveValues}
-                        />
-                    </Grid>
-                    <Grid item md={2} lg={2} xl={2}>
-                        <TextEditFinanceo
-                            className={getAccountTypeStyle()}
-                            name="owner"
-                            state={props.owner}
-                            setState={updateAccount}
-                            referenceValue={props.index}
-                            onSave={onSaveValues}
-                        />
-                    </Grid>
-                    <Tooltip placement="left" title={"Delete account No. '" + index + "'"}>
-                        <Grid item md={1} lg={1} xl={1} sx={{textAlign: "center"}}>
-                            <IconButton onClick={() => setDeleteDialogOpen(true)} aria-label="open account view">
-                                <DeleteForeverIcon sx={{color: COLORS.SCHEME.warn}}/>
-                            </IconButton>
-                        </Grid>
-                    </Tooltip>
-                </Grid>
+                <AccountDesktop
+                    index={index}
+                    type={props.type!}
+                    bank={props.bank!}
+                    iban={props.iban!}
+                    bic={props.bic!}
+                    owner={props.owner!}
+                    ibanValidation={ibanValidation}
+                    bicValidation={BICValidation}
+                    setDeleteDialogOpen={setDeleteDialogOpen}
+                    onSaveValues={onSaveValues}
+                    getAccountStyle={getAccountStyle}
+                />
 
             }
             {
                 mobileScreenSize &&
-                <Accordion
-                    disableGutters={true}
-                    expanded={expanded === 'panel1'}
-                    onChange={handlePanelChangeMobile('panel1')}
-                    elevation={2}>
-                    <AccordionSummary
-                        sx={styleAccordionSummary}
-                        expandIcon={<ExpandMoreIcon/>}
-                        aria-controls="panel1bh-content"
-                        id="panel1bh-header">
-                        <Tooltip placement="right" title={"Type: " + (props.type !== null && props.type)}>
-                            <b>
-                                <TextEditFinanceo
-                                    className={getAccountTypeStyle()}
-                                    name="bank"
-                                    state={props.bank}
-                                    setState={updateAccount}
-                                    referenceValue={props.index}
-                                    onSave={onSaveValues}
-                                    showEditButton={true}
-                                />
-
-                            </b>
-                        </Tooltip>
-                    </AccordionSummary>
-
-                    <AccordionDetails>
-                        <div className="accordionDetails">
-                            <Grid container spacing={0} alignItems="center" justifyItems="center">
-                                <Grid item xs={2} sm={2}>
-                                    <CategoryOutlinedIcon fontSize="medium"/>&nbsp;
-                                </Grid>
-                                {
-                                    !miniScreenSize &&
-                                    <Grid item xs={3} sm={3}>
-                                        <b><p>Type</p></b>
-                                    </Grid>
-                                }
-                                <Grid item xs={miniScreenSize ? 10 : 7} sm={7}>
-                                    <TextEditFinanceo
-                                        name="type"
-                                        state={props.type}
-                                        readonly={true}
-                                    />
-                                </Grid>
-                            </Grid>
-
-                            <Divider/>
-
-                            <Grid container spacing={0} alignItems="center" justifyItems="center">
-                                <Grid item xs={2} sm={2}>
-                                    <CreditCardIcon fontSize="medium"/>&nbsp;
-                                </Grid>
-                                {
-                                    !miniScreenSize &&
-                                    <Grid item xs={3} sm={3}>
-                                        <b><p>IBAN</p></b>
-                                    </Grid>
-                                }
-                                <Grid item xs={miniScreenSize ? 10 : 7} sm={7}>
-                                    <TextEditFinanceo
-                                        name="iban"
-                                        state={props.iban}
-                                        setState={updateAccount}
-                                        referenceValue={props.index}
-                                        validation={ibanValidation}
-                                        formatDisplayFunction={ibanDisplayFunction}
-                                        onSave={onSaveValues}
-                                    />
-                                </Grid>
-                            </Grid>
-
-                            <Divider/>
-
-                            <Grid container spacing={0} alignItems="center" justifyItems="center">
-                                <Grid item xs={2} sm={2}>
-                                    <FingerprintIcon fontSize="medium"/>&nbsp;
-                                </Grid>
-                                {
-                                    !miniScreenSize &&
-                                    <Grid item xs={3} sm={3}>
-                                        <b><p>BIC</p></b>
-                                    </Grid>
-                                }
-                                <Grid item xs={miniScreenSize ? 10 : 7} sm={7}>
-                                    <TextEditFinanceo
-                                        name="bic"
-                                        state={props.bic}
-                                        setState={updateAccount}
-                                        referenceValue={props.index}
-                                        validation={BICValidation}
-                                        onSave={onSaveValues}
-                                    />
-                                </Grid>
-                            </Grid>
-
-                            <Divider/>
-
-                            <Grid container spacing={0} alignItems="center" justifyItems="center">
-                                <Grid item xs={2} sm={2}>
-                                    <PersonIcon fontSize="medium"/>&nbsp;
-                                </Grid>
-                                {
-                                    !miniScreenSize &&
-                                    <Grid item xs={3} sm={3}>
-                                        <b><p>Owner</p></b>
-                                    </Grid>
-                                }
-
-                                <Grid item xs={miniScreenSize ? 10 : 7} sm={7}>
-                                    <TextEditFinanceo
-                                        name="owner"
-                                        state={props.owner}
-                                        setState={updateAccount}
-                                        referenceValue={props.index}
-                                        onSave={onSaveValues}
-                                    />
-                                </Grid>
-                            </Grid>
-
-                            <Divider/>
-                            <Spacer marginTop="10px"/>
-
-                            <Grid container spacing={0} alignItems="center" justifyItems="center">
-                                <Grid item xs={12} sm={12}>
-                                    <Button
-                                        onClick={() => setDeleteDialogOpen(true)}
-                                        variant="outlined"
-                                        color="warning"
-                                        startIcon={<DeleteForeverIcon/>}
-                                        fullWidth>
-                                        <Typography>Delete</Typography>
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </div>
-                    </AccordionDetails>
-                </Accordion>
+                <AccountMobile
+                    index={index}
+                    type={props.type!}
+                    bank={props.bank!}
+                    iban={props.iban!}
+                    bic={props.bic!}
+                    owner={props.owner!}
+                    ibanValidation={ibanValidation}
+                    bicValidation={BICValidation}
+                    setDeleteDialogOpen={setDeleteDialogOpen}
+                    onSaveValues={onSaveValues}
+                    getAccountStyle={getAccountStyle}
+                />
             }
             {
                 <Dialog
