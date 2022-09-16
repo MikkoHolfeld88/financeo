@@ -45,5 +45,5 @@ export const accountingDataSlice = createSlice({
 });
 
 export const {setAccountingData, resetAccountingData} = accountingDataSlice.actions;
-export type {AccountingDataValueType, AccountingDataType};
+export type {AccountingDataValueType, AccountingDataType, AccountingData};
 export default accountingDataSlice.reducer;
