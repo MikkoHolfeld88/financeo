@@ -25,8 +25,6 @@ export const accountPickerSlice = createSlice({
         changePickedAccounts: (state, action: PayloadAction<IAccountPickerProps>) => {
             const {pickedAccounts, ids} = action.payload;
 
-            console.log(ids);
-
             state.pickedAccounts = pickedAccounts;
             state.ids = ids;
             state.status = 'loaded';

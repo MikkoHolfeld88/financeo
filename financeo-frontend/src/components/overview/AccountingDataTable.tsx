@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import {
     AccountingData,
@@ -14,77 +14,42 @@ import {object} from "firebase-functions/lib/providers/storage";
 import {OverridableComponent} from "@mui/material/OverridableComponent";
 import {TableRowTypeMap} from "@mui/material/TableRow/TableRow";
 
+interface ITableRowProps {
+    accountName: string,
+    date: string,
+    amount: string,
+    type: string,
+    receiver: string,
+    usage: string,
+}
+
 export function AccountingDataTable() {
-    const dispatch = useAppDispatch();
-    const pickedAccounts: string[] | string = useSelector((state: RootState) => state.accountPicker.pickedAccounts);
     const pickedAccountIDs: string[] | string = useSelector((state: RootState) => state.accountPicker.ids);
     const accountingDataValues: AccountingDataValueType[] = useSelector((state: RootState) => state.accountingData.value);
-    const accounts = useSelector((state: RootState) => state.accounts.data);
 
-    function createTableRows(){
+    function createTableRows(): ITableRowProps[][] | null {
+        let tableRows: ITableRowProps[][] | null = null;
+
         if (typeof pickedAccountIDs !== "string") {
-            pickedAccountIDs && pickedAccountIDs.map((accountID: string) => {
-                console.log(accountingDataValues);
-                console.log(accountID);
-                // @ts-ignore
-                console.log(accountingDataValues[accountID]);
+            tableRows = pickedAccountIDs && pickedAccountIDs.map((accountID: string) => {
                 if(accountID in accountingDataValues){
-
-                        // @ts-ignore
-                        accountingDataValues[accountID].data.map((data: AccountingData) => {
-
-                            return (
-                                <TableRow
-                                    // @ts-ignore
-                                    key={accountingDataValues[accountID].accountName}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                    <TableCell component="th" scope="row">
-                                        {/*// @ts-ignore*/}
-                                        {accountingDataValues[accountID].accountName}
-                                    </TableCell>
-                                    <TableCell align="right">{data.date}</TableCell>
-                                    <TableCell align="right">{data.type}</TableCell>
-                                    <TableCell align="right">{data.amount}</TableCell>
-                                    <TableCell align="right">{data.receiver}</TableCell>
-                                    <TableCell align="right">{data.usage}</TableCell>
-                                </TableRow>
-                            )
-                        })
-                    } else {
-                        return (
-                            <TableRow></TableRow>
-                        )
-                    }
-
-            })
-        } else {
-            accountingDataValues.forEach((accountingData: AccountingDataValueType) => {
-                if(pickedAccountIDs in accountingData){
-                    accountingData[pickedAccountIDs].data.map((data: AccountingData) => {
-                        return (
-                            <TableRow
-                                key={accountingData[pickedAccountIDs].accountName}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                <TableCell component="th" scope="row">
-                                    {accountingData[pickedAccountIDs].accountName}
-                                </TableCell>
-                                <TableCell align="right">{data.date}</TableCell>
-                                <TableCell align="right">{data.type}</TableCell>
-                                <TableCell align="right">{data.amount}</TableCell>
-                                <TableCell align="right">{data.receiver}</TableCell>
-                                <TableCell align="right">{data.usage}</TableCell>
-                            </TableRow>
-                        )
+                    return accountingDataValues[accountID].data.map((data: AccountingData) => {
+                        return {
+                            accountName: accountingDataValues[accountID].accountName,
+                            date: data.date,
+                            amount: data.amount,
+                            type: data.type,
+                            receiver: data.receiver,
+                            usage: data.usage
+                        }
                     })
                 }
             })
         }
 
-        return (
-            <TableRow></TableRow>
-        )
-
+        return tableRows;
     }
+
 
     return (
         <Container maxWidth="xl">
@@ -102,7 +67,23 @@ export function AccountingDataTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {createTableRows()}
+                        {
+                            createTableRows()?.map((table: ITableRowProps[], indexTable) => {
+                                return table?.reverse()?.map((row: ITableRowProps, indexRow) => {
+                                    return row.date !== undefined && row.date !== "" && (
+                                        <TableRow
+                                            key={row.accountName + "_name_" + indexRow + indexTable}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                            <TableCell component="th" scope="row">{row.accountName}</TableCell>
+                                            <TableCell key={row.date + "_date_" + indexRow + indexTable} align="right">{row.date}</TableCell>
+                                            <TableCell key={row.type + "_type_" + indexRow + indexTable} align="right">{row.type}</TableCell>
+                                            <TableCell key={row.receiver + "_receiver_" + indexRow + indexTable} align="right">{row.receiver}</TableCell>
+                                            <TableCell key={row.amount + "_amount_" + indexRow + indexTable} align="right">{row.amount}</TableCell>
+                                            <TableCell key={row.usage + "_usage_" + indexRow + indexTable} align="right">{row.usage}</TableCell>
+                                        </TableRow>
+                                    )
+                                })})
+                        }
                     </TableBody>
                 </Table>
             </TableContainer>
