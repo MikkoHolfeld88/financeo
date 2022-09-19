@@ -23,7 +23,7 @@ export function AccountingDataTable() {
         if (typeof pickedAccountIDs !== "string") {
             tableRows = pickedAccountIDs && pickedAccountIDs.map((accountID: string) => {
                 if(accountID in accountingDataValues){
-                    return accountingDataValues[accountID].data.map((data: AccountingData) => {
+                    let pickedData = accountingDataValues[accountID].data.map((data: AccountingData) => {
                         return {
                             accountName: accountingDataValues[accountID].accountName,
                             date: data.date,
@@ -33,6 +33,11 @@ export function AccountingDataTable() {
                             usage: data.usage
                         }
                     })
+                    console.log(pickedData);
+
+                    const sortedData = pickedData.sort((a: AccountingData, b: AccountingData) => a.amount < b.amount ? -1 : (a.amount > b.amount ? 1 : 0));
+
+                    return sortedData;
                 }
             })
         }
