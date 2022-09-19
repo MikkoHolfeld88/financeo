@@ -1,18 +1,8 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
-import {
-    AccountingData,
-    AccountingDataType,
-    AccountingDataValueType,
-    IAccountProps,
-    RootState,
-    useAppDispatch
-} from "../../store";
+import {AccountingData, AccountingDataValueType, RootState} from "../../store";
 import {useSelector} from "react-redux";
 import * as COLOR from "../../constants/colors";
-import {object} from "firebase-functions/lib/providers/storage";
-import {OverridableComponent} from "@mui/material/OverridableComponent";
-import {TableRowTypeMap} from "@mui/material/TableRow/TableRow";
 
 interface ITableRowProps {
     accountName: string,
