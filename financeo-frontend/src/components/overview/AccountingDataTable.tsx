@@ -1,5 +1,15 @@
 import React from 'react';
-import {Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {
+    Container,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow
+} from "@mui/material";
 import {AccountingData, AccountingDataValueType, RootState} from "../../store";
 import {useSelector} from "react-redux";
 import * as COLOR from "../../constants/colors";
@@ -28,6 +38,20 @@ const mergeTables = (tableRows: ITableRowProps[][] | null): ITableRowProps[] => 
 export function AccountingDataTable() {
     const pickedAccountIDs: string[] | string = useSelector((state: RootState) => state.accountPicker.ids);
     const accountingDataValues: AccountingDataValueType[] = useSelector((state: RootState) => state.accountingData.value);
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+
+    const tableRows = createTableRows();
 
     function createTableRows(): ITableRowProps[] | null {
         let tableRows: ITableRowProps[][] | null = null;
@@ -75,7 +99,7 @@ export function AccountingDataTable() {
                     </TableHead>
                     <TableBody>
                         {
-                            createTableRows()?.map((row: ITableRowProps, indexRow) => {
+                            tableRows?.map((row: ITableRowProps, indexRow) => {
                                     return (
                                         <TableRow
                                             key={row.accountName + "_name_" + indexRow}
@@ -91,6 +115,15 @@ export function AccountingDataTable() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={tableRows ? tableRows.length : 0}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </Container>
     );
 }
