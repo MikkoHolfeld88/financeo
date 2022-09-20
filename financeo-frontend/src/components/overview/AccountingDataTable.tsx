@@ -3,6 +3,7 @@ import {Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead
 import {AccountingData, AccountingDataValueType, RootState} from "../../store";
 import {useSelector} from "react-redux";
 import * as COLOR from "../../constants/colors";
+import moment from "moment/moment";
 
 interface ITableRowProps {
     accountName: string,
@@ -13,17 +14,28 @@ interface ITableRowProps {
     usage: string,
 }
 
+const mergeTables = (tableRows: ITableRowProps[][] | null): ITableRowProps[] => {
+    let mergedTableRows: ITableRowProps[] = [];
+
+    tableRows?.forEach((tableRow: ITableRowProps[]) => {
+        if(tableRow !== null ){ mergedTableRows =  [...mergedTableRows, ...tableRow]; }
+    });
+
+    return mergedTableRows;
+}
+
+
 export function AccountingDataTable() {
     const pickedAccountIDs: string[] | string = useSelector((state: RootState) => state.accountPicker.ids);
     const accountingDataValues: AccountingDataValueType[] = useSelector((state: RootState) => state.accountingData.value);
 
-    function createTableRows(): ITableRowProps[][] | null {
+    function createTableRows(): ITableRowProps[] | null {
         let tableRows: ITableRowProps[][] | null = null;
 
         if (typeof pickedAccountIDs !== "string") {
             tableRows = pickedAccountIDs && pickedAccountIDs.map((accountID: string) => {
                 if(accountID in accountingDataValues){
-                    let pickedData = accountingDataValues[accountID].data.map((data: AccountingData) => {
+                    return accountingDataValues[accountID].data.map((data: AccountingData) => {
                         return {
                             accountName: accountingDataValues[accountID].accountName,
                             date: data.date,
@@ -33,18 +45,18 @@ export function AccountingDataTable() {
                             usage: data.usage
                         }
                     })
-                    console.log(pickedData);
-
-                    const sortedData = pickedData.sort((a: AccountingData, b: AccountingData) => a.amount < b.amount ? -1 : (a.amount > b.amount ? 1 : 0));
-
-                    return sortedData;
+                } else {
+                    return null;
                 }
             })
         }
 
-        return tableRows;
-    }
+        const mergedTables = tableRows ? mergeTables(tableRows) : null;
 
+        console.log(mergedTables);
+
+        return mergedTables;
+    }
 
     return (
         <Container maxWidth="xl">
@@ -63,22 +75,19 @@ export function AccountingDataTable() {
                     </TableHead>
                     <TableBody>
                         {
-                            createTableRows()?.map((table: ITableRowProps[], indexTable) => {
-                                return table?.reverse()?.map((row: ITableRowProps, indexRow) => {
-                                    return row.date !== undefined && row.date !== "" && (
+                            createTableRows()?.map((row: ITableRowProps, indexRow) => {
+                                    return (
                                         <TableRow
-                                            key={row.accountName + "_name_" + indexRow + indexTable}
+                                            key={row.accountName + "_name_" + indexRow}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                             <TableCell component="th" scope="row">{row.accountName}</TableCell>
-                                            <TableCell key={row.date + "_date_" + indexRow + indexTable} align="right">{row.date}</TableCell>
-                                            <TableCell key={row.type + "_type_" + indexRow + indexTable} align="right">{row.type}</TableCell>
-                                            <TableCell key={row.receiver + "_receiver_" + indexRow + indexTable} align="right">{row.receiver}</TableCell>
-                                            <TableCell key={row.amount + "_amount_" + indexRow + indexTable} align="right">{row.amount}</TableCell>
-                                            <TableCell key={row.usage + "_usage_" + indexRow + indexTable} align="right">{row.usage}</TableCell>
+                                            <TableCell key={row.date + "_date_" + indexRow} align="right">{row.date}</TableCell>
+                                            <TableCell key={row.type + "_type_" + indexRow} align="right">{row.type}</TableCell>
+                                            <TableCell key={row.receiver + "_receiver_" + indexRow} align="right">{row.receiver}</TableCell>
+                                            <TableCell key={row.amount + "_amount_" + indexRow} align="right">{row.amount}</TableCell>
+                                            <TableCell key={row.usage + "_usage_" + indexRow} align="right">{row.usage}</TableCell>
                                         </TableRow>
-                                    )
-                                })})
-                        }
+                                    )})}
                     </TableBody>
                 </Table>
             </TableContainer>

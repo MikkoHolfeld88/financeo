@@ -1,9 +1,17 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Edge} from "react-flow-renderer";
 
+interface IMappedCSVData {
+    date: string,
+    usage: string,
+    receiver: string,
+    type: string,
+    amount: string
+}
+
 interface ICSVUploaderProps {
     data: string[][] | any;
-    mappedData: any;
+    mappedData: IMappedCSVData[];
     errors: any[];
     meta: any[];
     accountId: string;
@@ -13,7 +21,7 @@ interface ICSVUploaderProps {
 interface CSVUploaderState {
     head: string[];
     data: string[][];
-    mappedData: any;
+    mappedData: IMappedCSVData[];
     errors: any[];
     meta: any[];
     accountId: string; // account the data belong to
@@ -28,6 +36,26 @@ const initialState: CSVUploaderState = {
     meta: [],
     accountId: " ",
     status: 'idle',
+}
+
+const transformDate = (date: string): string => {
+    // TODO: date parsing auf verschiedene Schreibarten anpassen
+    if (date !== undefined && date !== null &&
+        date !== "" && date.length >= 6 &&  date.length <= 11) {
+        let splitSymbol: string = ".";
+
+        if (date.includes("/")) {splitSymbol = "/"};
+        if (date.includes("-")) {splitSymbol = "-"};
+
+        const dateParts = date.split(splitSymbol);
+        let year = dateParts[2];
+
+        if(year.length > 2){year = year.slice(2);}
+
+        return `${dateParts[0]}.${dateParts[1]}.${year}`
+    }
+
+    return "";
 }
 
 export const CSVUploaderSlice = createSlice({
@@ -53,7 +81,7 @@ export const CSVUploaderSlice = createSlice({
             const sortedActionPayload = actionPayloadCopy.sort((a, b) =>
                 Number(a.target.split("_")[0]) - Number(b.target.split("_")[0]));
 
-            let mappedRows: any = [];
+            let mappedRows: IMappedCSVData[] = [];
 
             state.data.map((row: string[]) => {
                 let mappedColumns: any = {};
@@ -62,7 +90,11 @@ export const CSVUploaderSlice = createSlice({
                     const targetName = edge.target.split("_")[1];
 
                     if (row[sourceIndex] !== undefined) {
-                        mappedColumns[targetName] = row[sourceIndex];
+                        if(targetName === "date"){
+                            mappedColumns[targetName] = transformDate(row[sourceIndex]);
+                        } else {
+                            mappedColumns[targetName] = row[sourceIndex];
+                        }
                     }
                 })
 
