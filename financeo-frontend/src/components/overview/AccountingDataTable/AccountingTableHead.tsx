@@ -1,7 +1,6 @@
 import {TableCell, TableHead, TableRow} from "@mui/material";
 import * as COLOR from "../../../constants/colors";
 import * as React from "react";
-import Checkbox from "@mui/material/Checkbox";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Box from "@mui/material/Box";
 import {visuallyHidden} from "@mui/utils";
