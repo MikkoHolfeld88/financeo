@@ -1,25 +1,11 @@
-import React, {useEffect} from 'react';
-import {
-    Container,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableFooter,
-    TableHead, TablePagination,
-    TableRow
-} from "@mui/material";
+import React from 'react';
+import {Container, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow} from "@mui/material";
 import {AccountingData, AccountingDataValueType, RootState} from "../../../store";
 import {useSelector} from "react-redux";
+import AccountingTableHead from "./AccountingTableHead";
+import TablePaginationActions from "./TablePaginationActionsFinanceo";
 import * as COLOR from "../../../constants/colors";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
-import {useTheme} from "@mui/material/styles";
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import LastPageIcon from '@mui/icons-material/LastPage';
-import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
+import "./index.scss"
 
 interface ITableRowProps {
     accountName: string,
@@ -65,22 +51,15 @@ export function AccountingDataTable() {
     const pickedYear: number = useSelector((state: RootState) => state.yearPicker.value);
     const pickedMonth: number = useSelector((state: RootState) => state.monthPicker.value);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     let tableRows = createTableRows();
 
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - (tableRows ? tableRows?.length : 0)) : 0;
-
-    const handleChangePage = (
-        event: React.MouseEvent<HTMLButtonElement> | null,
-        newPage: number,
-    ) => {
+    const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => {
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
@@ -114,21 +93,25 @@ export function AccountingDataTable() {
         return filteredTable;
     }
 
+    function getNumberColors(amount: string): string {
+        const transferedMoney = parseFloat(amount.replace(",", "."));
+
+        if (transferedMoney > 0) {return COLOR.SCHEME.textColor1}
+        if (transferedMoney < 0) {return COLOR.SCHEME.warn}
+
+        return COLOR.SCHEME.textBasic;
+    }
+
+    const tableCellStyle = {
+        fontSize: "13px",
+    }
+
     return (
         <Container maxWidth="xl">
             <br/>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <TableHead>
-                        <TableRow sx={{backgroundColor: COLOR.SCHEME.background}}>
-                            <TableCell>Account</TableCell>
-                            <TableCell align="right">Date</TableCell>
-                            <TableCell align="right">Type&nbsp;</TableCell>
-                            <TableCell align="right">Usage&nbsp;</TableCell>
-                            <TableCell align="right">Receiver&nbsp;</TableCell>
-                            <TableCell align="right">Amount&nbsp;</TableCell>
-                        </TableRow>
-                    </TableHead>
+                    <AccountingTableHead />
                     <TableBody>
                         <TableRow>
                             <TablePagination
@@ -146,26 +129,20 @@ export function AccountingDataTable() {
                         </TableRow>
                         {
                             (rowsPerPage > 0
-                                    ? tableRows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    : tableRows
+                                ? tableRows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                : tableRows
                             )?.map((row: ITableRowProps, indexRow) => {
-                                    return (
-                                        <TableRow
-                                            key={row.accountName + "_name_" + indexRow}
-                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                            <TableCell component="th" scope="row">{row.accountName}</TableCell>
-                                            <TableCell key={row.date + "_date_" + indexRow} align="right">{new Date (row.date).toLocaleDateString()}</TableCell>
-                                            <TableCell key={row.type + "_type_" + indexRow} align="right">{row.type}</TableCell>
-                                            <TableCell key={row.usage + "_usage_" + indexRow} align="right">{row.usage}</TableCell>
-                                            <TableCell key={row.receiver + "_receiver_" + indexRow} align="right">{row.receiver}</TableCell>
-                                            <TableCell key={row.amount + "_amount_" + indexRow} align="right">{row.amount}</TableCell>
-                                        </TableRow>
-                                    )})
-                        }
-                        {
-                            emptyRows > 0 && (<TableRow style={{ height: 53 * emptyRows }}>
-                                    <TableCell colSpan={6} />
-                                </TableRow>)
+                                return (
+                                    <TableRow key={row.accountName + "_row_" + indexRow}>
+                                        <TableCell sx={{fontSize: "13px", whiteSpace: "nowrap"}} variant="head" key={row.accountName + "_accountName_" +  indexRow}>{row.accountName}</TableCell>
+                                        <TableCell sx={tableCellStyle} variant="footer" key={row.date + "_date_" + indexRow}>{new Date (row.date).toLocaleDateString()}</TableCell>
+                                        <TableCell sx={tableCellStyle} variant="footer" key={row.type + "_type_" + indexRow}>{row.type}</TableCell>
+                                        <TableCell sx={tableCellStyle} variant="footer" key={row.usage + "_usage_" + indexRow}>{row.usage}</TableCell>
+                                        <TableCell sx={tableCellStyle} variant="footer" key={row.receiver + "_receiver_" + indexRow}>{row.receiver}</TableCell>
+                                        <TableCell align='right' sx={{color: getNumberColors(row.amount)}} variant="head" key={row.amount + "_amount_" + indexRow}>{row.amount}</TableCell>
+                                    </TableRow>
+                                )}
+                            )
                         }
                     </TableBody>
                 </Table>

@@ -17,13 +17,13 @@ const ibantools = require('ibantools');
 
 export default function Account(props: IAccountProps) {
     const theme = useTheme();
-    const [deleteDialogOpen, setDeleteDialogOpen] = React.useState<boolean>(false);
-    const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
     const dispatch = useAppDispatch();
     const uid = useSelector((state: RootState) => state.login.uid);
+    const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
     const accounts = useSelector((state: RootState) => state.accounts.data);
-    const pickedAccounts = useSelector((state: RootState) => state.accountPicker.pickedAccounts);
+    const [deleteDialogOpen, setDeleteDialogOpen] = React.useState<boolean>(false);
     const pickedAccountStatus = useSelector((state: RootState) => state.accountPicker.status);
+    const pickedAccounts = useSelector((state: RootState) => state.accountPicker.pickedAccounts);
 
     const mobileScreenSize = !desktopScreenSize;
 
@@ -88,8 +88,7 @@ export default function Account(props: IAccountProps) {
                     bicValidation={BICValidation}
                     setDeleteDialogOpen={setDeleteDialogOpen}
                     onSaveValues={onSaveValues}
-                    getAccountStyle={getAccountStyle}
-                />
+                    getAccountStyle={getAccountStyle}/>
 
             }
             {
@@ -105,8 +104,7 @@ export default function Account(props: IAccountProps) {
                     bicValidation={BICValidation}
                     setDeleteDialogOpen={setDeleteDialogOpen}
                     onSaveValues={onSaveValues}
-                    getAccountStyle={getAccountStyle}
-                />
+                    getAccountStyle={getAccountStyle}/>
             }
             {
                 <Dialog

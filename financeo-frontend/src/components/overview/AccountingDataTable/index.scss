@@ -1,0 +1,13 @@
+@import "../../../constants/colors.scss";
+
+.blackNumbers {
+  color: black;
+}
+
+.greenNumbers {
+  color: $textColor1;
+}
+
+.redNumbers {
+  color: $warn;
+}

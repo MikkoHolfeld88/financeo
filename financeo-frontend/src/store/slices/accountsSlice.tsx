@@ -52,10 +52,12 @@ export const accountsSlice = createSlice({
         updateAccount: (state, action) => {
             const { value, id } = action.payload;
             const name: 'bank' | 'iban' | 'bic' | 'owner' | 'type' = action.payload.name;
-            let updateAccount: IAccountProps = state.data[id];
+
+            let updateAccount: IAccountProps = state.data[id - 1];
+
             if (updateAccount) {
                 updateAccount[name] = value;
-                state.data[id] = updateAccount;
+                state.data[id - 1] = updateAccount;
             }
         },
         deleteAccount: (state, action: PayloadAction<string>) => {
