@@ -16,7 +16,7 @@ import {
 } from "../../store";
 import CSVUploader from "../../components/overview/CSVUploader";
 import {CSVMappingDialog} from '../../components/overview/CSVMapper';
-import AccountingDataTable from "../../components/overview/AccountingDataTable";
+import AccountingDataTable from "../../components/overview/AccountingDataTable/AccountingDataTable";
 import YearPicker from "../../components/overview/YearPicker";
 import MonthPicker from "../../components/overview/MonthPicker";
 import AccountPicker from "../../components/overview/AccountPicker";

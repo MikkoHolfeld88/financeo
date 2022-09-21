@@ -10,15 +10,16 @@ import {
     TableHead, TablePagination,
     TableRow
 } from "@mui/material";
-import {AccountingData, AccountingDataValueType, RootState} from "../../store";
+import {AccountingData, AccountingDataValueType, RootState} from "../../../store";
 import {useSelector} from "react-redux";
-import * as COLOR from "../../constants/colors";
+import * as COLOR from "../../../constants/colors";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import {KeyboardArrowLeft, KeyboardArrowRight} from "@mui/icons-material";
 import {useTheme} from "@mui/material/styles";
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import LastPageIcon from '@mui/icons-material/LastPage';
+import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 
 interface ITableRowProps {
     accountName: string,
@@ -29,8 +30,11 @@ interface ITableRowProps {
     usage: string,
 }
 
-const filterTableByYearAndMonth = (table: ITableRowProps[]): ITableRowProps[] => {
-    return table;
+const filterTableByYearAndMonth = (table: ITableRowProps[], pickedMonth: number, pickedYear: number): ITableRowProps[] => {
+    return table.filter((row) => {
+        const date = new Date(row.date);
+        return date.getFullYear() === pickedYear && date.getMonth() === pickedMonth - 1;
+    })
 }
 
 const sortTableByDate = (table: ITableRowProps[]): ITableRowProps[] => {
@@ -55,73 +59,11 @@ const mergeTables = (tableRows: ITableRowProps[][] | null): ITableRowProps[] => 
     return mergedTableRows;
 }
 
-interface TablePaginationActionsProps {
-    count: number;
-    page: number;
-    rowsPerPage: number;
-    onPageChange: (
-        event: React.MouseEvent<HTMLButtonElement>,
-        newPage: number,
-    ) => void;
-}
-
-function TablePaginationActions(props: TablePaginationActionsProps) {
-    const theme = useTheme();
-    const { count, page, rowsPerPage, onPageChange } = props;
-
-    const handleFirstPageButtonClick = (
-        event: React.MouseEvent<HTMLButtonElement>,
-    ) => {
-        onPageChange(event, 0);
-    };
-
-    const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        onPageChange(event, page - 1);
-    };
-
-    const handleNextButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        onPageChange(event, page + 1);
-    };
-
-    const handleLastPageButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-    };
-
-    return (
-        <Box sx={{margin: "0px", minWidth: "180px", justifyItems: "left"}}>
-            <IconButton
-                onClick={handleFirstPageButtonClick}
-                disabled={page === 0}
-                aria-label="first page">
-                {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-            </IconButton>
-            <IconButton
-                onClick={handleBackButtonClick}
-                disabled={page === 0}
-                aria-label="previous page">
-                {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-            </IconButton>
-            <IconButton
-                onClick={handleNextButtonClick}
-                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-                aria-label="next page">
-                {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-            </IconButton>
-            <IconButton
-                onClick={handleLastPageButtonClick}
-                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-                aria-label="last page">
-                {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-            </IconButton>
-        </Box>
-    );
-}
-
 export function AccountingDataTable() {
     const pickedAccountIDs: string[] | string = useSelector((state: RootState) => state.accountPicker.ids);
-    const pickedYear = useSelector((state: RootState) => state.yearPicker.value);
-    const pickedMonth = useSelector((state: RootState) => state.monthPicker.value);
     const accountingDataValues: AccountingDataValueType[] = useSelector((state: RootState) => state.accountingData.value);
+    const pickedYear: number = useSelector((state: RootState) => state.yearPicker.value);
+    const pickedMonth: number = useSelector((state: RootState) => state.monthPicker.value);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -144,7 +86,6 @@ export function AccountingDataTable() {
     };
 
     function createTableRows(): ITableRowProps[] | null {
-        console.log("Restart");
         let tableRows: ITableRowProps[][] | null = null;
 
         if (typeof pickedAccountIDs !== "string") {
@@ -168,7 +109,7 @@ export function AccountingDataTable() {
 
         const mergedTables = tableRows ? mergeTables(tableRows) : null;
         const sortedTable = mergedTables ? sortTableByDate(mergedTables) : null;
-        const filteredTable = sortedTable ? filterTableByYearAndMonth(sortedTable) : null;
+        const filteredTable = sortedTable ? filterTableByYearAndMonth(sortedTable, pickedMonth, pickedYear) : null;
 
         return filteredTable;
     }
@@ -201,8 +142,7 @@ export function AccountingDataTable() {
                                 }}
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
-                                ActionsComponent={TablePaginationActions}
-                            />
+                                ActionsComponent={TablePaginationActions}/>
                         </TableRow>
                         {
                             (rowsPerPage > 0
@@ -228,7 +168,6 @@ export function AccountingDataTable() {
                                 </TableRow>)
                         }
                     </TableBody>
-
                 </Table>
             </TableContainer>
             <br/>
