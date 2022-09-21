@@ -51,7 +51,10 @@ const OverviewPage = () => {
             if (pickedAccounts.length > accounts.length) {
                 dispatch(adjustPickedAccounts({accounts}));
             }
-            addAllData("pickedAccounts", uid, {pickedAccounts: pickedAccounts, ids: pickedAccountsIds})
+            addAllData(
+                "pickedAccounts",
+                uid,
+                {pickedAccounts: pickedAccounts, ids: pickedAccountsIds})
         }
     }, [pickedAccounts]);
 

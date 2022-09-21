@@ -42,7 +42,8 @@ export default function AccountPicker() {
 
         dispatch(changePickedAccounts({
             pickedAccounts: event.target.value,
-            ids: pickedAccountIds}));
+            ids: pickedAccountIds
+        }));
     }
 
     return (
