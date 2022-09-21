@@ -7,7 +7,7 @@ import TablePaginationActions from "./TablePaginationActionsFinanceo";
 import * as COLOR from "../../../constants/colors";
 import "./index.scss"
 
-interface ITableRowProps {
+export interface ITableRowProps {
     accountName: string,
     date: string,
     amount: string,
@@ -51,6 +51,42 @@ const mergeTables = (tableRows: ITableRowProps[][] | null): ITableRowProps[] => 
     return mergedTableRows;
 }
 
+function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
+    const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
+    stabilizedThis.sort((a, b) => {
+        const order = comparator(a[0], b[0]);
+        if (order !== 0) {
+            return order;
+        }
+        return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+}
+
+function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+    if (b[orderBy] < a[orderBy]) {
+        return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+        return 1;
+    }
+    return 0;
+}
+
+function getComparator<Key extends keyof any>(
+    order: Order,
+    orderBy: Key,
+): (
+    a: { [key in Key]: number | string },
+    b: { [key in Key]: number | string },
+) => number {
+    return order === 'desc'
+        ? (a, b) => descendingComparator(a, b, orderBy)
+        : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+type Order = 'asc' | 'desc';
+
 export function AccountingDataTable() {
     const pickedAccountIDs: string[] | string = useSelector((state: RootState) => state.accountPicker.ids);
     const accountingDataValues: AccountingDataValueType[] = useSelector((state: RootState) => state.accountingData.value);
@@ -58,6 +94,8 @@ export function AccountingDataTable() {
     const pickedMonth: number[] = useSelector((state: RootState) => state.monthPicker.value);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [order, setOrder] = React.useState<Order>('asc');
+    const [orderBy, setOrderBy] = React.useState<keyof ITableRowProps>('date');
 
     let tableRows = createTableRows();
 
@@ -112,13 +150,42 @@ export function AccountingDataTable() {
         fontSize: "13px",
     }
 
+    const handleRequestSort = (
+        event: React.MouseEvent<unknown>,
+        property: keyof ITableRowProps,
+    ) => {
+        const isAsc = orderBy === property && order === 'asc';
+        setOrder(isAsc ? 'desc' : 'asc');
+        setOrderBy(property);
+    };
+
     return (
         <Container maxWidth="xl">
             <br/>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                    <AccountingTableHead />
+                    <AccountingTableHead
+                        order={order}
+                        orderBy={orderBy}
+                        onRequestSort={handleRequestSort}
+                        rowCount={tableRows ? tableRows.length : 0}/>
                     <TableBody>
+                        {
+                            tableRows !== null && stableSort(tableRows, getComparator(order, orderBy))
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                ?.map((row: ITableRowProps, indexRow) => {
+                                    return (
+                                        <TableRow key={row.accountName + "_row_" + indexRow}>
+                                            <TableCell sx={{fontSize: "13px", whiteSpace: "nowrap"}} variant="head" key={row.accountName + "_accountName_" +  indexRow}>{row.accountName}</TableCell>
+                                            <TableCell sx={tableCellStyle} variant="footer" key={row.date + "_date_" + indexRow}>{new Date (row.date).toLocaleDateString()}</TableCell>
+                                            <TableCell sx={tableCellStyle} variant="footer" key={row.type + "_type_" + indexRow}>{row.type}</TableCell>
+                                            <TableCell sx={tableCellStyle} variant="footer" key={row.usage + "_usage_" + indexRow}>{row.usage}</TableCell>
+                                            <TableCell sx={tableCellStyle} variant="footer" key={row.receiver + "_receiver_" + indexRow}>{row.receiver}</TableCell>
+                                            <TableCell align='right' sx={{color: getNumberColors(row.amount)}} variant="head" key={row.amount + "_amount_" + indexRow}>{row.amount}</TableCell>
+                                        </TableRow>
+                                )}
+                            )
+                        }
                         <TableRow>
                             <TablePagination
                                 rowsPerPageOptions={[10, 15, 25, 35, 50, 65, { label: 'All', value: -1 }]}
@@ -133,23 +200,6 @@ export function AccountingDataTable() {
                                 onRowsPerPageChange={handleChangeRowsPerPage}
                                 ActionsComponent={TablePaginationActions}/>
                         </TableRow>
-                        {
-                            (rowsPerPage > 0
-                                ? tableRows?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                : tableRows
-                            )?.map((row: ITableRowProps, indexRow) => {
-                                return (
-                                    <TableRow key={row.accountName + "_row_" + indexRow}>
-                                        <TableCell sx={{fontSize: "13px", whiteSpace: "nowrap"}} variant="head" key={row.accountName + "_accountName_" +  indexRow}>{row.accountName}</TableCell>
-                                        <TableCell sx={tableCellStyle} variant="footer" key={row.date + "_date_" + indexRow}>{new Date (row.date).toLocaleDateString()}</TableCell>
-                                        <TableCell sx={tableCellStyle} variant="footer" key={row.type + "_type_" + indexRow}>{row.type}</TableCell>
-                                        <TableCell sx={tableCellStyle} variant="footer" key={row.usage + "_usage_" + indexRow}>{row.usage}</TableCell>
-                                        <TableCell sx={tableCellStyle} variant="footer" key={row.receiver + "_receiver_" + indexRow}>{row.receiver}</TableCell>
-                                        <TableCell align='right' sx={{color: getNumberColors(row.amount)}} variant="head" key={row.amount + "_amount_" + indexRow}>{row.amount}</TableCell>
-                                    </TableRow>
-                                )}
-                            )
-                        }
                     </TableBody>
                 </Table>
             </TableContainer>
