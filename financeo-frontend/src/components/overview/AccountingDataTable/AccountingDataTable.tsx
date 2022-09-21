@@ -16,11 +16,17 @@ interface ITableRowProps {
     usage: string,
 }
 
-const filterTableByYearAndMonth = (table: ITableRowProps[], pickedMonth: number, pickedYear: number): ITableRowProps[] => {
-    return table.filter((row) => {
-        const date = new Date(row.date);
-        return date.getFullYear() === pickedYear && date.getMonth() === pickedMonth - 1;
+const filterTableByYearAndMonth = (table: ITableRowProps[], pickedMonth: number[], pickedYear: number): ITableRowProps[] => {
+    let filteredTable: ITableRowProps[] = [];
+    pickedMonth.forEach((month) => {
+        const monthTable = table.filter((row) => {
+            const date = new Date(row.date);
+            return date.getMonth() === month - 1 && date.getFullYear() === pickedYear;
+        })
+        filteredTable = [...filteredTable, ...monthTable];
     })
+
+    return filteredTable;
 }
 
 const sortTableByDate = (table: ITableRowProps[]): ITableRowProps[] => {
@@ -49,7 +55,7 @@ export function AccountingDataTable() {
     const pickedAccountIDs: string[] | string = useSelector((state: RootState) => state.accountPicker.ids);
     const accountingDataValues: AccountingDataValueType[] = useSelector((state: RootState) => state.accountingData.value);
     const pickedYear: number = useSelector((state: RootState) => state.yearPicker.value);
-    const pickedMonth: number = useSelector((state: RootState) => state.monthPicker.value);
+    const pickedMonth: number[] = useSelector((state: RootState) => state.monthPicker.value);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 

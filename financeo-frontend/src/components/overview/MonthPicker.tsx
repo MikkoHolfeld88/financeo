@@ -20,13 +20,15 @@ export const months: Option[] = [
 
 const selectStyle = {
     margin: "0px 0px 0px 0px",
+    width: "120px",
 }
 
 export default function MonthPicker() {
-    const month = useSelector((state: RootState) => state.monthPicker.value);
+    const month: number[] = useSelector((state: RootState) => state.monthPicker.value);
 
     return (
         <SelectFinanceo
+            multiple={true}
             aria-label="month"
             label="Month"
             options={months}

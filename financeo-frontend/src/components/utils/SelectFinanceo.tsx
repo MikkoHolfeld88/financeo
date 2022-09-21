@@ -25,6 +25,7 @@ export interface ISelectFinanceoProps {
         active?: boolean,
         message?: string,
     }
+    multiple?: boolean,
 }
 
 export default function SelectFinanceo(props: ISelectFinanceoProps) {
@@ -60,6 +61,7 @@ export default function SelectFinanceo(props: ISelectFinanceoProps) {
             <FormControl sx={props.style && props.style} error={props?.error?.active}>
                 <InputLabel id={props.label + "_inputLabel"}>{props.label}</InputLabel>
                 <Select
+                    multiple={props.multiple}
                     autoWidth={props.autoWidth}
                     sx={{fontSize: props.fontSize + "px"}}
                     labelId={props.label + "_selectLabelId"}
