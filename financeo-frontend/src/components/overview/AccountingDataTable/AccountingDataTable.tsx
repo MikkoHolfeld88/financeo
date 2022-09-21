@@ -102,7 +102,7 @@ export function AccountingDataTable() {
     function getNumberColors(amount: string): string {
         const transferedMoney = parseFloat(amount.replace(",", "."));
 
-        if (transferedMoney > 0) {return COLOR.SCHEME.textColor1}
+        if (transferedMoney > 0) {return COLOR.SCHEME.ACCOUNT_COLOR}
         if (transferedMoney < 0) {return COLOR.SCHEME.warn}
 
         return COLOR.SCHEME.textBasic;
@@ -121,7 +121,7 @@ export function AccountingDataTable() {
                     <TableBody>
                         <TableRow>
                             <TablePagination
-                                rowsPerPageOptions={[10, 25, 50, { label: 'All', value: -1 }]}
+                                rowsPerPageOptions={[10, 15, 25, 35, 50, 65, { label: 'All', value: -1 }]}
                                 count={tableRows ? tableRows?.length : 0}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
