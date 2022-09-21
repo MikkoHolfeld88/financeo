@@ -52,10 +52,10 @@ const transformDate = (date: string): string => {
 
         if(year.length > 2){year = year.slice(2);}
 
-        return `${dateParts[0]}.${dateParts[1]}.${year}`
+        return `20${year}-${dateParts[1]}-${dateParts[0]}`;
     }
 
-    return "";
+    return "0000-00-00";
 }
 
 export const CSVUploaderSlice = createSlice({
