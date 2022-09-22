@@ -55,7 +55,7 @@ const headCells: readonly HeadCell[] = [
 
 type Order = 'asc' | 'desc';
 
-interface IAccountingTableHeadProps {
+export interface IAccountingTableHeadProps {
     numSelected?: number;
     onRequestSort: (event: React.MouseEvent<unknown>, property: keyof ITableRowProps) => void;
     onSelectAllClick?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -65,7 +65,7 @@ interface IAccountingTableHeadProps {
     className?: string;
 }
 
-const AccountingTableHead: React.FC<IAccountingTableHeadProps> = props => {
+export const AccountingTableHead: React.FC<IAccountingTableHeadProps> = props => {
 
     const createSortHandler = (property: keyof ITableRowProps) => (event: React.MouseEvent<unknown>) => {
         props.onRequestSort(event, property);
@@ -116,6 +116,3 @@ const AccountingTableHead: React.FC<IAccountingTableHeadProps> = props => {
         </TableHead>
     );
 }
-
-export type {IAccountingTableHeadProps}
-export default AccountingTableHead;
