@@ -51,7 +51,7 @@ export default function Account(props: IAccountProps) {
         }
 
         if(props.type === "Creditcard") {
-            return "creditcardType";
+            return "creditCardType";
         }
 
         return "accountType";

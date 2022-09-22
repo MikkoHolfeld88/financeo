@@ -72,6 +72,14 @@ const AccountingTableHead = (props: IAccountingTableHeadProps) => {
 
     const tableCellStyle = {color: "white", fontSize: "13px", fontWeight: "bold", marginLeft: "10px"};
 
+    const alignHeadCell = (cellId: string): 'inherit' | 'left' | 'center' | 'right' | 'justify' => {
+        switch (cellId) {
+            case "accountName": return "center";
+            case "amount": return "right";
+            default: return "left";
+        }
+    }
+
     return (
         <TableHead>
             <TableRow sx={{backgroundColor: COLOR.SCHEME.mainBackground}}>
@@ -79,9 +87,10 @@ const AccountingTableHead = (props: IAccountingTableHeadProps) => {
                     <TableCell
                         sx={tableCellStyle}
                         key={headCell.id}
-                        align={headCell.id === 'date' ? 'right' : 'center'}
+                        align={alignHeadCell(headCell.id)}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}>
+
                         <TableSortLabel
                             active={orderBy === headCell.id}
                             direction={orderBy === headCell.id ? order : 'asc'}
