@@ -65,11 +65,10 @@ interface IAccountingTableHeadProps {
     className?: string;
 }
 
-const AccountingTableHead = (props: IAccountingTableHeadProps) => {
-    const {order, orderBy, onRequestSort} = props;
+const AccountingTableHead: React.FC<IAccountingTableHeadProps> = props => {
 
     const createSortHandler = (property: keyof ITableRowProps) => (event: React.MouseEvent<unknown>) => {
-        onRequestSort(event, property);
+        props.onRequestSort(event, property);
     };
 
     const tableCellStyle = {color: "white", fontSize: "13px", fontWeight: "bold", marginLeft: "10px"};
@@ -97,16 +96,16 @@ const AccountingTableHead = (props: IAccountingTableHeadProps) => {
                                 StyleHelper.textAlign(getCellAlign(headCell.id)),
                                 StyleHelper.noPadding(headCell.disablePadding)
                             ].filter(Boolean).join(' ')}
-                            sortDirection={orderBy === headCell.id ? order : false}>
+                            sortDirection={props.orderBy === headCell.id && props.order}>
                             <TableSortLabel
-                                active={orderBy === headCell.id}
-                                direction={orderBy === headCell.id ? order : 'asc'}
+                                active={props.orderBy === headCell.id}
+                                direction={props.orderBy === headCell.id && props.order || 'asc'}
                                 onClick={createSortHandler(headCell.id)}>
                                 {headCell.label}
                                 {
-                                    orderBy === headCell.id &&
+                                    props.orderBy === headCell.id &&
                                     <Box sx={visuallyHidden}>
-                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                        {props.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                                     </Box>
                                 }
                             </TableSortLabel>
