@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 import AccountingTableHead from "./AccountingTableHead";
 import TablePaginationActions from "./TablePaginationActionsFinanceo";
 import * as COLOR from "../../../constants/colors";
-import "./index.scss"
+import styles from "./styles.module.scss"
 
 export interface ITableRowProps {
     accountName: string,
@@ -159,6 +159,14 @@ export function AccountingDataTable() {
         setOrderBy(property);
     };
 
+    const formatDateString = (dateString: string): string => {
+        return new Date (dateString).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+        })
+    }
+
     return (
         <Container maxWidth="xl">
             <br/>
@@ -168,7 +176,8 @@ export function AccountingDataTable() {
                         order={order}
                         orderBy={orderBy}
                         onRequestSort={handleRequestSort}
-                        rowCount={tableRows ? tableRows.length : 0}/>
+                        rowCount={tableRows ? tableRows.length : 0}
+                        className={styles.accountTableHeader}/>
                     <TableBody>
                         {
                             tableRows !== null && stableSort(tableRows, getComparator(order, orderBy))
@@ -177,7 +186,7 @@ export function AccountingDataTable() {
                                     return (
                                         <TableRow key={row.accountName + "_row_" + indexRow}>
                                             <TableCell sx={{fontSize: "13px", whiteSpace: "nowrap"}} variant="head" key={row.accountName + "_accountName_" +  indexRow}>{row.accountName}</TableCell>
-                                            <TableCell sx={tableCellStyle} variant="footer" key={row.date + "_date_" + indexRow}>{new Date (row.date).toLocaleDateString()}</TableCell>
+                                            <TableCell sx={tableCellStyle} variant="footer" key={row.date + "_date_" + indexRow}>{formatDateString(row.date)}</TableCell>
                                             <TableCell sx={tableCellStyle} variant="footer" key={row.type + "_type_" + indexRow}>{row.type}</TableCell>
                                             <TableCell sx={tableCellStyle} variant="footer" key={row.usage + "_usage_" + indexRow}>{row.usage}</TableCell>
                                             <TableCell sx={tableCellStyle} variant="footer" key={row.receiver + "_receiver_" + indexRow}>{row.receiver}</TableCell>

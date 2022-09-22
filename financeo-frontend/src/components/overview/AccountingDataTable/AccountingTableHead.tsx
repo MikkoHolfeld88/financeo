@@ -5,6 +5,7 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Box from "@mui/material/Box";
 import {visuallyHidden} from "@mui/utils";
 import {ITableRowProps} from "./AccountingDataTable";
+import * as StyleHelper from "../../../styleHelper";
 
 interface HeadCell {
     disablePadding: boolean;
@@ -61,52 +62,57 @@ interface IAccountingTableHeadProps {
     order: Order;
     orderBy: string;
     rowCount: number;
+    className?: string;
 }
 
 const AccountingTableHead = (props: IAccountingTableHeadProps) => {
-    const {order, orderBy, onRequestSort } =  props;
+    const {order, orderBy, onRequestSort} = props;
 
     const createSortHandler = (property: keyof ITableRowProps) => (event: React.MouseEvent<unknown>) => {
-            onRequestSort(event, property);
+        onRequestSort(event, property);
     };
 
     const tableCellStyle = {color: "white", fontSize: "13px", fontWeight: "bold", marginLeft: "10px"};
 
-    const alignHeadCell = (cellId: string): 'inherit' | 'left' | 'center' | 'right' | 'justify' => {
+    const getCellAlign = (cellId: string): string | undefined => {
         switch (cellId) {
-            case "accountName": return "center";
-            case "amount": return "right";
-            default: return "left";
+            case "accountName":
+                return "center";
+            case "amount":
+                return "right";
+            default:
+                return undefined;
         }
     }
 
     return (
-        <TableHead>
-            <TableRow sx={{backgroundColor: COLOR.SCHEME.mainBackground}}>
-                {headCells.map((headCell) => (
-                    <TableCell
-                        sx={tableCellStyle}
-                        key={headCell.id}
-                        align={alignHeadCell(headCell.id)}
-                        padding={headCell.disablePadding ? 'none' : 'normal'}
-                        sortDirection={orderBy === headCell.id ? order : false}>
-
-                        <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}>
-                            {headCell.label}
-                            {orderBy === headCell.id ? (
-                                // TODO: Change color of span component from black to white
-                                <Box
-                                    component="span"
-                                    sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel>
-                    </TableCell>
-                ))}
+        <TableHead className={props.className}>
+            <TableRow>
+                {
+                    headCells.map(headCell =>
+                        <TableCell
+                            sx={tableCellStyle}
+                            key={headCell.id}
+                            className={[
+                                StyleHelper.textAlign(getCellAlign(headCell.id)),
+                                StyleHelper.noPadding(headCell.disablePadding)
+                            ].filter(Boolean).join(' ')}
+                            sortDirection={orderBy === headCell.id ? order : false}>
+                            <TableSortLabel
+                                active={orderBy === headCell.id}
+                                direction={orderBy === headCell.id ? order : 'asc'}
+                                onClick={createSortHandler(headCell.id)}>
+                                {headCell.label}
+                                {
+                                    orderBy === headCell.id &&
+                                    <Box sx={visuallyHidden}>
+                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                    </Box>
+                                }
+                            </TableSortLabel>
+                        </TableCell>
+                    )
+                }
             </TableRow>
         </TableHead>
     );
