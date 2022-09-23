@@ -7,7 +7,7 @@ import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import PersonIcon from "@mui/icons-material/Person";
-import {Spacer} from "../../pages/accountingPage/AccountsAndDepots";
+import {Spacer} from "../../pages/accountingPage/AccountsAndDepots/AccountsAndDepots";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Typography from "@mui/material/Typography";
 import * as COLORS from "../../constants/colors";

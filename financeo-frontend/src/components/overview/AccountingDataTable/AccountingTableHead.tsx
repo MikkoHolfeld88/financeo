@@ -1,5 +1,4 @@
 import {TableCell, TableHead, TableRow} from "@mui/material";
-import * as COLOR from "../../../constants/colors";
 import * as React from "react";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Box from "@mui/material/Box";
@@ -80,7 +79,7 @@ export const AccountingTableHead: React.FC<IAccountingTableHeadProps> = props =>
             case "amount":
                 return "right";
             default:
-                return undefined;
+                return "left";
         }
     }
 

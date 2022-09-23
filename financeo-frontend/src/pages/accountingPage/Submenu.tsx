@@ -6,9 +6,9 @@ import SavingsIcon from '@mui/icons-material/Savings';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import Box from "@mui/material/Box";
-import AccountsAndDepots from "./AccountsAndDepots";
+import AccountsAndDepots from "./AccountsAndDepots/AccountsAndDepots";
 import BankersOrders from "./BankersOrders";
-import EarningsAndExpenses from "./EarningsAndExpenses";
+import EarningsAndExpenses from "./EarningsAndExpenses/EarningsAndExpenses";
 import Savings from "./Savings";
 import Container from "@mui/material/Container";
 import {Divider} from '@mui/material';
@@ -60,7 +60,7 @@ export default function Submenu() {
                          style={{fontSize: "10px"}}/>
                     <Tab icon={<PointOfSaleIcon/>}
                          iconPosition="start"
-                         label="Earnings / Spendings"
+                         label="Earnings / Expenses"
                          style={{fontSize: "10px"}}/>
                     <Tab icon={<ReceiptLongIcon/>}
                          iconPosition="start"

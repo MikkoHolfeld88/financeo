@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import 'react-edit-text/dist/index.css';
-import {Account, AccountHead} from "../../components/account";
+import {Account, AccountHead} from "../../../components/account";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import {RootState} from "../../store/store";
-import {IAccountProps} from "../../store";
+import {RootState} from "../../../store/store";
+import {IAccountProps} from "../../../store";
 import {useSelector} from "react-redux";
-import AddAccountButton from "../../components/account/AddAccountButton";
-import {addAllData} from "../../services/databaseService/databaseService";
+import AddAccountButton from "../../../components/account/AddAccountButton";
+import {addAllData} from "../../../services/databaseService/databaseService";
 
 export function Spacer(props: any) {
     return (

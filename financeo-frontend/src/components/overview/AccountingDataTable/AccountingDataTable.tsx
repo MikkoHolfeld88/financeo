@@ -216,5 +216,3 @@ export function AccountingDataTable() {
         </Container>
     );
 }
-
-export default AccountingDataTable;
