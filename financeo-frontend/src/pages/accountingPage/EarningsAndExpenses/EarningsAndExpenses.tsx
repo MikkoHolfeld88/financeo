@@ -6,7 +6,6 @@ const EarningsAndExpenses = () => {
     return (
         <React.Fragment>
             <SelectHeader />
-            <h1>EarningsAndExpenses</h1>
 
             <AccountingDataTable />
         </React.Fragment>

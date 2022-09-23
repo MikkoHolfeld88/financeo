@@ -30,7 +30,7 @@ const AccountsAndDepots = () => {
 
     return (
         <React.Fragment>
-            <h1>Accounts and Depots</h1>
+            <br/>
             <AddAccountButton/>
             <Spacer/>
             {

@@ -1,4 +1,4 @@
-import {TableCell, TableHead, TableRow} from "@mui/material";
+import {TableCell, TableHead, TableRow, Tooltip} from "@mui/material";
 import * as React from "react";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Box from "@mui/material/Box";
@@ -11,6 +11,7 @@ interface HeadCell {
     id: keyof ITableRowProps;
     label: string;
     numeric: boolean;
+    description: string;
 }
 
 const headCells: readonly HeadCell[] = [
@@ -19,36 +20,42 @@ const headCells: readonly HeadCell[] = [
         numeric: false,
         disablePadding: true,
         label: 'NAME',
+        description: 'Name of the bank where the account is located',
     },
     {
         id: 'date',
         numeric: false,
         disablePadding: false,
         label: 'DATE',
+        description: 'Date of the transaction',
     },
     {
         id: 'type',
         numeric: false,
         disablePadding: false,
         label: 'TYPE',
+        description: 'Type of the transaction',
     },
     {
         id: 'usage',
         numeric: false,
         disablePadding: false,
         label: 'USAGE',
+        description: 'Description to clarify transaction usage',
     },
     {
         id: 'receiver',
         numeric: false,
         disablePadding: false,
         label: 'RECEIVER',
+        description: 'Person or company that received the money',
     },
     {
         id: 'amount',
         numeric: true,
         disablePadding: false,
         label: 'AMOUNT',
+        description: 'Amount of transaction',
     },
 ];
 
@@ -96,18 +103,20 @@ export const AccountingTableHead: React.FC<IAccountingTableHeadProps> = props =>
                                 StyleHelper.noPadding(headCell.disablePadding)
                             ].filter(Boolean).join(' ')}
                             sortDirection={props.orderBy === headCell.id && props.order}>
-                            <TableSortLabel
-                                active={props.orderBy === headCell.id}
-                                direction={props.orderBy === headCell.id && props.order || 'asc'}
-                                onClick={createSortHandler(headCell.id)}>
-                                {headCell.label}
-                                {
-                                    props.orderBy === headCell.id &&
-                                    <Box sx={visuallyHidden}>
-                                        {props.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                    </Box>
-                                }
-                            </TableSortLabel>
+                            <Tooltip title={headCell.description} placement="top">
+                                <TableSortLabel
+                                    active={props.orderBy === headCell.id}
+                                    direction={props.orderBy === headCell.id && props.order || 'asc'}
+                                    onClick={createSortHandler(headCell.id)}>
+                                    {headCell.label}
+                                    {
+                                        props.orderBy === headCell.id &&
+                                        <Box sx={visuallyHidden}>
+                                            {props.order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                        </Box>
+                                    }
+                                </TableSortLabel>
+                            </Tooltip>
                         </TableCell>
                     )
                 }

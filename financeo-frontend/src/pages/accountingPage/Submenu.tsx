@@ -11,9 +11,12 @@ import BankersOrders from "./BankersOrders";
 import EarningsAndExpenses from "./EarningsAndExpenses/EarningsAndExpenses";
 import Savings from "./Savings";
 import Container from "@mui/material/Container";
-import {Divider} from '@mui/material';
+import {Divider, Grid, Tooltip} from '@mui/material';
 import {useSelector} from "react-redux";
 import {RootState, updatePanel, useAppDispatch} from "../../store";
+import IconButton from "@mui/material/IconButton";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import * as COLORS from "../../constants/colors";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -54,22 +57,31 @@ export default function Submenu() {
                     aria-label="Submenu of Accounting"
                     scrollButtons="auto"
                     allowScrollButtonsMobile={true}>
-                    <Tab icon={<AccountBalanceWalletIcon/>}
-                         iconPosition="start"
-                         label="Accounts / Depots"
-                         style={{fontSize: "10px"}}/>
-                    <Tab icon={<PointOfSaleIcon/>}
-                         iconPosition="start"
-                         label="Earnings / Expenses"
-                         style={{fontSize: "10px"}}/>
-                    <Tab icon={<ReceiptLongIcon/>}
-                         iconPosition="start"
-                         label="Banker's orders"
-                         style={{fontSize: "10px"}}/>
-                    <Tab icon={<SavingsIcon/>}
-                         iconPosition="start"
-                         label="Savings"
-                         style={{fontSize: "10px"}}/>
+                    <Tooltip placement="top" title={"Overview of accounts and\n account details"}>
+                        <Tab icon={<AccountBalanceWalletIcon/>}
+                             iconPosition="start"
+                             label="Accounts / Depots"
+                             style={{fontSize: "10px"}}/>
+                    </Tooltip>
+
+                    <Tooltip placement="top" title={"Manage earnings and expenses of different accounts"}>
+                        <Tab icon={<PointOfSaleIcon/>}
+                             iconPosition="start"
+                             label="Earnings / Expenses"
+                             style={{fontSize: "10px"}}/>
+                    </Tooltip>
+                    <Tooltip placement="top" title={"Check your bankers orders and automated transactions"}>
+                        <Tab icon={<ReceiptLongIcon/>}
+                             iconPosition="start"
+                             label="Banker's orders"
+                             style={{fontSize: "10px"}}/>
+                    </Tooltip>
+                    <Tooltip placement="right" title={"Get a glimpse of your savings and passive income sources"}>
+                        <Tab icon={<SavingsIcon/>}
+                             iconPosition="start"
+                             label="Savings"
+                             style={{fontSize: "10px"}}/>
+                    </Tooltip>
                 </Tabs>
             </Container>
 
