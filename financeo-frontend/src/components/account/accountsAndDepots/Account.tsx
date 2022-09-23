@@ -3,12 +3,12 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/ma
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Typography from "@mui/material/Typography";
-import {deleteAccount, IAccountProps, removePickedAccount, RootState, useAppDispatch} from "../../store";
+import {deleteAccount, IAccountProps, removePickedAccount, RootState, useAppDispatch} from "../../../store";
 import {useSelector} from "react-redux";
-import * as COLORS from "../../constants/colors"
-import "./index.scss";
-import {PaperComponentFinanceo} from "../utils";
-import {addAllData} from "../../services/databaseService/databaseService";
+import * as COLORS from "../../../constants/colors"
+import "../index.scss";
+import {PaperComponentFinanceo} from "../../utils";
+import {addAllData} from "../../../services/databaseService/databaseService";
 import AccountDesktop from "./AccountDesktop";
 import AccountMobile from "./AccountMobile";
 

@@ -11,11 +11,11 @@ type AccountingDataType = {
 };
 
 interface AccountingData {
-    usage: string,
-    type: string,
-    amount: string,
     date: string,
-    receiver: string
+    usage: string,
+    receiver: string,
+    type: string,
+    amount: number
 }
 
 interface AccountingDataState {

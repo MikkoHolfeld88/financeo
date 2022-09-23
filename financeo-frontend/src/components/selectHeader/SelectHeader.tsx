@@ -78,7 +78,7 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
     }, [mappedData])
 
     function createNewAccountinData(): AccountingDataValueType   {
-        return  {
+        return {
             [accountId]: {
                 data: mappedData,
                 created: moment().toISOString(),

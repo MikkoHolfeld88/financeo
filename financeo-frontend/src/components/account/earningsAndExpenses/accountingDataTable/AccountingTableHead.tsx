@@ -4,7 +4,7 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Box from "@mui/material/Box";
 import {visuallyHidden} from "@mui/utils";
 import {ITableRowProps} from "./AccountingDataTable";
-import * as StyleHelper from "../../../styleHelper";
+import * as StyleHelper from "../../../../styleHelper";
 
 interface HeadCell {
     disablePadding: boolean;

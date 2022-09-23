@@ -1,16 +1,16 @@
 import React from "react";
 import {Accordion, AccordionDetails, AccordionSummary, Button, Divider, Grid, Tooltip} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import TextEditFinanceo from "../utils/TextEditFinanceo";
-import {updateAccount} from "../../store";
+import TextEditFinanceo from "../../utils/TextEditFinanceo";
+import {updateAccount} from "../../../store";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 import PersonIcon from "@mui/icons-material/Person";
-import {Spacer} from "../../pages/accountingPage/AccountsAndDepots/AccountsAndDepots";
+import {Spacer} from "../../../pages/accountingPage/AccountsAndDepots/AccountsAndDepots";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Typography from "@mui/material/Typography";
-import * as COLORS from "../../constants/colors";
+import * as COLORS from "../../../constants/colors";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 interface IAccountMobileProps {

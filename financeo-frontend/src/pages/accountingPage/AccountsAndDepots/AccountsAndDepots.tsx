@@ -6,7 +6,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import {RootState} from "../../../store/store";
 import {IAccountProps} from "../../../store";
 import {useSelector} from "react-redux";
-import AddAccountButton from "../../../components/account/AddAccountButton";
+import AddAccountButton from "../../../components/account/accountsAndDepots/AddAccountButton";
 import {addAllData} from "../../../services/databaseService/databaseService";
 
 export function Spacer(props: any) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import "./style.scss"
-import {SelectHeader} from "../../components/overview/SelectHeader";
+import {SelectHeader} from "../../components/selectHeader/SelectHeader";
 
 const OverviewPage = () => {
     return (

@@ -20,7 +20,6 @@ const store = configureStore({
         submenuAccounting: submenuAccountingReducer,
         CSVUploader: CSVUploaderReducer,
         CSVMapper: CSVMapperReducer,
-        // accountData: accountDataReducer,
         accountingData: accountingDataReducer
     }
 })

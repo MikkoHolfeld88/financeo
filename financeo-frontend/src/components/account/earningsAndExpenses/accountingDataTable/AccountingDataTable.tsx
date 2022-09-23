@@ -1,10 +1,10 @@
 import React from 'react';
 import {Container, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow} from "@mui/material";
-import {AccountingData, AccountingDataValueType, RootState} from "../../../store";
+import {AccountingData, AccountingDataValueType, RootState} from "../../../../store";
 import {useSelector} from "react-redux";
 import { AccountingTableHead } from "./AccountingTableHead";
 import TablePaginationActions from "./TablePaginationActionsFinanceo";
-import * as COLOR from "../../../constants/colors";
+import * as COLOR from "../../../../constants/colors";
 import styles from "./styles.module.scss"
 
 export interface ITableRowProps {

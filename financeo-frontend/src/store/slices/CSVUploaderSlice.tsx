@@ -1,17 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Edge} from "react-flow-renderer";
-
-interface IMappedCSVData {
-    date: string,
-    usage: string,
-    receiver: string,
-    type: string,
-    amount: string
-}
+import {AccountingData} from "./accountingDataSlice";
 
 interface ICSVUploaderProps {
     data: string[][] | any;
-    mappedData: IMappedCSVData[];
+    mappedData: AccountingData[];
     errors: any[];
     meta: any[];
     accountId: string;
@@ -21,7 +14,7 @@ interface ICSVUploaderProps {
 interface CSVUploaderState {
     head: string[];
     data: string[][];
-    mappedData: IMappedCSVData[];
+    mappedData: AccountingData[];
     errors: any[];
     meta: any[];
     accountId: string; // account the data belong to
@@ -81,7 +74,7 @@ export const CSVUploaderSlice = createSlice({
             const sortedActionPayload = actionPayloadCopy.sort((a, b) =>
                 Number(a.target.split("_")[0]) - Number(b.target.split("_")[0]));
 
-            let mappedRows: IMappedCSVData[] = [];
+            let mappedRows: AccountingData[] = [];
 
             state.data.map((row: string[]) => {
                 let mappedColumns: any = {};
@@ -90,10 +83,21 @@ export const CSVUploaderSlice = createSlice({
                     const targetName = edge.target.split("_")[1];
 
                     if (row[sourceIndex] !== undefined) {
-                        if(targetName === "date"){
-                            mappedColumns[targetName] = transformDate(row[sourceIndex]);
-                        } else {
-                            mappedColumns[targetName] = row[sourceIndex];
+                        switch (targetName) {
+                            case "amount":
+                                const numberValue = row[sourceIndex].split(" ")[0];
+                                const decimalSeparatorMatch = numberValue.match(/([,\.])\d{2}$/);
+                                const decimalSeparator = decimalSeparatorMatch ? decimalSeparatorMatch[1] : "";
+                                const decimalValue = parseFloat(numberValue.replace(new RegExp(`[^0-9-${decimalSeparator}]`, "g"), ""));
+
+                                mappedColumns[targetName] = decimalValue;
+                                break;
+                            case "date":
+                                mappedColumns[targetName] = transformDate(row[sourceIndex]);
+                                break;
+                            default:
+                                mappedColumns[targetName] = row[sourceIndex];
+                                break;
                         }
                     }
                 })

@@ -7,16 +7,13 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import Box from "@mui/material/Box";
 import AccountsAndDepots from "./AccountsAndDepots/AccountsAndDepots";
-import BankersOrders from "./BankersOrders";
+import BankersOrders from "./BankersOrders/BankersOrders";
 import EarningsAndExpenses from "./EarningsAndExpenses/EarningsAndExpenses";
-import Savings from "./Savings";
+import Savings from "./Savings/Savings";
 import Container from "@mui/material/Container";
-import {Divider, Grid, Tooltip} from '@mui/material';
+import {Divider, Tooltip} from '@mui/material';
 import {useSelector} from "react-redux";
 import {RootState, updatePanel, useAppDispatch} from "../../store";
-import IconButton from "@mui/material/IconButton";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import * as COLORS from "../../constants/colors";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -63,7 +60,6 @@ export default function Submenu() {
                              label="Accounts / Depots"
                              style={{fontSize: "10px"}}/>
                     </Tooltip>
-
                     <Tooltip placement="top" title={"Manage earnings and expenses of different accounts"}>
                         <Tab icon={<PointOfSaleIcon/>}
                              iconPosition="start"
