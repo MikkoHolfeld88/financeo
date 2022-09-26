@@ -1,16 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Container, Paper, Table, TableBody, TableCell, TableContainer, TablePagination, TableRow} from "@mui/material";
 import {AccountingData, AccountingDataValueType, RootState} from "../../../../store";
 import {useSelector} from "react-redux";
 import { AccountingTableHead } from "./AccountingTableHead";
 import TablePaginationActions from "./TablePaginationActionsFinanceo";
+import { getUserLocale } from 'get-user-locale';
 import * as COLOR from "../../../../constants/colors";
 import styles from "./styles.module.scss"
 
 export interface ITableRowProps {
     accountName: string,
     date: string,
-    amount: string,
+    amount: number,
     type: string,
     receiver: string,
     usage: string,
@@ -97,6 +98,10 @@ export function AccountingDataTable() {
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof ITableRowProps>('date');
 
+    useEffect(() => {
+        tableRows = createTableRows();
+    }, [])
+
     let tableRows = createTableRows();
 
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -107,6 +112,16 @@ export function AccountingDataTable() {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
+
+    const displayAmount = (amount: number): string => {
+        const amountString = amount.toFixed(2).toString().replace(".", ",");
+
+        if(getUserLocale() === "de-DE"){
+            return amountString + "€";
+        }
+
+        return amountString + "$";
+    }
 
     function createTableRows(): ITableRowProps[] | null {
         let tableRows: ITableRowProps[][] | null = null;
@@ -121,7 +136,8 @@ export function AccountingDataTable() {
                             amount: data.amount,
                             type: data.type,
                             receiver: data.receiver,
-                            usage: data.usage
+                            usage: data.usage,
+                            id: data.id
                         }
                     })
                 } else {
@@ -137,11 +153,9 @@ export function AccountingDataTable() {
         return filteredTable;
     }
 
-    function getNumberColors(amount: string): string {
-        const transferedMoney = parseFloat(amount.replace(",", "."));
-
-        if (transferedMoney > 0) {return COLOR.SCHEME.ACCOUNT_COLOR}
-        if (transferedMoney < 0) {return COLOR.SCHEME.warn}
+    function getNumberColors(amount: number): string {
+        if (amount > 0) {return COLOR.SCHEME.ACCOUNT_COLOR}
+        if (amount < 0) {return COLOR.SCHEME.warn}
 
         return COLOR.SCHEME.textBasic;
     }
@@ -176,11 +190,11 @@ export function AccountingDataTable() {
                         order={order}
                         orderBy={orderBy}
                         onRequestSort={handleRequestSort}
-                        rowCount={tableRows ? tableRows.length : 0}
+                        rowCount={tableRows && tableRows.length || 0}
                         className={styles.accountTableHeader}/>
                     <TableBody>
                         {
-                            tableRows !== null && stableSort(tableRows, getComparator(order, orderBy))
+                            tableRows && stableSort(tableRows, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 ?.map((row: ITableRowProps, indexRow) => {
                                     return (
@@ -190,7 +204,7 @@ export function AccountingDataTable() {
                                             <TableCell sx={tableCellStyle} variant="footer" key={row.type + "_type_" + indexRow}>{row.type}</TableCell>
                                             <TableCell sx={tableCellStyle} variant="footer" key={row.usage + "_usage_" + indexRow}>{row.usage}</TableCell>
                                             <TableCell sx={tableCellStyle} variant="footer" key={row.receiver + "_receiver_" + indexRow}>{row.receiver}</TableCell>
-                                            <TableCell align='right' sx={{color: getNumberColors(row.amount)}} variant="head" key={row.amount + "_amount_" + indexRow}>{row.amount}</TableCell>
+                                            <TableCell align='right' sx={{color: getNumberColors(row.amount)}} variant="head" key={row.amount + "_amount_" + indexRow}>{displayAmount(row.amount)}</TableCell>
                                         </TableRow>
                                 )}
                             )

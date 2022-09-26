@@ -11,6 +11,7 @@ type AccountingDataType = {
 };
 
 interface AccountingData {
+    id?: any,
     date: string,
     usage: string,
     receiver: string,

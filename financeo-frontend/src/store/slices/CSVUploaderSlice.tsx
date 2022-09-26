@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Edge} from "react-flow-renderer";
 import {AccountingData} from "./accountingDataSlice";
+import {v4 as uuidv4} from 'uuid';
 
 interface ICSVUploaderProps {
     data: string[][] | any;
@@ -51,6 +52,20 @@ const transformDate = (date: string): string => {
     return "0000-00-00";
 }
 
+const transformAmount = (amount: string): number => {
+    if(amount.includes(".") ||amount.includes(",")){
+        const numberValue = amount.split(" ")[0];
+        const decimalSeparatorMatch = numberValue.match(/([,\.])\d{2}$/);
+        const decimalSeparator = decimalSeparatorMatch ? decimalSeparatorMatch[1] : "";
+        const rawValue = numberValue.replace(new RegExp(`[^0-9-${decimalSeparator}]`, "g"), "")
+                                    .replace(decimalSeparator, ".");
+
+        return parseFloat(rawValue);
+    }
+
+    return  parseFloat(amount);
+}
+
 export const CSVUploaderSlice = createSlice({
     name: 'csvUploader',
     initialState,
@@ -84,22 +99,13 @@ export const CSVUploaderSlice = createSlice({
 
                     if (row[sourceIndex] !== undefined) {
                         switch (targetName) {
-                            case "amount":
-                                const numberValue = row[sourceIndex].split(" ")[0];
-                                const decimalSeparatorMatch = numberValue.match(/([,\.])\d{2}$/);
-                                const decimalSeparator = decimalSeparatorMatch ? decimalSeparatorMatch[1] : "";
-                                const decimalValue = parseFloat(numberValue.replace(new RegExp(`[^0-9-${decimalSeparator}]`, "g"), ""));
-
-                                mappedColumns[targetName] = decimalValue;
-                                break;
-                            case "date":
-                                mappedColumns[targetName] = transformDate(row[sourceIndex]);
-                                break;
-                            default:
-                                mappedColumns[targetName] = row[sourceIndex];
-                                break;
+                            case "amount": mappedColumns[targetName] = transformAmount(row[sourceIndex]); break;
+                            case "date": mappedColumns[targetName] = transformDate(row[sourceIndex]); break;
+                            default: mappedColumns[targetName] = row[sourceIndex]; break;
                         }
                     }
+
+                    mappedColumns["id"] = uuidv4();
                 })
 
                 mappedRows.push(mappedColumns);
