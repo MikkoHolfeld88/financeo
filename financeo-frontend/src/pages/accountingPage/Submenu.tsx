@@ -5,11 +5,13 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import SavingsIcon from '@mui/icons-material/Savings';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import CategoryIcon from '@mui/icons-material/Category';
 import Box from "@mui/material/Box";
 import AccountsAndDepots from "./AccountsAndDepots/AccountsAndDepots";
 import BankersOrders from "./BankersOrders/BankersOrders";
 import EarningsAndExpenses from "./EarningsAndExpenses/EarningsAndExpenses";
 import Savings from "./Savings/Savings";
+import Categories from "./Categories/Categories";
 import Container from "@mui/material/Container";
 import {Divider, Tooltip} from '@mui/material';
 import {useSelector} from "react-redux";
@@ -72,10 +74,16 @@ export default function Submenu() {
                              label="Banker's orders"
                              style={{fontSize: "10px"}}/>
                     </Tooltip>
-                    <Tooltip placement="right" title={"Get a glimpse of your savings and passive income sources"}>
+                    <Tooltip placement="top" title={"Get a glimpse of your savings and passive income sources"}>
                         <Tab icon={<SavingsIcon/>}
                              iconPosition="start"
                              label="Savings"
+                             style={{fontSize: "10px"}}/>
+                    </Tooltip>
+                    <Tooltip placement="right" title={"Manage and organize your categories"}>
+                        <Tab icon={<CategoryIcon/>}
+                             iconPosition="start"
+                             label="Categories"
                              style={{fontSize: "10px"}}/>
                     </Tooltip>
                 </Tabs>
@@ -88,6 +96,7 @@ export default function Submenu() {
                 <TabPanel value={panelValue} index={1}><EarningsAndExpenses/></TabPanel>
                 <TabPanel value={panelValue} index={2}><BankersOrders/></TabPanel>
                 <TabPanel value={panelValue} index={3}><Savings/></TabPanel>
+                <TabPanel value={panelValue} index={4}><Categories/></TabPanel>
             </Container>
         </>
     );
