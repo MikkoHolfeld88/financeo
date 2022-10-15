@@ -14,13 +14,4 @@ To run the front end locally, go into the financeo-frontend folder and press `np
 To deploy the frontend inclusively firebase' Google Cloud Functions, first build the frontend by entering 
 `npm run build` in the frontend folder, followed by entering the deploy instruction `firebase deploy`
 
-## Backend
-
-#### Building container 
-To build the container, simply go into the financeo-backend container via terminal and enter 
-`docker build -t flask-container .` whereas flask-container represents the container name. 
-
-#### Running built container 
-To run the backend locally, simply enter `docker run -p 5000:5000 flask-container` or use docker-desktop for running a 
-new instance of the newly built container. 
 
