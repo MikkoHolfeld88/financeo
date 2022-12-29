@@ -6,8 +6,10 @@ import CSVUploader from "./CSVUploader";
 import {CSVMappingDialog} from "./CSVMapper";
 import React, {useEffect} from "react";
 import {
+    AccountingData,
     AccountingDataValueType,
-    adjustPickedAccounts, IAccountProps,
+    adjustPickedAccounts,
+    IAccountProps,
     resetCSVUploaderState,
     RootState,
     setAccountingData,
@@ -31,18 +33,18 @@ interface ISelectHeaderProps {
 export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
     const dispatch = useAppDispatch();
     const [loading] = useAuthState(auth);
-    const mdScreenSize = useMediaQuery(theme.breakpoints.up('md'));
-    const [uploadedFilename, setUploadedFilename] = React.useState("");
-    const [openMappingDialog, setOpenMappingDialog] = React.useState(false);
     const [cantUpload, setCantUpload] = React.useState(false);
+    const mdScreenSize = useMediaQuery(theme.breakpoints.up('md'));
     const uid = useSelector((state: RootState) => state.login.uid);
+    const [uploadedFilename, setUploadedFilename] = React.useState("");
     const accounts = useSelector((state: RootState) => state.accounts.data);
+    const [openMappingDialog, setOpenMappingDialog] = React.useState(false);
     const accountId = useSelector((state: RootState) => state.CSVUploader.accountId);
     const mappedData = useSelector((state: RootState) => state.CSVUploader.mappedData);
-    const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.pickedAccounts);
-    const pickedAccountsIds: string | string[] = useSelector((state: RootState) => state.accountPicker.ids);
     const pickedAccountStatus: string = useSelector((state: RootState) => state.accountPicker.status);
-    const accountingData = useSelector((state: RootState) => state.accountingData.value);
+    const pickedAccountsIds: string | string[] = useSelector((state: RootState) => state.accountPicker.ids);
+    const accountingData: AccountingDataValueType[] = useSelector((state: RootState) => state.accountingData.value);
+    const pickedAccounts: string | string[] = useSelector((state: RootState) => state.accountPicker.pickedAccounts);
 
     const justifyContentGrid = !mdScreenSize ? "center" : "flex-start";
     const gridItemStyle = {marginLeft: "4px"};
@@ -63,27 +65,52 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
     }, [pickedAccounts]);
 
     useEffect(() => {
+        let cleanedData: AccountingData[];
+        let newAccountingData: AccountingDataValueType = {
+            [accountId]: {
+                data: [],
+                created: moment().toISOString(),
+                accountName: getAccountName()
+            }
+        };
+
         if (mappedData.length > 0) {
-            const newAccountingData: AccountingDataValueType = createNewAccountinData();
+            if (accountingData[accountId].data) {
+                // merges data from database (redux store) and data from csv file and removes duplicates
+                const mergedData = [...accountingData[accountId].data, ...mappedData];
+                cleanedData = removeDuplicates(mergedData);
+                newAccountingData[accountId].data = cleanedData;
+            } else {
+                newAccountingData[accountId].data = mappedData;
+            }
 
             updateData(
-                FIRESTORE_COLLECTIONS.ACCOUNTING_DATA, uid,
-                accountingData ?
-                    {...accountingData, ...newAccountingData} :
-                    {...newAccountingData});
+                FIRESTORE_COLLECTIONS.ACCOUNTING_DATA,
+                uid,
+                accountingData ? {...accountingData, ...newAccountingData} : {...newAccountingData});
             dispatch(setAccountingData({...accountingData, ...newAccountingData}))
             dispatch(resetCSVUploaderState())
         }
         ;
     }, [mappedData])
 
-    function createNewAccountinData(): AccountingDataValueType   {
-        return {
-            [accountId]: {
-                data: mappedData,
-                created: moment().toISOString(),
-                accountName: getAccountName()
-            }};
+    function removeDuplicates(data: AccountingData[]): AccountingData[] {
+        // removes duplicate entries based on date, amount and receiver
+
+        const uniqueData: AccountingData[] = [];
+        data.forEach((item) => {
+            const isDuplicate = uniqueData.some((uniqueItem) => {
+                return (
+                    uniqueItem.date === item.date &&
+                    uniqueItem.receiver === item.receiver &&
+                    uniqueItem.amount === item.amount
+                );
+            });
+            if (!isDuplicate) {
+                uniqueData.push(item);
+            }
+        });
+        return uniqueData;
     }
 
     function getAccountName(): string | any {
@@ -96,13 +123,13 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
                 <Container className="overviewHeader" maxWidth="xl" style={{display: "flex"}}>
                     <Grid container columnSpacing={0} rowSpacing={0.8} justifyContent={justifyContentGrid}>
                         <Grid item style={gridItemStyle}>
-                            { !props.yearPickerInvisible && <YearPicker /> }
+                            {!props.yearPickerInvisible && <YearPicker/>}
                         </Grid>
                         <Grid item style={gridItemStyle}>
-                            { !props.monthPickerInvisible && <MonthPicker /> }
+                            {!props.monthPickerInvisible && <MonthPicker/>}
                         </Grid>
                         <Grid item style={gridItemStyle}>
-                            { !props.accountPickerInvisible && <AccountPicker /> }
+                            {!props.accountPickerInvisible && <AccountPicker/>}
                         </Grid>
 
                         {

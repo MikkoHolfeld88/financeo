@@ -104,7 +104,6 @@ export const CSVUploaderSlice = createSlice({
                             default: mappedColumns[targetName] = row[sourceIndex]; break;
                         }
                     }
-
                     mappedColumns["id"] = uuidv4();
                 })
 
