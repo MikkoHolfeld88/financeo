@@ -11,6 +11,7 @@ import {PaperComponentFinanceo} from "../../utils";
 import {addAllData} from "../../../services/databaseService/databaseService";
 import AccountDesktop from "./AccountDesktop";
 import AccountMobile from "./AccountMobile";
+import {FIRESTORE_COLLECTIONS} from "../../../services/databaseService/colletions";
 
 const ibantools = require('ibantools');
 
@@ -31,7 +32,7 @@ export default function Account(props: IAccountProps) {
         if (pickedAccountStatus !== "idle") {
             // here addData removes one account of pickedAccounts
             // in case an account has been deleted from the accountList
-            addAllData("pickedAccounts", uid, {pickedAccounts})
+            addAllData(FIRESTORE_COLLECTIONS.PICKED_ACCOUNTS, uid, {pickedAccounts})
         }
     }, [pickedAccounts]);
 
@@ -64,7 +65,7 @@ export default function Account(props: IAccountProps) {
     }
 
     const onSaveValues = {
-        path: 'accountsAndDepots',
+        path: FIRESTORE_COLLECTIONS.ACCOUNTS_AND_DEPOTS,
         uid: uid,
         updateValue: {accounts}
     };

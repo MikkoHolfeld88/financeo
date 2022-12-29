@@ -8,6 +8,7 @@ import {addAccounts} from "./slices/accountsSlice";
 import {changePickedAccounts} from "./slices/accountPickerSlice";
 import {setStatus, setUid} from "./slices/loginSlice";
 import {AccountingDataValueType, setAccountingData} from "./slices/accountingDataSlice";
+import {FIRESTORE_COLLECTIONS} from "../services/databaseService/colletions";
 
 export default function StateLoader(){
     const dispatch = useAppDispatch();
@@ -25,7 +26,7 @@ export default function StateLoader(){
 
     function loadAccountData(){
         if(accountsStatus === 'idle'){
-            getData('accountsAndDepots', uid)
+            getData(FIRESTORE_COLLECTIONS.ACCOUNTS_AND_DEPOTS, uid)
                 .then((documentData) => {
                     dispatch(addAccounts(documentData?.accounts));
                 })
@@ -37,7 +38,7 @@ export default function StateLoader(){
 
     function loadPickedAccountData(){
         if(accountPickerStatus === 'idle'){
-            getData('pickedAccounts', uid)
+            getData(FIRESTORE_COLLECTIONS.PICKED_ACCOUNTS, uid)
                 .then((documentData) => {
                     dispatch(changePickedAccounts({pickedAccounts: documentData?.pickedAccounts, ids: documentData?.ids}));
                 })
@@ -50,7 +51,7 @@ export default function StateLoader(){
 
     function loadAccountingData(){
         if(accountsStatus === 'idle'){
-            getData('accountingData', uid)
+            getData(FIRESTORE_COLLECTIONS.ACCOUNTING_DATA, uid)
                 .then((documentData: AccountingDataValueType | any) => {
                     const { uid, ...accountingData } = documentData;
                     dispatch(setAccountingData(accountingData));

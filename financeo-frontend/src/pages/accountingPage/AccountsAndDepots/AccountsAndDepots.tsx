@@ -8,6 +8,7 @@ import {IAccountProps} from "../../../store";
 import {useSelector} from "react-redux";
 import AddAccountButton from "../../../components/account/accountsAndDepots/AddAccountButton";
 import {addAllData} from "../../../services/databaseService/databaseService";
+import {FIRESTORE_COLLECTIONS} from "../../../services/databaseService/colletions";
 
 export function Spacer(props: any) {
     return (
@@ -24,7 +25,7 @@ const AccountsAndDepots = () => {
 
     useEffect(() => {
         if (status !== "idle") {
-            addAllData("accountsAndDepots", uid, {accounts});
+            addAllData(FIRESTORE_COLLECTIONS.ACCOUNTS_AND_DEPOTS, uid, {accounts});
         }
     }, [accounts && accounts.length]);
 

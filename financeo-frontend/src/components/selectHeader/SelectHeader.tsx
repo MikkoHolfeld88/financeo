@@ -19,6 +19,7 @@ import theme from "../../theme";
 import {useSelector} from "react-redux";
 import {addAllData, updateData} from "../../services/databaseService/databaseService";
 import moment from "moment";
+import {FIRESTORE_COLLECTIONS} from "../../services/databaseService/colletions";
 
 interface ISelectHeaderProps {
     yearPickerInvisible?: boolean,
@@ -56,8 +57,7 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
                 dispatch(adjustPickedAccounts({accounts}));
             }
             addAllData(
-                "pickedAccounts",
-                uid,
+                FIRESTORE_COLLECTIONS.PICKED_ACCOUNTS, uid,
                 {pickedAccounts: pickedAccounts, ids: pickedAccountsIds})
         }
     }, [pickedAccounts]);
@@ -67,7 +67,7 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
             const newAccountingData: AccountingDataValueType = createNewAccountinData();
 
             updateData(
-                "accountingData", uid,
+                FIRESTORE_COLLECTIONS.ACCOUNTING_DATA, uid,
                 accountingData ?
                     {...accountingData, ...newAccountingData} :
                     {...newAccountingData});
