@@ -1,6 +1,6 @@
+import Grid from "@mui/material/Grid";
 import React from "react";
-
-
+import {Typography} from "@mui/material";
 
 interface ICategoriesProps {
     value?: any,
@@ -8,9 +8,20 @@ interface ICategoriesProps {
 
 const Categories = (props: ICategoriesProps) => {
     return (
-        <React.Fragment>
-            Categories
-        </React.Fragment>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <Typography>xs=8</Typography>
+            </Grid>
+            <Grid item xs={12}>
+                <Typography>xs=4</Typography>
+            </Grid>
+            <Grid item xs={12}>
+                <Typography>xs=4</Typography>
+            </Grid>
+            <Grid item xs={12}>
+                <Typography>xs=8</Typography>
+            </Grid>
+        </Grid>
     )
 }
 
