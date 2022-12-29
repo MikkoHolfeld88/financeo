@@ -109,7 +109,7 @@ export default function CSVMappingDialog(props: ICSVMappingDialogProps) {
                 </Grid>
 
                 <div
-                    style={{height: "500px", border: "solid 1px lightgrey", borderRadius: "4px", marginTop: "5px"}}>
+                    style={{height: "50vh", border: "solid 1px lightgrey", borderRadius: "4px", marginTop: "5px"}}>
                     <CSVMapper/>
                 </div>
 
