@@ -12,32 +12,9 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Typography from "@mui/material/Typography";
 import * as COLORS from "../../../constants/colors";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import {IAccountComponentProps} from "./AccountDesktop";
 
-interface IAccountMobileProps {
-    index: string | false,
-    type: string,
-    bank: string,
-    iban: string,
-    bic: string,
-    owner: string,
-    onSaveValues: {
-        path: string,
-        uid: string,
-        updateValue: any
-    },
-    setDeleteDialogOpen: (value: boolean) => void,
-    ibanValidation: {
-        function: (value: string) => boolean,
-        message: string
-    },
-    bicValidation: {
-        function: (value: string) => boolean,
-        message: string
-    }
-    getAccountStyle: () => string,
-}
-
-const AccountMobile = (props: IAccountMobileProps) => {
+const AccountMobile = (props: IAccountComponentProps) => {
     const [expanded, setExpanded] = React.useState<string | false>(false);
     const miniScreenSize = useMediaQuery('(max-width:492px)');
 
@@ -196,7 +173,5 @@ const AccountMobile = (props: IAccountMobileProps) => {
         </Accordion>
     )
 }
-
-export type {IAccountMobileProps}
 
 export default AccountMobile;

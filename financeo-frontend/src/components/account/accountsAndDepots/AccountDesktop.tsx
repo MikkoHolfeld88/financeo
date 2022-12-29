@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import * as COLORS from "../../../constants/colors";
 
-interface IAccountDesktopProps {
+interface IAccountComponentProps {
     index: string | false,
     type: string,
     bank: string,
@@ -30,7 +30,7 @@ interface IAccountDesktopProps {
     getAccountStyle: () => string,
 }
 
-const AccountDesktop = (props: IAccountDesktopProps) => {
+const AccountDesktop = (props: IAccountComponentProps) => {
     const handleChipClick = () => {};
 
     const ibanDisplayFunction = (iban: string) => {
@@ -115,6 +115,6 @@ const AccountDesktop = (props: IAccountDesktopProps) => {
     )
 }
 
-export type {IAccountDesktopProps}
+export type {IAccountComponentProps}
 
 export default AccountDesktop;
