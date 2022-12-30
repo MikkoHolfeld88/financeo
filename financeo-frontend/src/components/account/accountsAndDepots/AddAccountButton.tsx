@@ -65,7 +65,7 @@ export default function AddAccountButton() {
                     onClick={openAddAccountDialog}
                     variant="outlined"
                     startIcon={<AddIcon/>}
-                    style={{border: '2px solid'}}>
+                    style={{border: '1px solid'}}>
                     Add
                 </Button>
             </Tooltip>
