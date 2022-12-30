@@ -2,6 +2,7 @@ import {createTheme} from '@mui/material/styles';
 import * as COLORS from './constants/colors';
 
 const theme = createTheme({
+
     palette: {
         primary: {
             main: COLORS.SCHEME.mainBackground,

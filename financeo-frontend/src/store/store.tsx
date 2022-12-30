@@ -9,18 +9,20 @@ import submenuAccountingReducer from "./slices/submenuAccountingSlice";
 import CSVUploaderReducer from "./slices/CSVUploaderSlice";
 import accountingDataReducer from "./slices/accountingDataSlice"
 import CSVMapperReducer from "./slices/CSVMapperSlice";
+import accountingCategoryReducer from "./slices/accountingCategorySlice/accountingCategorySlice";
 
 const store = configureStore({
     reducer: {
+        accounts: accountsReducer,
+        accountPicker: accountPickerReducer,
+        accountingCategory: accountingCategoryReducer,
+        accountingData: accountingDataReducer,
+        CSVMapper: CSVMapperReducer,
+        CSVUploader: CSVUploaderReducer,
         login: loginReducer,
         monthPicker: monthPickerReducer,
-        yearPicker: yearPickerReducer,
-        accountPicker: accountPickerReducer,
-        accounts: accountsReducer,
         submenuAccounting: submenuAccountingReducer,
-        CSVUploader: CSVUploaderReducer,
-        CSVMapper: CSVMapperReducer,
-        accountingData: accountingDataReducer
+        yearPicker: yearPickerReducer,
     }
 })
 

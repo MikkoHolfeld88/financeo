@@ -1,22 +1,25 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-interface AccountingCategory {
-    id?: any,
+export interface AccountingCategory {
+    id?: string,
     name: string,
     icon: any,
     description: string,
     matchers: string[],
     parent: AccountingCategory | null,
     children: AccountingCategory[] | null
+    default: boolean,
 }
 
 interface AccountingCategoryState {
     categories: AccountingCategory[];
+    selectedCategory: AccountingCategory | null;
     status: 'idle' | 'pending' | 'loaded' | 'failed';
 }
 
 const initialState: AccountingCategoryState = {
     categories: [],
+    selectedCategory: null,
     status: 'idle'
 }
 
@@ -151,4 +154,5 @@ export const {
     removeChild,
     resetAccountingCategory
 } = accountingCategorySlice.actions;
+
 export default accountingCategorySlice.reducer;

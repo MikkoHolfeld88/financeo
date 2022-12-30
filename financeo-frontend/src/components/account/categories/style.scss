@@ -1,0 +1,30 @@
+@import "../../../constants/colors";
+
+.heading {
+  margin: 10px
+}
+
+.categoryRow {
+  display: flex;
+  gap: 25px;
+  flex-direction: row;
+  align-items: center;
+  color: #111111;
+}
+
+.iconOfList {
+  color: #4f4f4f;
+  margin: 4px;
+
+  &:hover {
+    cursor: pointer;
+    color: $mainBackground;
+  }
+
+}
+
+.autoComplete {
+  width: 85%;
+  margin: 10px
+}
+
