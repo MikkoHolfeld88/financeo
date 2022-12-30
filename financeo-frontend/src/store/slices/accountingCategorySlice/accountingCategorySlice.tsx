@@ -4,7 +4,7 @@ export interface AccountingCategory {
     id?: string,
     name: string,
     icon: any,
-    description: string,
+    description?: string,
     matchers: string[],
     parent: AccountingCategory | null,
     children: AccountingCategory[] | null
