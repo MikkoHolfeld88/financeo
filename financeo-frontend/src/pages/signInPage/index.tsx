@@ -31,6 +31,7 @@ export function SignInPage() {
                             Login
                         </Typography>
                         <TextField
+                            InputLabelProps={{ shrink: true }}
                             placeholder="E-mail"
                             value={email}
                             id="standard-basic"
@@ -38,6 +39,7 @@ export function SignInPage() {
                             onChange={(e) => setEmail(e.target.value)}
                             variant="outlined"/>
                         <TextField
+                            InputLabelProps={{ shrink: true }}
                             placeholder="Password"
                             type="password"
                             value={password}

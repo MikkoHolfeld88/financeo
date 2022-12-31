@@ -12,7 +12,6 @@ interface ICategoriesProps {
 const Categories = (props: ICategoriesProps) => {
     const containerStyle: React.CSSProperties = {
         minHeight: "25vh",
-        maxHeight: "40vh",
         overflow: "auto"
     }
 
