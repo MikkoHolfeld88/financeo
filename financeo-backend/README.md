@@ -10,6 +10,6 @@ To build the container, simply go into the financeo-backend container via termin
 `docker build -t flask-container .` whereas flask-container represents the container name. 
 
 #### Running built container 
-To run the backend locally, simply enter `docker run -p 5000:5000 flask-container` or use docker-desktop for running a 
+To run the backend locally, simply enter `docker run -p 8080:8080 flask-container` or use docker-desktop for running a 
 new instance of the newly built container. 
 
