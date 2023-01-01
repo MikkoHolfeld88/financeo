@@ -31,7 +31,7 @@ export const CategoryMatchers = (props: ICategoryMatchersProps) => {
 
     return (
         <Grid container>
-            <Grid item xs={12} sm={12} md={10} lg={10} xl={10} className="textFieldGrid">
+            <Grid item xs={10} sm={10} md={10} lg={10} xl={10} className="textFieldGrid">
                 <TextField
                     required
                     error={error}
@@ -46,7 +46,7 @@ export const CategoryMatchers = (props: ICategoryMatchersProps) => {
             </Grid>
             {
                 props.lastMatcher &&
-                <Grid item xs={12} sm={12} md={1} lg={1} xl={1} className="textFieldGrid">
+                <Grid item xs={1} sm={1} md={1} lg={1} xl={1} className="textFieldGrid">
                     <Tooltip title="Add matcher to matchers list" followCursor>
                         <IconButton onClick={() => !error && props.addMatcher()} aria-label="delete matcher">
                             <AddIcon color="primary"/>
@@ -54,7 +54,7 @@ export const CategoryMatchers = (props: ICategoryMatchersProps) => {
                     </Tooltip>
                 </Grid>
             }
-            <Grid item xs={12} sm={12} md={1} lg={1} xl={1} className="textFieldGrid">
+            <Grid item xs={1} sm={1} md={1} lg={1} xl={1} className="textFieldGrid">
                 <Tooltip title="Remove matcher from matchers list" followCursor>
                     <IconButton onClick={() => props.removeMatcher(props.index)} aria-label="delete matcher">
                         <DeleteForeverIcon sx={{color: COLORS.SCHEME.warn}}/>

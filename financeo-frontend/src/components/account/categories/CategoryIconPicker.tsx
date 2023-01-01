@@ -1,10 +1,22 @@
-import React from "react";
-import {Autocomplete, Dialog, DialogContent, DialogTitle, Grid, Icon, TextField, Tooltip} from "@mui/material";
+import React, {useEffect} from "react";
+import {
+    Autocomplete,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    DialogTitleProps,
+    Grid,
+    Icon, makeStyles,
+    TextField,
+    Tooltip
+} from "@mui/material";
 import {iconList} from "../../../store/slices/accountingCategorySlice/iconList";
 import {styles} from "./CategoryManagement";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
 import * as COLORS from "../../../constants/colors"
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from '@mui/icons-material/Close';
 
 interface CategoryIconPickerProps {
     value: string | null;
@@ -77,15 +89,37 @@ export const CategoryIconPicker = (props: CategoryIconPickerProps) => {
                     Inspect icons
                 </Button>
             </Grid>
-
             {
-                <Dialog fullWidth maxWidth="lg" open={props.open} onClose={() => props.setOpen(false)} scroll="body">
-                    <DialogTitle style={{backgroundColor: COLORS.SCHEME.mainBackground, color: "white", textAlign: "center"}}>Icon inspector</DialogTitle>
+                <Dialog
+                    fullWidth
+                    maxWidth="lg"
+                    open={props.open}
+                    onClose={() => props.setOpen(false)}
+                    scroll="paper">
+                    <DialogTitle style={{backgroundColor: COLORS.SCHEME.mainBackground, color: "white",display: "flex"}}>
+                        <div style={{
+                            flex: "0 1 auto",
+                            width: "150px",
+                            height: "100px",
+                            position: "absolute",
+                            left: "50%",
+                            transform: "translateX(-50%)"
+                        }}>
+                            Icon inspector
+                        </div>
+                        <IconButton onClick={() => props.setOpen(false)} sx={{
+                            flex: "0 1 auto",
+                            width: "40px",
+                            height: "100%",
+                            marginLeft: "auto",
+                        }}>
+                            <CloseIcon sx={{color: "white"}}/>
+                        </IconButton>
+                    </DialogTitle>
                     <DialogContent>{initialiseIconPicker()}</DialogContent>
                     <DialogActions>
                         <Button
-                            style={{color: "white"}}
-                            variant="contained"
+                            variant="outlined"
                             fullWidth
                             autoFocus
                             onClick={() => props.setOpen(false)}>
