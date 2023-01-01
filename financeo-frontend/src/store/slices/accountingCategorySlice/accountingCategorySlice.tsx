@@ -6,8 +6,7 @@ export interface AccountingCategory {
     icon: any,
     description?: string,
     matchers: string[],
-    parent?: AccountingCategory | null,
-    children?: AccountingCategory[] | null
+    parent?: AccountingCategory | AccountingCategory[] | null,
     default: boolean,
 }
 
@@ -112,26 +111,6 @@ export const accountingCategorySlice = createSlice({
             });
             state.status = 'loaded';
         },
-        addChild: (state, action: PayloadAction<{category: AccountingCategory, child: AccountingCategory}>) => {
-            state.status = 'pending';
-            state.categories = state.categories.map(category => {
-                if (category.id === action.payload.category.id && category.children) {
-                    category.children = [...category.children, action.payload.child];
-                }
-                return category;
-            });
-            state.status = 'loaded';
-        },
-        removeChild: (state, action: PayloadAction<{category: AccountingCategory, child: AccountingCategory}>) => {
-            state.status = 'pending';
-            state.categories = state.categories.map(category => {
-                if (category.id === action.payload.category.id && category.children) {
-                    category.children = category.children.filter(child => child.id !== action.payload.child.id);
-                }
-                return category;
-            });
-            state.status = 'loaded';
-        },
         resetAccountingCategory: (state) => {
             state.categories = [];
             state.status = 'idle';
@@ -150,8 +129,6 @@ export const {
     removeMatcher,
     addParent,
     removeParent,
-    addChild,
-    removeChild,
     resetAccountingCategory
 } = accountingCategorySlice.actions;
 
