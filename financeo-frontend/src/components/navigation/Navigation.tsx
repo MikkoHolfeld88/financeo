@@ -12,7 +12,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import './style.scss'
 import '../../hovers.css'
@@ -22,14 +21,21 @@ import testUser from "../../assets/img/portrait_placeholder.png";
 // @ts-ignore
 import logo from "../../assets/logo/logo_white_large.png";
 import {useAuthState} from "react-firebase-hooks/auth";
-import {useAppDispatch} from "../../store/store";
-import {setUid} from "../../store";
+import {RootState, setToolTipsEnabled, setUid, useAppDispatch} from "../../store";
+import {TooltipFinanceo} from "../utils/TooltipFinanceo";
+import {FormControlLabel, Switch} from "@mui/material";
+import {useSelector} from "react-redux";
+import {AppConfigState} from "../../store/slices/appConfigSlice";
 
 const pages = [
     {route: ROUTES.OVERVIEW, name: 'Overview', desc: "Provides fundamental financial information"},
     {route: ROUTES.ACCOUNTING, name: 'Accounting', desc: "Investigate and edit your bookings"},
     {route: ROUTES.INVESTING, name: 'Investing', desc: "Invest according to your self-designed strategies "},
-    {route: ROUTES.ANALYSING, name: 'Analysing', desc: "Analyze buying behavior, frugality, investment strategies, risk affinity and more"},
+    {
+        route: ROUTES.ANALYSING,
+        name: 'Analysing',
+        desc: "Analyze buying behavior, frugality, investment strategies, risk affinity and more"
+    },
 ];
 
 const settings = [
@@ -45,10 +51,11 @@ const Navigation = () => {
     const [user] = useAuthState(auth);
     const dispatch = useAppDispatch();
     const hvrFX = 'hvr-skew';
+    const appConfig: AppConfigState = useSelector((state: RootState) => state.appConfig);
 
     // handles logout
     React.useEffect(() => {
-        if(location.pathname === ROUTES.SIGN_OUT){
+        if (location.pathname === ROUTES.SIGN_OUT) {
             logout();
             dispatch(setUid('none'))
         }
@@ -75,7 +82,7 @@ const Navigation = () => {
     };
 
     const clickLogo = () => {
-        if(user){
+        if (user) {
             navigate(ROUTES.OVERVIEW);
         } else {
             navigate(ROUTES.SIGN_IN);
@@ -93,7 +100,7 @@ const Navigation = () => {
                         onClick={clickLogo}
                         sx={{
                             mr: 2,
-                            display: { xs: 'none', md: 'flex' },
+                            display: {xs: 'none', md: 'flex'},
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
@@ -103,17 +110,17 @@ const Navigation = () => {
                         <img src={logo} alt="financeo logo" width={180} className={hvrFX}/>
                     </Typography>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                    <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                         {
                             user && <IconButton
-                                sx = {{color: 'white'}}
+                                sx={{color: 'white'}}
                                 size="large"
                                 aria-label="menu button"
                                 aria-controls="menu-appbar"
                                 aria-haspopup="true"
                                 onClick={handleOpenNavMenu}
                                 color="inherit">
-                                <MenuIcon />
+                                <MenuIcon/>
                             </IconButton>
                         }
                         <Menu
@@ -131,7 +138,7 @@ const Navigation = () => {
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
                             sx={{
-                                display: { xs: 'block', md: 'none' },
+                                display: {xs: 'block', md: 'none'},
                             }}>
                             {pages.map((page) => (
                                 <MenuItem key={page.name} onClick={event => handleCloseNavMenu(event, page.route)}>
@@ -148,7 +155,7 @@ const Navigation = () => {
                         onClick={clickLogo}
                         sx={{
                             mr: 2,
-                            display: { xs: 'flex', md: 'none' },
+                            display: {xs: 'flex', md: 'none'},
                             flexGrow: 1,
                             fontFamily: 'monospace',
                             fontWeight: 700,
@@ -158,30 +165,39 @@ const Navigation = () => {
                         }}>
                         <img src={logo} alt="financeo logo" width={180} className={hvrFX}/>
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, textAlign: 'center'}}>
+                    <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}, textAlign: 'center'}}>
                         {user && pages.map((page) => (
-                            <Tooltip title={page.desc} key={page.name + "_description"}>
+                            <TooltipFinanceo title={page.desc} key={page.name + "_description"}>
                                 <Button
                                     key={page.name}
                                     onClick={event => handleCloseNavMenu(event, page.route)}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}>
+                                    sx={{my: 2, color: 'white', display: 'block'}}>
                                     {page.name}
                                 </Button>
-                            </Tooltip>
+                            </TooltipFinanceo>
                         ))}
                     </Box>
 
-                    <Box sx={{ flexGrow: 0 }}>
+                    <Box sx={{flexGrow: 0}}>
+                        <FormControlLabel
+                            sx={{color: 'white', fontSize: "8px", marginRight: "10px"}}
+                            value="start"
+                            control={<Switch
+                                checked={!appConfig.toolTipsEnabled}
+                                onChange={() => dispatch(setToolTipsEnabled(!appConfig.toolTipsEnabled))}
+                                color="secondary"/>}
+                            label="Tooltips"
+                            labelPlacement="start"/>
                         {
                             user &&
-                            <Tooltip title={"Open account details for '" + user.email + "'"}>
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Remy Sharp" src={testUser} />
+                            <TooltipFinanceo title={"Open account details for '" + user.email + "'"}>
+                                <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                                    <Avatar alt="Remy Sharp" src={testUser}/>
                                 </IconButton>
-                            </Tooltip>
+                            </TooltipFinanceo>
                         }
                         <Menu
-                            sx={{ mt: '45px' }}
+                            sx={{mt: '45px'}}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
                             anchorOrigin={{
@@ -196,8 +212,10 @@ const Navigation = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}>
                             {user && settings.map((setting) => (
-                                <MenuItem key={setting.name} onClick={event => handleCloseNavMenu(event, setting.route)}>
-                                    <Typography key={setting.name + "_label"} textAlign="center">{setting.name}</Typography>
+                                <MenuItem key={setting.name}
+                                          onClick={event => handleCloseNavMenu(event, setting.route)}>
+                                    <Typography key={setting.name + "_label"}
+                                                textAlign="center">{setting.name}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>

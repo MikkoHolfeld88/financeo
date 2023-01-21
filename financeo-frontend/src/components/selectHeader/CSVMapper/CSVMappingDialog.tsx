@@ -5,7 +5,8 @@ import {
     resetCSVMapperState,
     resetCSVUploaderState,
     resetEdges,
-    RootState, setAccountName,
+    RootState,
+    setAccountName,
     setHead,
     useAppDispatch
 } from "../../../store";
@@ -29,7 +30,7 @@ export type BasicAccountOption = {
 }
 
 export const createBasicAccountOptions = (accounts: IAccountProps[]): BasicAccountOption[] => {
-    return accounts.map((account, index) => {
+    return accounts && accounts.map((account) => {
         return {
             value: account.id,
             label: account?.bank

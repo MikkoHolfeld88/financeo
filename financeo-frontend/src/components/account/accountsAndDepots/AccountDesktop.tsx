@@ -1,10 +1,11 @@
 import React from "react";
-import {Chip, Grid, Tooltip} from "@mui/material";
+import {Chip, Grid} from "@mui/material";
 import TextEditFinanceo from "../../utils/TextEditFinanceo";
 import {updateAccount} from "../../../store";
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import * as COLORS from "../../../constants/colors";
+import {TooltipFinanceo} from "../../utils/TooltipFinanceo";
 
 interface IAccountComponentProps {
     index: string | false,
@@ -31,7 +32,8 @@ interface IAccountComponentProps {
 }
 
 const AccountDesktop = (props: IAccountComponentProps) => {
-    const handleChipClick = () => {};
+    const handleChipClick = () => {
+    };
 
     const ibanDisplayFunction = (iban: string) => {
         return iban.replace(/[a-zA-Z0-9_]{4}(?=.)/g, '$& ')
@@ -59,7 +61,6 @@ const AccountDesktop = (props: IAccountComponentProps) => {
                         state={props.type}
                         readonly={true}/>
                 </b>
-
             </Grid>
             <Grid item md={2} lg={2} xl={2}>
                 <TextEditFinanceo
@@ -68,8 +69,7 @@ const AccountDesktop = (props: IAccountComponentProps) => {
                     state={props.bank}
                     setState={updateAccount}
                     referenceValue={props.index}
-                    onSave={props.onSaveValues}
-                />
+                    onSave={props.onSaveValues}/>
             </Grid>
             <Grid item md={3} lg={3} xl={3}>
                 <TextEditFinanceo
@@ -80,8 +80,7 @@ const AccountDesktop = (props: IAccountComponentProps) => {
                     referenceValue={props.index}
                     validation={props.ibanValidation}
                     formatDisplayFunction={ibanDisplayFunction}
-                    onSave={props.onSaveValues}
-                />
+                    onSave={props.onSaveValues}/>
             </Grid>
             <Grid item md={2} lg={2} xl={2}>
                 <TextEditFinanceo
@@ -91,8 +90,7 @@ const AccountDesktop = (props: IAccountComponentProps) => {
                     setState={updateAccount}
                     referenceValue={props.index}
                     validation={props.bicValidation}
-                    onSave={props.onSaveValues}
-                />
+                    onSave={props.onSaveValues}/>
             </Grid>
             <Grid item md={2} lg={2} xl={2}>
                 <TextEditFinanceo
@@ -101,16 +99,15 @@ const AccountDesktop = (props: IAccountComponentProps) => {
                     state={props.owner}
                     setState={updateAccount}
                     referenceValue={props.index}
-                    onSave={props.onSaveValues}
-                />
+                    onSave={props.onSaveValues}/>
             </Grid>
-            <Tooltip placement="left" title={"Delete account No. '" + props.index + "'"}>
+            <TooltipFinanceo placement="left" title={"Delete account No. '" + props.index + "'"}>
                 <Grid item md={1} lg={1} xl={1} sx={{textAlign: "center"}}>
                     <IconButton onClick={() => props.setDeleteDialogOpen(true)} aria-label="open account view">
                         <DeleteForeverIcon sx={{color: COLORS.SCHEME.warn}}/>
                     </IconButton>
                 </Grid>
-            </Tooltip>
+            </TooltipFinanceo>
         </Grid>
     )
 }

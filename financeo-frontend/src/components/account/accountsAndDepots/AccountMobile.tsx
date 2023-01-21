@@ -1,5 +1,5 @@
 import React from "react";
-import {Accordion, AccordionDetails, AccordionSummary, Button, Divider, Grid, Tooltip} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Button, Divider, Grid} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import TextEditFinanceo from "../../utils/TextEditFinanceo";
 import {updateAccount} from "../../../store";
@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import * as COLORS from "../../../constants/colors";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import {IAccountComponentProps} from "./AccountDesktop";
+import {TooltipFinanceo} from "../../utils/TooltipFinanceo";
 
 const AccountMobile = (props: IAccountComponentProps) => {
     const [expanded, setExpanded] = React.useState<string | false>(false);
@@ -42,7 +43,7 @@ const AccountMobile = (props: IAccountComponentProps) => {
                 expandIcon={<ExpandMoreIcon/>}
                 aria-controls="panel1bh-content"
                 id="panel1bh-header">
-                <Tooltip placement="right" title={"Type: " + (props.type !== null && props.type)}>
+                <TooltipFinanceo placement="right" title={"Type: " + (props.type !== null && props.type)}>
                     <b>
                         <TextEditFinanceo
                             className={props.getAccountStyle()}
@@ -55,7 +56,7 @@ const AccountMobile = (props: IAccountComponentProps) => {
                         />
 
                     </b>
-                </Tooltip>
+                </TooltipFinanceo>
             </AccordionSummary>
 
             <AccordionDetails>

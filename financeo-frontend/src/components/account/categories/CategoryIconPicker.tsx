@@ -1,15 +1,5 @@
-import React, {useEffect} from "react";
-import {
-    Autocomplete,
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    DialogTitleProps,
-    Grid,
-    Icon, makeStyles,
-    TextField,
-    Tooltip
-} from "@mui/material";
+import React from "react";
+import {Autocomplete, Dialog, DialogContent, DialogTitle, Grid, Icon, TextField} from "@mui/material";
 import {iconList} from "../../../store/slices/accountingCategorySlice/iconList";
 import {styles} from "./CategoryManagement";
 import Button from "@mui/material/Button";
@@ -17,6 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import * as COLORS from "../../../constants/colors"
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
+import {TooltipFinanceo} from "../../utils/TooltipFinanceo";
 
 interface CategoryIconPickerProps {
     value: string | null;
@@ -30,7 +21,7 @@ export const CategoryIconPicker = (props: CategoryIconPickerProps) => {
     const initialiseIconPicker = () => {
         return iconList.map((icon, index) => {
             return (
-                <Tooltip
+                <TooltipFinanceo
                     title={icon.replace(new RegExp('_', "g"), " ")}
                     followCursor
                     key={index}>
@@ -41,7 +32,7 @@ export const CategoryIconPicker = (props: CategoryIconPickerProps) => {
                         className="iconOfList hvr-float">
                         {icon}
                     </Icon>
-                </Tooltip>
+                </TooltipFinanceo>
             )
         })
     };
@@ -54,7 +45,9 @@ export const CategoryIconPicker = (props: CategoryIconPickerProps) => {
                     autoHighlight
                     options={iconList}
                     style={{marginBottom: "10px"}}
-                    onChange={(event: any, newValue: string | null) => {props.setValue(newValue)}}
+                    onChange={(event: any, newValue: string | null) => {
+                        props.setValue(newValue)
+                    }}
                     renderInput={(params) =>
                         <TextField
                             {...params}
@@ -64,20 +57,20 @@ export const CategoryIconPicker = (props: CategoryIconPickerProps) => {
                             helperText="Search icon or select it via icon inspection"/>}
                 />
             </Grid>
-            <Grid item xs={12} sm={1} md={1} lg={1} xl={1} sx={{marginTop: "10px", justifyContent: "space-evenly",  alignItems: "center", textAlign: "center"}}>
+            <Grid item xs={12} sm={1} md={1} lg={1} xl={1}
+                  sx={{marginTop: "10px", justifyContent: "space-evenly", alignItems: "center", textAlign: "center"}}>
                 {
                     props.value && iconList.find((icon) => props.value === icon) &&
-                    <Tooltip
-                        arrow
-                        title={"Click to remove icon"}
-                        followCursor>
+                    <TooltipFinanceo
+                        arrow={true}
+                        title={"Click to remove icon"}>
                         <Icon
                             onClick={() => props.setValue(null)}
                             sx={styles.iconSize}
                             className="iconOfList hvr-float">
                             {props.value}
                         </Icon>
-                    </Tooltip>
+                    </TooltipFinanceo>
                 }
             </Grid>
             <Grid item xs={12} sm={5} md={5} lg={5} xl={5} sx={{marginTop: "10px"}}>
@@ -96,7 +89,8 @@ export const CategoryIconPicker = (props: CategoryIconPickerProps) => {
                     open={props.open}
                     onClose={() => props.setOpen(false)}
                     scroll="paper">
-                    <DialogTitle style={{backgroundColor: COLORS.SCHEME.mainBackground, color: "white",display: "flex"}}>
+                    <DialogTitle
+                        style={{backgroundColor: COLORS.SCHEME.mainBackground, color: "white", display: "flex"}}>
                         <div style={{
                             flex: "0 1 auto",
                             width: "150px",

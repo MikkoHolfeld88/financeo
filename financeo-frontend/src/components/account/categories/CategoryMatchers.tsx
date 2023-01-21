@@ -1,9 +1,10 @@
-import {Grid, TextField, Tooltip} from "@mui/material";
+import {Grid, TextField} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import * as COLORS from "../../../constants/colors";
 import React, {useEffect, useState} from "react";
+import {TooltipFinanceo} from "../../utils/TooltipFinanceo";
 
 interface ICategoryMatchersProps {
     lastMatcher: boolean;
@@ -47,19 +48,19 @@ export const CategoryMatchers = (props: ICategoryMatchersProps) => {
             {
                 props.lastMatcher &&
                 <Grid item xs={1} sm={1} md={1} lg={1} xl={1} className="textFieldGrid">
-                    <Tooltip title="Add matcher to matchers list" followCursor>
+                    <TooltipFinanceo title="Add matcher to matchers list">
                         <IconButton onClick={() => !error && props.addMatcher()} aria-label="delete matcher">
                             <AddIcon color="primary"/>
                         </IconButton>
-                    </Tooltip>
+                    </TooltipFinanceo>
                 </Grid>
             }
             <Grid item xs={1} sm={1} md={1} lg={1} xl={1} className="textFieldGrid">
-                <Tooltip title="Remove matcher from matchers list" followCursor>
+                <TooltipFinanceo title="Remove matcher from matchers list">
                     <IconButton onClick={() => props.removeMatcher(props.index)} aria-label="delete matcher">
                         <DeleteForeverIcon sx={{color: COLORS.SCHEME.warn}}/>
                     </IconButton>
-                </Tooltip>
+                </TooltipFinanceo>
             </Grid>
         </Grid>
     )

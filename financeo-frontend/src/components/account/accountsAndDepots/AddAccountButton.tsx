@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import {Button, FormControl, TextField, Tooltip} from "@mui/material";
+import {Button, FormControl, TextField} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import {addAccount, useAppDispatch} from "../../../store";
 import {PaperComponentFinanceo, SelectFinanceo} from "../../utils";
@@ -12,6 +12,7 @@ import AccountBalanceIconOutlinedIcon from '@mui/icons-material/AccountBalanceOu
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import PersonIcon from '@mui/icons-material/Person';
+import {TooltipFinanceo} from "../../utils/TooltipFinanceo";
 
 export default function AddAccountButton() {
     const dispatch = useAppDispatch();
@@ -60,7 +61,7 @@ export default function AddAccountButton() {
 
     return (
         <Box>
-            <Tooltip title={"Add new Account"} placement="right">
+            <TooltipFinanceo title={"Add new Account"} placement="right">
                 <Button
                     onClick={openAddAccountDialog}
                     variant="outlined"
@@ -68,7 +69,7 @@ export default function AddAccountButton() {
                     style={{border: '1px solid'}}>
                     Add
                 </Button>
-            </Tooltip>
+            </TooltipFinanceo>
             {
                 <Dialog
                     open={open}

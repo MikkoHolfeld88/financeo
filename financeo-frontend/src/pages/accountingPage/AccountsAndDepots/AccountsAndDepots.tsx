@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import 'react-edit-text/dist/index.css';
 import {Account, AccountHead} from "../../../components/account";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import {RootState} from "../../../store/store";
+import {RootState} from "../../../store";
 import {IAccountProps} from "../../../store";
 import {useSelector} from "react-redux";
 import AddAccountButton from "../../../components/account/accountsAndDepots/AddAccountButton";
@@ -30,7 +30,7 @@ const AccountsAndDepots = () => {
     }, [accounts && accounts.length]);
 
     return (
-        <React.Fragment>
+        <Fragment>
             <br/>
             <AddAccountButton/>
             <Spacer/>
@@ -41,7 +41,7 @@ const AccountsAndDepots = () => {
             <Spacer/>
             {
                 accounts && accounts.map((account: IAccountProps, index: number) => {
-                    return <React.Fragment key={index + "_reactFragment"}>
+                    return <Fragment key={index + "_reactFragment"}>
                         <Account
                             id={account.id}
                             key={index + "_account"}
@@ -55,10 +55,10 @@ const AccountsAndDepots = () => {
                             desktopScreenSize &&
                             <Spacer key={index + "_spacer"} marginTop="10px"/>
                         }
-                    </React.Fragment>
+                    </Fragment>
                 })
             }
-        </React.Fragment>
+        </Fragment>
     )
 }
 

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Fragment} from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
@@ -43,44 +44,57 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export default function Submenu() {
-    const panelValue = useSelector((state: RootState) => state.submenuAccounting.panel);
+    // const panelValue = useSelector((state: RootState) => state.appConfig.accountingPanel.panel);
+    const appConfig = useSelector((state: RootState) => state.appConfig);
     const dispatch = useAppDispatch();
 
     return (
-        <>
+        <Fragment>
             <Container maxWidth="xl">
                 <Tabs
-                    value={panelValue}
+                    value={appConfig.accountingPanel.panel}
                     variant="scrollable"
-                    onChange={(event, newValue) => {dispatch(updatePanel(newValue))}}
+                    onChange={(event, newValue) => {
+                        dispatch(updatePanel(newValue))
+                    }}
                     aria-label="Submenu of Accounting"
                     scrollButtons="auto"
                     allowScrollButtonsMobile={true}>
-                    <Tooltip placement="top" title={"Overview of accounts and\n account details"}>
+                    <Tooltip followCursor placement="top"
+                             title={"Overview of accounts and\n account details"}
+                             disableHoverListener={appConfig.toolTipsEnabled}>
                         <Tab icon={<AccountBalanceWalletIcon/>}
                              iconPosition="start"
                              label="Accounts / Depots"
                              style={{fontSize: "10px"}}/>
                     </Tooltip>
-                    <Tooltip placement="top" title={"Manage earnings and expenses of different accounts"}>
+                    <Tooltip followCursor placement="top"
+                             title={"Manage earnings and expenses of different accounts"}
+                             disableHoverListener={appConfig.toolTipsEnabled}>
                         <Tab icon={<PointOfSaleIcon/>}
                              iconPosition="start"
                              label="Earnings / Expenses"
                              style={{fontSize: "10px"}}/>
                     </Tooltip>
-                    <Tooltip placement="top" title={"Check your bankers orders and automated transactions"}>
+                    <Tooltip followCursor placement="top"
+                             title={"Check your bankers orders and automated transactions"}
+                             disableHoverListener={appConfig.toolTipsEnabled}>
                         <Tab icon={<ReceiptLongIcon/>}
                              iconPosition="start"
                              label="Banker's orders"
                              style={{fontSize: "10px"}}/>
                     </Tooltip>
-                    <Tooltip placement="top" title={"Get a glimpse of your savings and passive income sources"}>
+                    <Tooltip followCursor placement="top"
+                             title={"Get a glimpse of your savings and passive income sources"}
+                             disableHoverListener={appConfig.toolTipsEnabled}>
                         <Tab icon={<SavingsIcon/>}
                              iconPosition="start"
                              label="Savings"
                              style={{fontSize: "10px"}}/>
                     </Tooltip>
-                    <Tooltip placement="right" title={"Manage and organize your categories"}>
+                    <Tooltip followCursor placement="right"
+                             title={"Manage and organize your categories"}
+                             disableHoverListener={appConfig.toolTipsEnabled}>
                         <Tab icon={<CategoryIcon/>}
                              iconPosition="start"
                              label="Categories"
@@ -92,13 +106,13 @@ export default function Submenu() {
             <Divider/>
 
             <Container maxWidth="xl">
-                <TabPanel value={panelValue} index={0}><AccountsAndDepots/></TabPanel>
-                <TabPanel value={panelValue} index={1}><EarningsAndExpenses/></TabPanel>
-                <TabPanel value={panelValue} index={2}><BankersOrders/></TabPanel>
-                <TabPanel value={panelValue} index={3}><Savings/></TabPanel>
-                <TabPanel value={panelValue} index={4}><Categories/></TabPanel>
+                <TabPanel value={appConfig.accountingPanel.panel} index={0}><AccountsAndDepots/></TabPanel>
+                <TabPanel value={appConfig.accountingPanel.panel} index={1}><EarningsAndExpenses/></TabPanel>
+                <TabPanel value={appConfig.accountingPanel.panel} index={2}><BankersOrders/></TabPanel>
+                <TabPanel value={appConfig.accountingPanel.panel} index={3}><Savings/></TabPanel>
+                <TabPanel value={appConfig.accountingPanel.panel} index={4}><Categories/></TabPanel>
             </Container>
-        </>
+        </Fragment>
     );
 }
 

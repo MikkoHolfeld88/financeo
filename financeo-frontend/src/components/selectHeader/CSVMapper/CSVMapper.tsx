@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {Fragment, useEffect, useMemo} from 'react';
 import ReactFlow, {
     Controls,
     Edge,
@@ -69,7 +69,7 @@ export function EdgeFinanceo({
        targetY ,
        sourcePosition,
        targetPosition,
-       data,
+                                 data,
        markerEnd,
     }: GetBezierPathParams | any) {
     const edgePath = getBezierPath({
@@ -120,12 +120,12 @@ export function OutputFinanceoNode(node: any) {
                 targetEdges = [...targetEdges, edge];
                 dispatch(setEdges(targetEdges));
                 dispatch(resetClickedNodePrev());
-            };
+            }
         }
     }, [clickedNode]);
 
     return (
-        <>
+        <Fragment>
             <Handle
                 style={{backgroundColor: "transparent", borderColor: "transparent"}}
                 type="target"
@@ -141,7 +141,7 @@ export function OutputFinanceoNode(node: any) {
                     </Typography>
                 </CardContent>
             </Card>
-        </>
+        </Fragment>
     );
 }
 
@@ -150,7 +150,7 @@ export function InputFinanceoNode(node: any) {
     const clicked = clickedNode?.id === node.id;
 
     return (
-        <>
+        <Fragment>
             <Handle
                 style={{backgroundColor: "transparent", borderColor: "transparent"}}
                 type="source"
@@ -167,7 +167,7 @@ export function InputFinanceoNode(node: any) {
                     </Typography>
                 </CardContent>
             </Card>
-        </>
+        </Fragment>
     );
 }
 

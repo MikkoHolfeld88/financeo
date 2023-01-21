@@ -4,7 +4,7 @@ import MonthPicker from "./MonthPicker";
 import AccountPicker from "./AccountPicker";
 import CSVUploader from "./CSVUploader";
 import {CSVMappingDialog} from "./CSVMapper";
-import React, {useEffect} from "react";
+import React, {Fragment, useEffect} from "react";
 import {
     AccountingData,
     AccountingDataValueType,
@@ -55,12 +55,18 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
 
     useEffect(() => {
         if (pickedAccountStatus !== "idle") {
-            if (pickedAccounts.length > accounts.length) {
+            if (pickedAccounts
+                && typeof pickedAccounts === 'object'
+                && accounts
+                && typeof accounts === 'object'
+                && pickedAccounts.length > accounts.length
+            ) {
                 dispatch(adjustPickedAccounts({accounts}));
             }
             addAllData(
                 FIRESTORE_COLLECTIONS.PICKED_ACCOUNTS, uid,
-                {pickedAccounts: pickedAccounts, ids: pickedAccountsIds})
+                {pickedAccounts: pickedAccounts, ids: pickedAccountsIds}
+            )
         }
     }, [pickedAccounts]);
 
@@ -91,7 +97,6 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
             dispatch(setAccountingData({...accountingData, ...newAccountingData}))
             dispatch(resetCSVUploaderState())
         }
-        ;
     }, [mappedData])
 
     function removeDuplicates(data: AccountingData[]): AccountingData[] {
@@ -114,11 +119,11 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
     }
 
     function getAccountName(): string | any {
-        return accounts.find((account: IAccountProps) => account.id === accountId)?.bank;
+        return accounts && accounts.find((account: IAccountProps) => account.id === accountId)?.bank;
     }
 
     return (
-        <>
+        <Fragment>
             <Container maxWidth="xl">
                 <Container className="overviewHeader" maxWidth="xl" style={{display: "flex"}}>
                     <Grid container columnSpacing={0} rowSpacing={0.8} justifyContent={justifyContentGrid}>
@@ -177,7 +182,7 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
                 onClose={() => setCantUpload(false)}>
                 <Alert severity={"error"}>You need to select an account that matches your data!</Alert>
             </Snackbar>
-        </>
+        </Fragment>
     )
 }
 

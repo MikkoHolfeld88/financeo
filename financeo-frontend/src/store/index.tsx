@@ -10,7 +10,6 @@ import {
     adjustPickedAccounts,
     IAccountPickerProps
 } from "./slices/accountPickerSlice";
-import {updatePanel, resetSubmenuAccounting} from "./slices/submenuAccountingSlice";
 import {
     addCSVData,
     setCSVUploadError,
@@ -31,6 +30,7 @@ import {
 } from "./slices/CSVMapperSlice";
 import {setAccountingData, resetAccountingData, AccountingDataValueType, AccountingDataType, AccountingData} from "./slices/accountingDataSlice";
 import StateLoader from "./StateLoader";
+import {setToolTipsEnabled, updatePanel, resetSubmenuAccounting,} from "./slices/appConfigSlice";
 
 
 export {
@@ -40,10 +40,11 @@ export {
     changeYear, resetYearPicker,
     addAccount, addAccounts, updateAccount, deleteAccount, resetAccounts,
     changePickedAccounts, removePickedAccount, adjustPickedAccounts, resetAccountPicker,
-    updatePanel, resetSubmenuAccounting,
+    updatePanel, resetSubmenuAccounting, setToolTipsEnabled,
     addCSVData, setCSVUploadError, setHead, mapData, setAccountName, resetCSVUploaderState,
     setNodes, addEdge, setEdges, resetEdges, setClickedNode, resetClickedNodePrev, resetCSVMapperState,
-    setAccountingData, resetAccountingData
+    setAccountingData, resetAccountingData,
+
 }
 
 export type {

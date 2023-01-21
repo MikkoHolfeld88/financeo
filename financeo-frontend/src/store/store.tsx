@@ -5,11 +5,11 @@ import monthPickerReducer from './slices/monthPickerSlice';
 import yearPickerReducer from './slices/yearPickerSlice';
 import accountsReducer from "./slices/accountsSlice";
 import accountPickerReducer from "./slices/accountPickerSlice";
-import submenuAccountingReducer from "./slices/submenuAccountingSlice";
 import CSVUploaderReducer from "./slices/CSVUploaderSlice";
 import accountingDataReducer from "./slices/accountingDataSlice"
 import CSVMapperReducer from "./slices/CSVMapperSlice";
 import accountingCategoryReducer from "./slices/accountingCategorySlice/accountingCategorySlice";
+import appConfigSlice from "./slices/appConfigSlice";
 
 const store = configureStore({
     reducer: {
@@ -17,11 +17,11 @@ const store = configureStore({
         accountPicker: accountPickerReducer,
         accountingCategory: accountingCategoryReducer,
         accountingData: accountingDataReducer,
+        appConfig: appConfigSlice,
         CSVMapper: CSVMapperReducer,
         CSVUploader: CSVUploaderReducer,
         login: loginReducer,
         monthPicker: monthPickerReducer,
-        submenuAccounting: submenuAccountingReducer,
         yearPicker: yearPickerReducer,
     }
 })
