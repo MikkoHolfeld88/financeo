@@ -114,13 +114,13 @@ export function AccountingDataTable() {
     };
 
     const displayAmount = (amount: number): string => {
-        const amountString = amount.toFixed(2).toString().replace(".", ",");
+        const amountString = amount.toFixed(2).toString();
 
-        if(getUserLocale() === "de-DE"){
-            return amountString + "€";
+        if(getUserLocale() === "de-DE" || getUserLocale() === "de"){
+            return amountString.replace(".", ",") + " €";
         }
 
-        return amountString + "$";
+        return amountString + " $";
     }
 
     function createTableRows(): ITableRowProps[] | null {
@@ -164,6 +164,16 @@ export function AccountingDataTable() {
         fontSize: "13px",
     }
 
+    const rowStyle = {
+        cursor: "pointer",
+
+        "&:hover": {
+            "boxShadow": "0 0 10px rgba(0,0,0,0.3)",
+            "transform": "scaleY(1.1)",
+            "transition": "all 0.3s ease"
+        }
+    }
+
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
         property: keyof ITableRowProps,
@@ -198,7 +208,7 @@ export function AccountingDataTable() {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 ?.map((row: ITableRowProps, indexRow) => {
                                     return (
-                                        <TableRow key={row.accountName + "_row_" + indexRow}>
+                                        <TableRow sx={rowStyle} key={row.accountName + "_row_" + indexRow}>
                                             <TableCell sx={{fontSize: "13px", whiteSpace: "nowrap"}} variant="head" key={row.accountName + "_accountName_" +  indexRow}>{row.accountName}</TableCell>
                                             <TableCell sx={tableCellStyle} variant="footer" key={row.date + "_date_" + indexRow}>{formatDateString(row.date)}</TableCell>
                                             <TableCell sx={tableCellStyle} variant="footer" key={row.type + "_type_" + indexRow}>{row.type}</TableCell>

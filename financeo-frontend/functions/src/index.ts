@@ -5,3 +5,7 @@ admin.initializeApp();
 exports.test = functions.https.onRequest((request, response) => {
   response.json({test: "test"});
 });
+
+exports.categorizeTransactions = functions.https.onRequest((request, response) => {
+  response.json({test: "test"});
+});

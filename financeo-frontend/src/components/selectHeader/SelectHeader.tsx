@@ -80,8 +80,8 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
             }
         };
 
-        if (mappedData.length > 0) {
-            if (accountingData[accountId].data) {
+        if (mappedData && mappedData.length > 0) {
+            if (accountingData[accountId] && accountingData[accountId].data) {
                 // merges data from database (redux store) and data from csv file and removes duplicates
                 const mergedData = [...accountingData[accountId].data, ...mappedData];
                 cleanedData = removeDuplicates(mergedData);

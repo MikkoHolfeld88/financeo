@@ -30,8 +30,7 @@ export default function Account(props: IAccountProps) {
 
     useEffect(() => {
         if (pickedAccountStatus !== "idle") {
-            // here addData removes one account of pickedAccounts
-            // in case an account has been deleted from the accountList
+            // here addData removes one account of pickedAccounts in case an account has been deleted from the accountList
             addAllData(FIRESTORE_COLLECTIONS.PICKED_ACCOUNTS, uid, {pickedAccounts})
         }
     }, [pickedAccounts]);
