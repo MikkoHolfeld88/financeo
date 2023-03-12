@@ -15,6 +15,7 @@ export interface ITableRowProps {
     type: string,
     receiver: string,
     usage: string,
+    category: string,
 }
 
 const filterTableByYearAndMonth = (table: ITableRowProps[], pickedMonth: number[], pickedYear: number): ITableRowProps[] => {
@@ -137,7 +138,8 @@ export function AccountingDataTable() {
                             type: data.type,
                             receiver: data.receiver,
                             usage: data.usage,
-                            id: data.id
+                            id: data.id,
+                            category: data.category
                         }
                     })
                 } else {
@@ -168,9 +170,8 @@ export function AccountingDataTable() {
         cursor: "pointer",
 
         "&:hover": {
-            "boxShadow": "0 0 10px rgba(0,0,0,0.3)",
-            "transform": "scaleY(1.1)",
-            "transition": "all 0.3s ease"
+            "backgroundColor": "#eefff8",
+            "transition": "all 0.2s ease",
         }
     }
 
@@ -213,6 +214,7 @@ export function AccountingDataTable() {
                                             <TableCell sx={tableCellStyle} variant="footer" key={row.date + "_date_" + indexRow}>{formatDateString(row.date)}</TableCell>
                                             <TableCell sx={tableCellStyle} variant="footer" key={row.type + "_type_" + indexRow}>{row.type}</TableCell>
                                             <TableCell sx={tableCellStyle} variant="footer" key={row.usage + "_usage_" + indexRow}>{row.usage}</TableCell>
+                                            <TableCell sx={tableCellStyle} variant="footer" key={row.category + "_category_" + indexRow}>{row.category}</TableCell>
                                             <TableCell sx={tableCellStyle} variant="footer" key={row.receiver + "_receiver_" + indexRow}>{row.receiver}</TableCell>
                                             <TableCell align='right' sx={{color: getNumberColors(row.amount)}} variant="head" key={row.amount + "_amount_" + indexRow}>{displayAmount(row.amount)}</TableCell>
                                         </TableRow>

@@ -1,14 +1,29 @@
-import {Grid, TextField, Typography} from "@mui/material";
+import {
+    Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,
+    Grid,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemButton,
+    ListItemText,
+    TextField,
+    Typography
+} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
 import {CategoryIconPicker} from "./CategoryIconPicker";
 import {CategoryMatchers} from "./CategoryMatchers";
 import {
     AccountingCategory,
-    addAccountingCategory
+    addAccountingCategory, removeAccountingCategory, setSelectedCategory
 } from "../../../store/slices/accountingCategorySlice/accountingCategorySlice";
 import {v4} from "uuid";
 import {useAppDispatch} from "../../../store";
+import {IcecreamOutlined} from "@mui/icons-material";
+import {CategoryList} from "./CategoryList";
+import {useSelector} from "react-redux";
+import {PaperComponentFinanceo} from "../../utils";
+import * as COLORS from "../../../constants/colors";
 
 const HEADLINE = "Create category";
 const EXPLANATION = "Enter category name, icon and matchers to provide meaningful " +
@@ -17,39 +32,118 @@ const EXPLANATION = "Enter category name, icon and matchers to provide meaningfu
 
 export const CategoryCreation = () => {
     const dispatch = useAppDispatch();
+    const categories: AccountingCategory[] = useSelector((state: any) => state.accountingCategory.categories);
+    const selectedCategory: AccountingCategory | undefined | null = useSelector((state: any) => state.accountingCategory.selectedCategory);
     const [name, setName] = useState("");
+    const [nameError, setNameError] = useState(false);
     const [matchers, setMatchers] = useState([""]);
     const [description, setDescription] = useState("");
     const [value, setValue] = useState<null | string>(null);
+    const [defaultCategory, setDefaultCategory] = useState(false);
     const [iconDialogOpen, setIconDialog] = React.useState(false);
     const [creationDisabled, setCreationDisabled] = useState(true);
+    const [deletionDisabled, setDeletionDisabled] = useState(true);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [editMode, setEditMode] = useState(false);
 
     useEffect(() => {
-        if (name !== "" && matchers[0] !== "" && value !== null) {
-            setCreationDisabled(false);
-        } else {
+        if (name !== "") { // name field is not empty
+            if (categoryNameIsTaken()) {
+                setSelectedCategory(name)
+            } else {
+                setDefaultCategory(false);
+                setDeletionDisabled(true);
+            }
+
+            if (matchers[0] !== "" && value !== null) {
+                setCreationDisabled(false);
+            } else {
+                setCreationDisabled(true);
+            }
+        } else { // name field is empty
+            selectedCategory !== undefined && dispatch(setSelectedCategory(undefined));
             setCreationDisabled(true);
+            setDefaultCategory(false);
         }
     }, [name, matchers, value]);
 
-    const onCreate = () => {
-        const newCategory: AccountingCategory = {
-            id: v4(),
-            name: name,
-            matchers: matchers,
-            description: description,
-            icon: value,
-            default: false
+    useEffect(() => {
+        if (selectedCategory !== null && selectedCategory !== undefined) {
+            setName(selectedCategory.name);
+            setValue(selectedCategory.icon);
+            setDescription(selectedCategory.description === undefined ? "" : selectedCategory.description)
+
+            if (selectedCategory?.default) {
+                setDefaultCategory(true);
+            } else {
+                setDeletionDisabled(false);
+                setDefaultCategory(false);
+                setEditMode(true);
+            }
+
+            setMatchersBySelectedCategory();
         }
+    }, [selectedCategory]);
+
+
+    // Sets local matchers state to matchers of selected category state
+    const setMatchersBySelectedCategory = () => {
+        if (typeof selectedCategory?.matchers === "object" && selectedCategory?.matchers.length > 0) {
+            setMatchers(selectedCategory?.matchers);
+        } else {
+            setMatchers([""]);
+        }
+    }
+
+    // check whether category name is already taken
+    const categoryNameIsTaken = () => {
+        const categoryNames = categories.map(category => category.name);
+        if (categoryNames.includes(name)) {
+            selectedCategory === undefined || selectedCategory === null && setNameError(true);
+            return true;
+        } else {
+            setNameError(false);
+            return false;
+        }
+    }
+
+    const onCreateCategory = () => {
+        if (categoryNameIsTaken()) {
+            console.log("Update Modal pops up here");
+            setEditMode(false);
+
+        }
+
+        const newCategory: AccountingCategory = {
+                id: v4(),
+                name: name,
+                matchers: matchers,
+                description: description,
+                icon: value,
+                default: false
+        }
+
         dispatch(addAccountingCategory(newCategory));
         clearLocalStates();
+        setDeletionDisabled(true);
+        setDefaultCategory(false);
+
     };
+
+    const onDeleteCategory = () => {
+        dispatch(removeAccountingCategory(selectedCategory))
+        clearLocalStates();
+        setDeleteDialogOpen(false);
+        setDeletionDisabled(true);
+    }
 
     const clearLocalStates = () => {
         setName("");
         setMatchers([""]);
         setDescription("");
         setValue(null);
+        setDefaultCategory(false);
+        setDeletionDisabled(false);
     };
 
     const pickIcon = (icon: string | null) => {
@@ -58,7 +152,6 @@ export const CategoryCreation = () => {
     };
 
     const setMatcher = (newMatcher: string, index: number) => {
-        console.log(matchers);
         setMatchers(existingMatchers => {
             return [
                 ...existingMatchers.slice(0, index),
@@ -87,25 +180,27 @@ export const CategoryCreation = () => {
 
     return (
         <Grid container>
-            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <Typography sx={{marginTop: "10px"}} variant="h6">{HEADLINE}</Typography>
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                <Typography sx={{marginTop: "10px", textAlign: "center"}} variant="h6">{HEADLINE}</Typography>
                 <TextField
+                    label="Name"
                     required
+                    error={nameError}
                     variant="standard"
                     fullWidth
-                    label="Name"
                     value={name}
                     style={{fontSize: "20px"}}
-                    helperText="Enter category name"
+                    helperText={nameError ? "Name already taken! Existing category will be overwritten." : name.length === 0 && "Enter category name"}
                     onChange={(event) => setName(event.target.value)}
                 />
                 <TextField
+                    label="Description"
+                    disabled={defaultCategory}
                     variant="standard"
                     fullWidth
-                    label="Description"
                     value={description}
                     style={{fontSize: "20px"}}
-                    helperText="Enter category description"
+                    helperText={description.length === 0 && "Enter category description"}
                     onChange={(event) => setDescription(event.target.value)}
                 />
                 {
@@ -119,6 +214,7 @@ export const CategoryCreation = () => {
                                 addMatcher={addMatcher}
                                 removeMatcher={removeMatcher}
                                 lastMatcher={index === matchers.length - 1}
+                                defaultCategory={defaultCategory}
                             />
                         );
                     })
@@ -129,17 +225,60 @@ export const CategoryCreation = () => {
                     pickIcon={pickIcon}
                     open={iconDialogOpen}
                     setOpen={setIconDialog}
+                    defaultCategory={defaultCategory}
                 />
-                <Button
-                    onClick={onCreate}
-                    disabled={creationDisabled}
-                    fullWidth
-                    variant="contained"
-                    sx={{margin: "10px 0px 10px 0px", color: "white"}}>
-                    Create
-                </Button>
-            </Grid>
-            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                        <Button
+                            onClick={() => setDeleteDialogOpen(true)}
+                            disabled={defaultCategory || deletionDisabled}
+                            fullWidth
+                            color="warning"
+                            variant="contained"
+                            sx={{margin: "10px 0px 10px 0px", color: "white"}}>
+                            Delete
+                        </Button>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+                        <Button
+                            onClick={onCreateCategory}
+                            disabled={creationDisabled || nameError}
+                            fullWidth
+                            variant="contained"
+                            sx={{margin: "10px 0px 10px 0px", color: "white"}}>
+                            {editMode ? "Edit" : "Create"}
+                        </Button>
+                    </Grid>
+                </Grid>
+
+                <Dialog
+                    open={deleteDialogOpen}
+                    onClose={() => setDeleteDialogOpen(false)}
+                    PaperComponent={PaperComponentFinanceo}
+                    aria-labelledby="Delete Account / Depot">
+                    <DialogTitle id="Delete Account" style={{color: COLORS.SCHEME.warn}}>
+                        {"Delete Category"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <Typography>
+                            {"Really delete category: " + name + "?"}
+                        </Typography>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            autoFocus
+                            onClick={() => setDeleteDialogOpen(false)}
+                        >
+                            No
+                        </Button>
+                        <Button
+                            style={{color: COLORS.SCHEME.warn}}
+                            onClick={onDeleteCategory}
+                        >
+                            Yes
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Grid>
         </Grid>
     )

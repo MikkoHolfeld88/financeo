@@ -33,3 +33,34 @@
   padding-top: 10px;
 }
 
+#categoryList_container {
+  max-height: 410px;
+  overflow-y: auto;
+}
+
+#categoryCreation_container {
+  overflow: auto;
+}
+
+#categoryName {
+  font-weight: 300;
+  margin: 5px;
+  font-size: 14px;
+  transition: .3s;
+}
+
+#categoryNameText {
+  font-weight: 300;
+  margin: 5px;
+  font-size: 14px;
+  transition: .3s;
+}
+
+#categoryNameText:hover {
+  cursor: pointer;
+  color: $mainBackground;
+}
+
+.categoryListInnerContainer {
+  padding: 30px;
+}

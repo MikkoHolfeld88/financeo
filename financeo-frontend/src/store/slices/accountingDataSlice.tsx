@@ -16,7 +16,8 @@ interface AccountingData {
     usage: string,
     receiver: string,
     type: string,
-    amount: number
+    amount: number,
+    category: string | null,
 }
 
 interface AccountingDataState {

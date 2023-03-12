@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import {visuallyHidden} from "@mui/utils";
 import {ITableRowProps} from "./AccountingDataTable";
 import * as StyleHelper from "../../../../styleHelper";
+import {TooltipFinanceo} from "../../../utils/TooltipFinanceo";
 
 interface HeadCell {
     disablePadding: boolean;
@@ -42,6 +43,13 @@ const headCells: readonly HeadCell[] = [
         disablePadding: false,
         label: 'USAGE',
         description: 'Description to clarify transaction usage',
+    },
+    {
+        id: 'category',
+        numeric: false,
+        disablePadding: true,
+        label: 'CATEGORY',
+        description: 'Category of the transaction',
     },
     {
         id: 'receiver',
@@ -103,7 +111,7 @@ export const AccountingTableHead: React.FC<IAccountingTableHeadProps> = props =>
                                 StyleHelper.noPadding(headCell.disablePadding)
                             ].filter(Boolean).join(' ')}
                             sortDirection={props.orderBy === headCell.id && props.order}>
-                            <Tooltip title={headCell.description} placement="top">
+                            <TooltipFinanceo title={headCell.description} placement="top">
                                 <TableSortLabel
                                     active={props.orderBy === headCell.id}
                                     direction={props.orderBy === headCell.id && props.order || 'asc'}
@@ -116,7 +124,7 @@ export const AccountingTableHead: React.FC<IAccountingTableHeadProps> = props =>
                                         </Box>
                                     }
                                 </TableSortLabel>
-                            </Tooltip>
+                            </TooltipFinanceo>
                         </TableCell>
                     )
                 }

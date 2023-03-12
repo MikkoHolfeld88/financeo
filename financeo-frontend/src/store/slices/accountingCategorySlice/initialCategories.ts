@@ -16,9 +16,9 @@ const ausgaben: AccountingCategory = {
 const fixeKosten: AccountingCategory = {
     id: "2",
     name: "Fixe Kosten",
-    icon: 2,
+    icon: "2",
     description: "Geld das beständig ausgegeben wird",
-    matchers: [],
+    matchers: ["Miete", "Strom", "Wasser", "Heizen", "Müll", "Schornsteinfeger", "Haushaltshilfen", "Wohngeld", "Hausratversicherung", "Haftplichtversicherung", "KFZ Versicherung", "KFZ Steuer", "Steuern"],
     parent: ausgaben,
     default: true
 };
@@ -26,7 +26,7 @@ const fixeKosten: AccountingCategory = {
 const variableKosten: AccountingCategory = {
     id: "3",
     name: "Variable Kosten",
-    icon: 2,
+    icon: "2",
     description: "Geld das nicht beständig ausgegeben wird",
     matchers: [],
     parent: ausgaben,
@@ -36,7 +36,7 @@ const variableKosten: AccountingCategory = {
 const sparen: AccountingCategory = {
     id: "4",
     name: "Sparen",
-    icon: 2,
+    icon: "2",
     description: "Spargeld für die Zukunft",
     matchers: [],
     parent: ausgaben,
@@ -46,7 +46,7 @@ const sparen: AccountingCategory = {
 const wohnen: AccountingCategory = {
     id: "5",
     name: "Wohnen",
-    icon: 2,
+    icon: "2",
     description: "Geld für alle mit dem Wohnen und der Unterkuft verbundenen Dinge",
     matchers: [],
     parent: null,
@@ -943,7 +943,7 @@ const literatur: AccountingCategory = {
     default: true
 };
 
-const weiterbildungsmaßnahmen: AccountingCategory = {
+const weiterbildungsmassnahmen: AccountingCategory = {
     id: "95",
     name: "Weiterbildungsmaßnahmen",
     icon: 2,
@@ -1053,7 +1053,7 @@ const altersvorsorge: AccountingCategory = {
     default: true
 };
 
-const vermögensaufbau: AccountingCategory = {
+const vermoegensaufbau: AccountingCategory = {
     id: "106",
     name: "Vermögensaufbau",
     icon: 2,
@@ -1063,7 +1063,7 @@ const vermögensaufbau: AccountingCategory = {
     default: true
 };
 
-const sparvertraegel: AccountingCategory = {
+const sparvertraege: AccountingCategory = {
     id: "107",
     name: "Sparverträge",
     icon: 2,
@@ -1206,6 +1206,67 @@ export const initialCategories: AccountingCategory[] = [
     klassenfahrten,
     kontofuehrungsgebuehren,
     krankenversicherung,
-    krankenzusatzversicherung
-
+    krankenzusatzversicherung,
+    leben,
+    lebensmittel,
+    lebensversicherung,
+    literatur,
+    lohn,
+    medikamente,
+    miete,
+    mitgliedschaften,
+    mobilfunk,
+    mobilitaet,
+    moebel,
+    muell,
+    musik,
+    nachhilfe,
+    nachzahlung,
+    nahrung,
+    netzwerkveranstaltungen,
+    oeffentlicheVerkehrsmittel,
+    parkgebuehren,
+    pflegeversicherung,
+    post,
+    recht,
+    rechtsschutzversicherung,
+    reifenwechsel,
+    reiseruecktrittsversicherung,
+    rentenversicherung,
+    reparatur,
+    restaurantbesuche,
+    risikolebensversicherung,
+    ruecklagen,
+    rueckzahlung,
+    rundfunkgebuehren,
+    schornsteinfeger,
+    schulgebuehren,
+    sparen,
+    sparvertraege,
+    spende,
+    spielzeug,
+    sport,
+    sportausruestung,
+    sonstiges,
+    steuern,
+    steuerberatung,
+    strom,
+    studium,
+    telefonInternet,
+    tierhaltung,
+    unterhaltszahlungen,
+    urlaub,
+    urlaubsreise,
+    variableKosten,
+    vermietung,
+    vermoegensaufbau,
+    versicherung,
+    video,
+    videospiele,
+    wartung,
+    wasser,
+    weiterbildungsmassnahmen,
+    wohnen,
+    wohngeld,
+    zeitschrift
 ]

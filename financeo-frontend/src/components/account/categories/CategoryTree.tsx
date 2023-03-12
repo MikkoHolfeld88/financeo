@@ -4,6 +4,6 @@ export default function CategoryTree() {
 
 
     return (
-        <></>
+        <h1>TREE</h1>
     );
 }

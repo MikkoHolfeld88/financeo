@@ -9,18 +9,22 @@ import {changePickedAccounts} from "./slices/accountPickerSlice";
 import {setStatus, setUid} from "./slices/loginSlice";
 import {AccountingDataValueType, setAccountingData} from "./slices/accountingDataSlice";
 import {FIRESTORE_COLLECTIONS} from "../services/databaseService/colletions";
+import {AccountingCategory, setAccountingCategories} from "./slices/accountingCategorySlice/accountingCategorySlice";
+import {initialCategories} from "./slices/accountingCategorySlice/initialCategories";
 
 export default function StateLoader(){
     const dispatch = useAppDispatch();
     const [user, loading] = useAuthState(auth);
     let uid = user?.uid ? user?.uid : 'none';
-    let accountsStatus = useSelector((state: RootState) => state.accounts.status);
-    let accountPickerStatus = useSelector((state: RootState) => state.accountPicker.status);
+    const accountsStatus = useSelector((state: RootState) => state.accounts.status);
+    const accountPickerStatus = useSelector((state: RootState) => state.accountPicker.status);
+    const accountingCategoryStatus = useSelector((state: RootState) => state.accountingCategory.status);
 
     function loadAllStates(){
         loadAccountData();
         loadPickedAccountData();
         loadAccountingData();
+        loadAccountingCategories();
         dispatch(setStatus('loaded'));
     }
 
@@ -55,6 +59,23 @@ export default function StateLoader(){
                 .then((documentData: AccountingDataValueType | any) => {
                     const { uid, ...accountingData } = documentData;
                     dispatch(setAccountingData(accountingData));
+                })
+                .catch((error: any) => {
+                    process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
+                });
+        }
+    }
+
+    function loadAccountingCategories(){
+        if(accountingCategoryStatus === 'idle'){
+            getData(FIRESTORE_COLLECTIONS.CATEGORIES, uid)
+                .then((documentData: AccountingCategory[] | any) => {
+                    if (documentData) {
+                        const { uid, ...accountingCategories } = documentData;
+                        dispatch(setAccountingCategories(accountingCategories));
+                    } else {
+                        dispatch(setAccountingCategories(initialCategories));
+                    }
                 })
                 .catch((error: any) => {
                     process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);

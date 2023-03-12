@@ -1,7 +1,6 @@
 import React from "react";
 import {Autocomplete, Dialog, DialogContent, DialogTitle, Grid, Icon, TextField} from "@mui/material";
 import {iconList} from "../../../store/slices/accountingCategorySlice/iconList";
-import {styles} from "./CategoryManagement";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
 import * as COLORS from "../../../constants/colors"
@@ -9,12 +8,17 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
 import {TooltipFinanceo} from "../../utils/TooltipFinanceo";
 
+const styles = {
+    iconSize: {fontSize: "30px"},
+}
+
 interface CategoryIconPickerProps {
     value: string | null;
     setValue: (value: string | null) => void;
     pickIcon: (icon: string | null) => void;
     open: boolean;
     setOpen: (open: boolean) => void;
+    defaultCategory?: boolean;
 }
 
 export const CategoryIconPicker = (props: CategoryIconPickerProps) => {
@@ -41,6 +45,7 @@ export const CategoryIconPicker = (props: CategoryIconPickerProps) => {
         <Grid container justifyContent="space-evenly">
             <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                 <Autocomplete
+                    disabled={props?.defaultCategory}
                     value={props.value}
                     autoHighlight
                     options={iconList}
@@ -54,7 +59,7 @@ export const CategoryIconPicker = (props: CategoryIconPickerProps) => {
                             required
                             label="Icon"
                             variant="standard"
-                            helperText="Search icon or select it via icon inspection"/>}
+                            helperText={props.value === null && "Search icon or select it via icon inspection"}/>}
                 />
             </Grid>
             <Grid item xs={12} sm={1} md={1} lg={1} xl={1}
@@ -75,6 +80,7 @@ export const CategoryIconPicker = (props: CategoryIconPickerProps) => {
             </Grid>
             <Grid item xs={12} sm={5} md={5} lg={5} xl={5} sx={{marginTop: "10px"}}>
                 <Button
+                    disabled={props?.defaultCategory}
                     sx={{alignItems: "baseline"}}
                     fullWidth
                     variant="outlined"

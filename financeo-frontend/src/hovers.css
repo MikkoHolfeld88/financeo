@@ -324,8 +324,8 @@
 .hvr-float:active,
 .hvr-float:focus,
 .hvr-float:hover {
-    -webkit-transform: translateY(-8px);
-    transform: translateY(-8px)
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px)
 }
 
 .hvr-sink {

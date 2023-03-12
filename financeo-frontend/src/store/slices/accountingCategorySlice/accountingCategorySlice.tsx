@@ -27,93 +27,93 @@ export const accountingCategorySlice = createSlice({
     initialState,
     reducers: {
         setAccountingCategories: (state, action: PayloadAction<AccountingCategory[]>) => {
-            state.status = 'pending';
             state.categories = action.payload;
-            state.status = 'loaded';
         },
         addAccountingCategory: (state, action: PayloadAction<AccountingCategory>) => {
-            state.status = 'pending';
             state.categories.push(action.payload);
-            state.status = 'loaded';
         },
-        removeAccountingCategory: (state, action: PayloadAction<AccountingCategory>) => {
-            state.status = 'pending';
-            state.categories = state.categories.filter(category => category.id !== action.payload.id);
-            state.status = 'loaded';
+        setSelectedCategory: (state, action: PayloadAction<string | undefined>) => {
+            const category = action.payload !== undefined
+                ? state.categories.find(category => category.id === action.payload)
+                : null;
+
+            if (category) {
+                state.selectedCategory = category;
+            } else {
+                state.selectedCategory = null;
+            }
+        },
+        removeAccountingCategory: (state, action: PayloadAction<AccountingCategory | undefined | null>) => {
+            if (action.payload !== undefined && action.payload !== null) {
+                state.categories = state.categories.filter(category => category.id !== action?.payload?.id);
+            }
         },
         changeName: (state, action: PayloadAction<{category: AccountingCategory, name: string}>) => {
-            state.status = 'pending';
             state.categories = state.categories.map(category => {
                 if (category.id === action.payload.category.id) {
                     category.name = action.payload.name;
                 }
                 return category;
             });
-            state.status = 'loaded';
+
         },
         changeIcon: (state, action: PayloadAction<{category: AccountingCategory, icon: any}>) => {
-            state.status = 'pending';
             state.categories = state.categories.map(category => {
                 if (category.id === action.payload.category.id) {
                     category.icon = action.payload.icon;
                 }
                 return category;
             });
-            state.status = 'loaded';
+
         },
         changeDescription: (state, action: PayloadAction<{category: AccountingCategory, description: string}>) => {
-            state.status = 'pending';
             state.categories = state.categories.map(category => {
                 if (category.id === action.payload.category.id) {
                     category.description = action.payload.description;
                 }
                 return category;
             });
-            state.status = 'loaded';
+
         },
         addMatcher: (state, action: PayloadAction<{category: AccountingCategory, matcher: string}>) => {
-            state.status = 'pending';
+
             state.categories = state.categories.map(category => {
                 if (category.id === action.payload.category.id) {
                     category.matchers = [...category.matchers, action.payload.matcher];
                 }
                 return category;
             });
-            state.status = 'loaded';
+
         },
         removeMatcher: (state, action: PayloadAction<{category: AccountingCategory, matcher: string}>) => {
-            state.status = 'pending';
             state.categories = state.categories.map(category => {
                 if (category.id === action.payload.category.id) {
                     category.matchers = category.matchers.filter(matcher => matcher !== action.payload.matcher);
                 }
                 return category;
             });
-            state.status = 'loaded';
+
         },
         addParent: (state, action: PayloadAction<{category: AccountingCategory, parent: AccountingCategory}>) => {
-            state.status = 'pending';
             state.categories = state.categories.map(category => {
                 if (category.id === action.payload.category.id) {
                     category.parent = action.payload.parent;
                 }
                 return category;
             });
-            state.status = 'loaded';
+
         },
         removeParent: (state, action: PayloadAction<AccountingCategory>) => {
-            state.status = 'pending';
             state.categories = state.categories.map(category => {
                 if (category.id === action.payload.id) {
                     category.parent = null;
                 }
                 return category;
             });
-            state.status = 'loaded';
+
         },
         resetAccountingCategory: (state) => {
             state.categories = [];
-            state.status = 'idle';
         }
     },
 });
@@ -121,6 +121,7 @@ export const accountingCategorySlice = createSlice({
 export const {
     setAccountingCategories,
     addAccountingCategory,
+    setSelectedCategory,
     removeAccountingCategory,
     changeName,
     changeIcon,
