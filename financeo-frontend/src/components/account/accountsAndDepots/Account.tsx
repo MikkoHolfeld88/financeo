@@ -9,8 +9,8 @@ import * as COLORS from "../../../constants/colors"
 import "../index.scss";
 import {PaperComponentFinanceo} from "../../utils";
 import {addAllData} from "../../../services/databaseService/databaseService";
-import AccountDesktop from "./AccountDesktop";
-import AccountMobile from "./AccountMobile";
+import AccountDesktop from "./desktop/AccountDesktop";
+import AccountMobile from "./mobile/AccountMobile";
 import {FIRESTORE_COLLECTIONS} from "../../../services/databaseService/colletions";
 
 const ibantools = require('ibantools');

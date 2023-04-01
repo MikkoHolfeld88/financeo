@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {Edge} from "react-flow-renderer";
-import {AccountingData} from "./accountingDataSlice";
+import {AccountingData} from "../accountingData/accountingDataSlice";
 import {v4 as uuidv4} from 'uuid';
 
 interface ICSVUploaderProps {

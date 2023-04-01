@@ -25,7 +25,7 @@ import {RootState, setToolTipsEnabled, setUid, useAppDispatch} from "../../store
 import {TooltipFinanceo} from "../utils/TooltipFinanceo";
 import {FormControlLabel, Switch} from "@mui/material";
 import {useSelector} from "react-redux";
-import {AppConfigState} from "../../store/slices/appConfigSlice";
+import {AppConfigState} from "../../store/slices/appConfig/appConfigSlice";
 
 const pages = [
     {route: ROUTES.OVERVIEW, name: 'Overview', desc: "Provides fundamental financial information"},

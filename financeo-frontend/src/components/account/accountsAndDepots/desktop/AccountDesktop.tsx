@@ -1,11 +1,11 @@
 import React from "react";
 import {Chip, Grid} from "@mui/material";
-import TextEditFinanceo from "../../utils/TextEditFinanceo";
-import {updateAccount} from "../../../store";
+import TextEditFinanceo from "../../../utils/TextEditFinanceo";
+import {updateAccount} from "../../../../store";
 import IconButton from "@mui/material/IconButton";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import * as COLORS from "../../../constants/colors";
-import {TooltipFinanceo} from "../../utils/TooltipFinanceo";
+import * as COLORS from "../../../../constants/colors";
+import {TooltipFinanceo} from "../../../utils/TooltipFinanceo";
 
 interface IAccountComponentProps {
     index: string | false,

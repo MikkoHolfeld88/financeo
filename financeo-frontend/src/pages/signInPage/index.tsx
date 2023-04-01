@@ -34,7 +34,7 @@ export function SignInPage() {
                             InputLabelProps={{ shrink: true }}
                             placeholder="E-mail"
                             value={email}
-                            id="standard-basic"
+                            id="login_e_mail"
                             label="E-mail"
                             onChange={(e) => setEmail(e.target.value)}
                             variant="outlined"/>
@@ -43,7 +43,7 @@ export function SignInPage() {
                             placeholder="Password"
                             type="password"
                             value={password}
-                            id="standard-basic"
+                            id="login_password"
                             label="Password"
                             onChange={(e) => setPassword(e.target.value)}
                             variant="outlined"/>

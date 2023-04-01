@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import {
     AccountingCategory,
     setSelectedCategory
-} from "../../../store/slices/accountingCategorySlice/accountingCategorySlice";
+} from "../../../store/slices/accountingCategory/accountingCategorySlice";
 import "./style.scss";
 import {useAppDispatch} from "../../../store";
 

@@ -1,7 +1,7 @@
 import {Grid} from "@mui/material";
 import "./style.scss";
 import React from "react";
-import {CategoryCreation} from "./CategoryCreation";
+import {CategoryCreation} from "./categoryCreation/CategoryCreation";
 import {CategoryList} from "./CategoryList";
 
 interface ICategoryManagementProps {

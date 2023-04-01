@@ -1,5 +1,5 @@
 import {Fade, Grow, Tooltip, Zoom} from "@mui/material";
-import {AppConfigState} from "../../store/slices/appConfigSlice";
+import {AppConfigState} from "../../store/slices/appConfig/appConfigSlice";
 import {RootState} from "../../store";
 import {useSelector} from "react-redux";
 

@@ -4,13 +4,13 @@ import {useSelector} from "react-redux";
 import {auth} from "../services/firebaseService/firebaseService";
 import {useAuthState} from "react-firebase-hooks/auth";
 import getData from "../services/databaseService/databaseService";
-import {addAccounts} from "./slices/accountsSlice";
-import {changePickedAccounts} from "./slices/accountPickerSlice";
-import {setStatus, setUid} from "./slices/loginSlice";
-import {AccountingDataValueType, setAccountingData} from "./slices/accountingDataSlice";
+import {addAccounts} from "./slices/accounts/accountsSlice";
+import {changePickedAccounts} from "./slices/accountPicker/accountPickerSlice";
+import {setStatus, setUid} from "./slices/login/loginSlice";
+import {AccountingDataValueType, setAccountingData} from "./slices/accountingData/accountingDataSlice";
 import {FIRESTORE_COLLECTIONS} from "../services/databaseService/colletions";
-import {AccountingCategory, setAccountingCategories} from "./slices/accountingCategorySlice/accountingCategorySlice";
-import {initialCategories} from "./slices/accountingCategorySlice/initialCategories";
+import {AccountingCategory, setAccountingCategories} from "./slices/accountingCategory/accountingCategorySlice";
+import {initialCategories} from "./slices/accountingCategory/initialCategories";
 
 export default function StateLoader(){
     const dispatch = useAppDispatch();

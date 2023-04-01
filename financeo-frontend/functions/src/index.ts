@@ -1,11 +1,14 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-admin.initializeApp();
+import {respond} from "./bot_interaction/greeting";
 
-exports.test = functions.https.onRequest((request, response) => {
-  response.json({test: "test"});
-});
+admin.initializeApp();
 
 exports.categorizeTransactions = functions.https.onRequest((request, response) => {
   response.json({test: "test"});
+});
+
+exports.respondToIntent = functions.https.onRequest((request, response) => {
+  const answer: string = respond(request);
+  response.json({answer: answer});
 });

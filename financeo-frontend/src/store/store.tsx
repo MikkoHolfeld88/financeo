@@ -1,15 +1,15 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {useDispatch} from "react-redux";
-import loginReducer from './slices/loginSlice';
-import monthPickerReducer from './slices/monthPickerSlice';
-import yearPickerReducer from './slices/yearPickerSlice';
-import accountsReducer from "./slices/accountsSlice";
-import accountPickerReducer from "./slices/accountPickerSlice";
-import CSVUploaderReducer from "./slices/CSVUploaderSlice";
-import accountingDataReducer from "./slices/accountingDataSlice"
-import CSVMapperReducer from "./slices/CSVMapperSlice";
-import accountingCategoryReducer from "./slices/accountingCategorySlice/accountingCategorySlice";
-import appConfigSlice from "./slices/appConfigSlice";
+import loginReducer from './slices/login/loginSlice';
+import monthPickerReducer from './slices/monthPicker/monthPickerSlice';
+import yearPickerReducer from './slices/yearPicker/yearPickerSlice';
+import accountsReducer from "./slices/accounts/accountsSlice";
+import accountPickerReducer from "./slices/accountPicker/accountPickerSlice";
+import CSVUploaderReducer from "./slices/csvUploader/CSVUploaderSlice";
+import accountingDataReducer from "./slices/accountingData/accountingDataSlice"
+import CSVMapperReducer from "./slices/csvMapper/CSVMapperSlice";
+import accountingCategoryReducer from "./slices/accountingCategory/accountingCategorySlice";
+import appConfigReducer from "./slices/appConfig/appConfigSlice";
 
 const store = configureStore({
     reducer: {
@@ -17,7 +17,7 @@ const store = configureStore({
         accountPicker: accountPickerReducer,
         accountingCategory: accountingCategoryReducer,
         accountingData: accountingDataReducer,
-        appConfig: appConfigSlice,
+        appConfig: appConfigReducer,
         CSVMapper: CSVMapperReducer,
         CSVUploader: CSVUploaderReducer,
         login: loginReducer,

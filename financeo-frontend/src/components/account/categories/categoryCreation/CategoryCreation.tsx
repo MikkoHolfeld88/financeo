@@ -1,29 +1,18 @@
-import {
-    Checkbox, Dialog, DialogActions, DialogContent, DialogTitle,
-    Grid,
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemButton,
-    ListItemText,
-    TextField,
-    Typography
-} from "@mui/material";
+import {Grid, TextField, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
-import {CategoryIconPicker} from "./CategoryIconPicker";
-import {CategoryMatchers} from "./CategoryMatchers";
+import {CategoryIconPicker} from "../CategoryIconPicker";
+import {CategoryMatchers} from "../CategoryMatchers";
 import {
     AccountingCategory,
-    addAccountingCategory, removeAccountingCategory, setSelectedCategory
-} from "../../../store/slices/accountingCategorySlice/accountingCategorySlice";
+    addAccountingCategory, editAccountingCategory,
+    removeAccountingCategory,
+    setSelectedCategory
+} from "../../../../store/slices/accountingCategory/accountingCategorySlice";
 import {v4} from "uuid";
-import {useAppDispatch} from "../../../store";
-import {IcecreamOutlined} from "@mui/icons-material";
-import {CategoryList} from "./CategoryList";
+import {useAppDispatch} from "../../../../store";
 import {useSelector} from "react-redux";
-import {PaperComponentFinanceo} from "../../utils";
-import * as COLORS from "../../../constants/colors";
+import {DeletionDialog} from "./DeletionDialog";
 
 const HEADLINE = "Create category";
 const EXPLANATION = "Enter category name, icon and matchers to provide meaningful " +
@@ -68,6 +57,12 @@ export const CategoryCreation = () => {
     }, [name, matchers, value]);
 
     useEffect(() => {
+        if (!categoryNameIsTaken()) {
+            setEditMode(false);
+        }
+    }, [name]);
+
+    useEffect(() => {
         if (selectedCategory !== null && selectedCategory !== undefined) {
             setName(selectedCategory.name);
             setValue(selectedCategory.icon);
@@ -95,7 +90,7 @@ export const CategoryCreation = () => {
         }
     }
 
-    // check whether category name is already taken
+    // checks whether category name is already taken
     const categoryNameIsTaken = () => {
         const categoryNames = categories.map(category => category.name);
         if (categoryNames.includes(name)) {
@@ -109,25 +104,30 @@ export const CategoryCreation = () => {
 
     const onCreateCategory = () => {
         if (categoryNameIsTaken()) {
-            console.log("Update Modal pops up here");
-            setEditMode(false);
-
-        }
-
-        const newCategory: AccountingCategory = {
+            console.log("name is taken")
+            dispatch(editAccountingCategory({
+                id: selectedCategory?.id,
+                name: name,
+                matchers: matchers,
+                description: description,
+                icon: value,
+                default: false
+            }))
+        } else {
+            const newCategory: AccountingCategory = {
                 id: v4(),
                 name: name,
                 matchers: matchers,
                 description: description,
                 icon: value,
                 default: false
+            }
+            dispatch(addAccountingCategory(newCategory));
         }
 
-        dispatch(addAccountingCategory(newCategory));
         clearLocalStates();
         setDeletionDisabled(true);
         setDefaultCategory(false);
-
     };
 
     const onDeleteCategory = () => {
@@ -251,34 +251,12 @@ export const CategoryCreation = () => {
                     </Grid>
                 </Grid>
 
-                <Dialog
-                    open={deleteDialogOpen}
-                    onClose={() => setDeleteDialogOpen(false)}
-                    PaperComponent={PaperComponentFinanceo}
-                    aria-labelledby="Delete Account / Depot">
-                    <DialogTitle id="Delete Account" style={{color: COLORS.SCHEME.warn}}>
-                        {"Delete Category"}
-                    </DialogTitle>
-                    <DialogContent>
-                        <Typography>
-                            {"Really delete category: " + name + "?"}
-                        </Typography>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button
-                            autoFocus
-                            onClick={() => setDeleteDialogOpen(false)}
-                        >
-                            No
-                        </Button>
-                        <Button
-                            style={{color: COLORS.SCHEME.warn}}
-                            onClick={onDeleteCategory}
-                        >
-                            Yes
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                <DeletionDialog
+                    deleteDialogOpen={deleteDialogOpen}
+                    setDeleteDialogOpen={setDeleteDialogOpen}
+                    onDeleteCategory={onDeleteCategory}
+                    name={name}
+                />
             </Grid>
         </Grid>
     )

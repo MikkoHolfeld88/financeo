@@ -1,6 +1,6 @@
 import {Grid, Typography} from "@mui/material";
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
-import {AccountingCategory} from "../../../store/slices/accountingCategorySlice/accountingCategorySlice";
+import {AccountingCategory} from "../../../store/slices/accountingCategory/accountingCategorySlice";
 
 interface ICategoryProps {
     category: AccountingCategory;

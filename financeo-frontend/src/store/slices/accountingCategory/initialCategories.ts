@@ -626,7 +626,7 @@ const musik: AccountingCategory = {
 const zeitschrift: AccountingCategory = {
     id: "63",
     name: "Zeitschrift",
-    icon: 2,
+    icon: "3d_rotation",
     description: "Geldflüsse für Zeitschrift",
     matchers: [],
     parent: null,

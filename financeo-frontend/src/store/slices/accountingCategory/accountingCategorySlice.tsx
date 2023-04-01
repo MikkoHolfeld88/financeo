@@ -32,6 +32,14 @@ export const accountingCategorySlice = createSlice({
         addAccountingCategory: (state, action: PayloadAction<AccountingCategory>) => {
             state.categories.push(action.payload);
         },
+        editAccountingCategory: (state, action: PayloadAction<AccountingCategory>) => {
+            state.categories = state.categories.map(category => {
+                if (category.id === action.payload.id) {
+                    return action.payload;
+                }
+                return category;
+            });
+        },
         setSelectedCategory: (state, action: PayloadAction<string | undefined>) => {
             const category = action.payload !== undefined
                 ? state.categories.find(category => category.id === action.payload)
@@ -130,7 +138,8 @@ export const {
     removeMatcher,
     addParent,
     removeParent,
-    resetAccountingCategory
+    resetAccountingCategory,
+    editAccountingCategory
 } = accountingCategorySlice.actions;
 
 export default accountingCategorySlice.reducer;

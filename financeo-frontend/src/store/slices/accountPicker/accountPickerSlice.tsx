@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {IAccountProps} from "../../store";
+import {IAccountProps} from "../../index";
 
 interface IAccountPickerProps {
     pickedAccounts: string | string[];
