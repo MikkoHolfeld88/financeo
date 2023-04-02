@@ -39,6 +39,7 @@ export const accountingCategorySlice = createSlice({
                 }
                 return category;
             });
+            state.categories.sort((a, b) => a.name.localeCompare(b.name));
         },
         setSelectedCategory: (state, action: PayloadAction<string | undefined>) => {
             const category = action.payload !== undefined
@@ -50,6 +51,7 @@ export const accountingCategorySlice = createSlice({
             } else {
                 state.selectedCategory = null;
             }
+            state.categories.sort((a, b) => a.name.localeCompare(b.name));
         },
         removeAccountingCategory: (state, action: PayloadAction<AccountingCategory | undefined | null>) => {
             if (action.payload !== undefined && action.payload !== null) {

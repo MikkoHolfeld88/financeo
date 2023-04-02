@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import {deleteAccount, IAccountProps, removePickedAccount, RootState, useAppDispatch} from "../../../store";
 import {useSelector} from "react-redux";
 import * as COLORS from "../../../constants/colors"
-import "../index.scss";
+import "../accountStyles.scss";
 import {PaperComponentFinanceo} from "../../utils";
 import {addAllData} from "../../../services/databaseService/databaseService";
 import AccountDesktop from "./desktop/AccountDesktop";

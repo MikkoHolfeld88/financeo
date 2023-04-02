@@ -4,9 +4,9 @@ import {useSelector} from "react-redux";
 import {
     AccountingCategory,
     setSelectedCategory
-} from "../../../store/slices/accountingCategory/accountingCategorySlice";
-import "./style.scss";
-import {useAppDispatch} from "../../../store";
+} from "../../../../store/slices/accountingCategory/accountingCategorySlice";
+import "../categoryStyles.scss";
+import {useAppDispatch} from "../../../../store";
 
 const HEADLINE = "Category list";
 
@@ -32,10 +32,10 @@ export const CategoryList = () => {
                             <Grid item key={index + "_categoryListGridItem"}>
                                 <Paper
                                     elevation={1}
-                                    id="categoryName"
+                                    id={category.default ? "categoryName" : "categoryNameDefault"}
                                     className="hvr-float">
                                     <Typography
-                                        id="categoryNameText"
+                                        id={category.default ? "categoryNameText" : "categoryNameTextDefault"}
                                         onClick={() => handleClickOpen(category.id)}>
                                         {category.name}
                                     </Typography>

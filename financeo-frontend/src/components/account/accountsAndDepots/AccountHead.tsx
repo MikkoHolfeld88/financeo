@@ -1,6 +1,6 @@
 import React from "react";
 import {Grid} from "@mui/material";
-import "../index.scss";
+import "../accountStyles.scss";
 import AccountBalanceIconOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';

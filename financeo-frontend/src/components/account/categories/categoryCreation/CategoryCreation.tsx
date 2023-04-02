@@ -1,7 +1,7 @@
 import {Grid, TextField, Typography} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
-import {CategoryIconPicker} from "../CategoryIconPicker";
+import {CategoryIconPicker} from "../categoryIconPicker/CategoryIconPicker";
 import {CategoryMatchers} from "../CategoryMatchers";
 import {
     AccountingCategory,

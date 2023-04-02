@@ -1,8 +1,8 @@
 import {Grid} from "@mui/material";
-import "./style.scss";
+import "./categoryStyles.scss";
 import React from "react";
 import {CategoryCreation} from "./categoryCreation/CategoryCreation";
-import {CategoryList} from "./CategoryList";
+import {CategoryList} from "./categoryList/CategoryList";
 
 interface ICategoryManagementProps {
     containerStlye?: React.CSSProperties;

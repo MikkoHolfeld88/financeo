@@ -2,7 +2,7 @@ import Grid from "@mui/material/Grid";
 import React from "react";
 import {Paper} from "@mui/material";
 import {CategoryManagement} from "../../../components/account/categories/CategoryManagement";
-import {CategoryList} from "../../../components/account/categories/CategoryList";
+import {CategoryList} from "../../../components/account/categories/categoryList/CategoryList";
 import CategoryTree from "../../../components/account/categories/CategoryTree";
 
 interface ICategoriesProps {

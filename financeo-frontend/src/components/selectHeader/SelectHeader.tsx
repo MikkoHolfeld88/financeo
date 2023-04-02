@@ -123,7 +123,7 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
     }
 
     return (
-        <Fragment>
+        <>
             <Container maxWidth="xl">
                 <Container className="overviewHeader" maxWidth="xl" style={{display: "flex"}}>
                     <Grid container columnSpacing={0} rowSpacing={0.8} justifyContent={justifyContentGrid}>
@@ -163,7 +163,7 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
                 </Container>
             </Container>
 
-            <Divider sx={{position: "absolute", left: 0, width: "20000px"}}/>
+            <Divider variant="fullWidth"/>
 
             {
                 !props.csvUploaderInvisible &&
@@ -182,7 +182,7 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
                 onClose={() => setCantUpload(false)}>
                 <Alert severity={"error"}>You need to select an account that matches your data!</Alert>
             </Snackbar>
-        </Fragment>
+        </>
     )
 }
 

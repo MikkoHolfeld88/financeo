@@ -1,12 +1,12 @@
 import React from "react";
 import {Autocomplete, Dialog, DialogContent, DialogTitle, Grid, Icon, TextField} from "@mui/material";
-import {iconList} from "../../../store/slices/accountingCategory/iconList";
+import {iconList} from "../../../../store/slices/accountingCategory/iconList";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
-import * as COLORS from "../../../constants/colors"
+import * as COLORS from "../../../../constants/colors"
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
-import {TooltipFinanceo} from "../../utils/TooltipFinanceo";
+import {TooltipFinanceo} from "../../../utils/TooltipFinanceo";
 
 const styles = {
     iconSize: {fontSize: "30px"},
@@ -68,9 +68,9 @@ export const CategoryIconPicker = (props: CategoryIconPickerProps) => {
                     props.value && iconList.find((icon) => props.value === icon) &&
                     <TooltipFinanceo
                         arrow={true}
-                        title={"Click to remove icon"}>
+                        title={!props?.defaultCategory && "Click to remove icon"}>
                         <Icon
-                            onClick={() => props.setValue(null)}
+                            onClick={() => !props?.defaultCategory && props.setValue(null)}
                             sx={styles.iconSize}
                             className="iconOfList hvr-float">
                             {props.value}

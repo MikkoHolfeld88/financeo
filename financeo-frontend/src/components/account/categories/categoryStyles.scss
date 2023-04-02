@@ -21,7 +21,6 @@
     cursor: pointer;
     color: $mainBackground;
   }
-
 }
 
 .autoComplete {
@@ -49,6 +48,14 @@
   transition: .3s;
 }
 
+#categoryNameDefault {
+  background-color: $mainBackgroundLight;;
+  font-weight: 300;
+  margin: 5px;
+  font-size: 14px;
+  transition: .3s;
+}
+
 #categoryNameText {
   font-weight: 300;
   margin: 5px;
@@ -61,6 +68,19 @@
   color: $mainBackground;
 }
 
+#categoryNameTextDefault {
+  font-weight: 300;
+  margin: 5px;
+  font-size: 14px;
+  transition: .3s;
+}
+
+#categoryNameTextDefault:hover {
+  cursor: pointer;
+  color: white;
+}
+
 .categoryListInnerContainer {
   padding: 30px;
 }
+
