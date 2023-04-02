@@ -18,7 +18,7 @@ const fixeKosten: AccountingCategory = {
     name: "Fixe Kosten",
     icon: "lock",
     description: "Geld das beständig ausgegeben wird",
-    matchers: ["Miete", "Strom", "Wasser", "Heizen", "Müll", "Schornsteinfeger", "Haushaltshilfen", "Wohngeld", "Hausratversicherung", "Haftplichtversicherung", "KFZ Versicherung", "KFZ Steuer", "Steuern"],
+    matchers: [],
     parent: ausgaben,
     default: true
 };
@@ -386,7 +386,7 @@ const babysitter: AccountingCategory = {
 const aktivitaeten: AccountingCategory = {
     id: "39",
     name: "Aktivitäten",
-    icon: "snow_shoeing",
+    icon: "snowshoeing",
     description: "Geldflüsse für Aktivitäten",
     matchers: [],
     parent: null,
@@ -526,7 +526,7 @@ const urlaub: AccountingCategory = {
 const abonnements: AccountingCategory = {
     id: "53",
     name: "Abonnements",
-    icon: 2,
+    icon: "newspaper",
     description: "Geldflüsse für Abonnements",
     matchers: [],
     parent: null,
@@ -536,7 +536,7 @@ const abonnements: AccountingCategory = {
 const videospiele: AccountingCategory = {
     id: "54",
     name: "Videospiele",
-    icon: 2,
+    icon: "videogame_asset",
     description: "Geldflüsse für Videospiele",
     matchers: [],
     parent: freizeit,
@@ -556,7 +556,7 @@ const urlaubsreise: AccountingCategory = {
 const hotel: AccountingCategory = {
     id: "56",
     name: "Hotel",
-    icon: 2,
+    icon: "hotel",
     description: "Geldflüsse für Hotel",
     matchers: [],
     parent: null,
@@ -566,7 +566,7 @@ const hotel: AccountingCategory = {
 const nahrung: AccountingCategory = {
     id: "57",
     name: "Nahrung",
-    icon: 2,
+    icon: "fastfood",
     description: "Geldflüsse für Nahrung",
     matchers: [],
     parent: leben,
@@ -576,7 +576,7 @@ const nahrung: AccountingCategory = {
 const lebensmittel: AccountingCategory = {
     id: "58",
     name: "Lebensmittel / Nahrungsmittel",
-    icon: 2,
+    icon: "fastfood",
     description: "Geldflüsse für die allgemeine Nahrungsversorgung",
     matchers: [],
     parent: nahrung,
@@ -586,7 +586,7 @@ const lebensmittel: AccountingCategory = {
 const reiseruecktrittsversicherung: AccountingCategory = {
     id: "59",
     name: "Reiserücktrittsversicherung",
-    icon: 2,
+    icon: "security",
     description: "Geldflüsse für Reiserücktrittsversicherung",
     matchers: [],
     parent: [versicherung, urlaub],
@@ -596,7 +596,7 @@ const reiseruecktrittsversicherung: AccountingCategory = {
 const mitgliedschaften: AccountingCategory = {
     id: "60",
     name: "Mitgliedschaften",
-    icon: 2,
+    icon: "loyalty",
     description: "Geldflüsse für Mitgliedschaften",
     matchers: [],
     parent: null,
@@ -606,7 +606,7 @@ const mitgliedschaften: AccountingCategory = {
 const video: AccountingCategory = {
     id: "61",
     name: "Video",
-    icon: 2,
+    icon: "tv",
     description: "Geldflüsse für Video, Film, Fernsehen, Kino",
     matchers: [],
     parent: null,
@@ -616,7 +616,7 @@ const video: AccountingCategory = {
 const musik: AccountingCategory = {
     id: "62",
     name: "Musik",
-    icon: 2,
+    icon: "music_note",
     description: "Geldflüsse für Musik",
     matchers: [],
     parent: null,
@@ -626,7 +626,7 @@ const musik: AccountingCategory = {
 const zeitschrift: AccountingCategory = {
     id: "63",
     name: "Zeitschrift",
-    icon: "3d_rotation",
+    icon: "newspaper",
     description: "Geldflüsse für Zeitschrift",
     matchers: [],
     parent: null,
@@ -636,7 +636,7 @@ const zeitschrift: AccountingCategory = {
 const cloudspeicher: AccountingCategory = {
     id: "64",
     name: "Cloudspeicher",
-    icon: 2,
+    icon: "cloud_done",
     description: "Geldflüsse für Cloudspeicher",
     matchers: [],
     parent: null,
@@ -646,7 +646,7 @@ const cloudspeicher: AccountingCategory = {
 const applikationen: AccountingCategory = {
     id: "65",
     name: "Applikationen",
-    icon: 2,
+    icon: "apps",
     description: "Geldflüsse für Applikationen",
     matchers: [],
     parent: null,
@@ -656,7 +656,7 @@ const applikationen: AccountingCategory = {
 const spende: AccountingCategory = {
     id: "66",
     name: "Spende",
-    icon: 2,
+    icon: "volunteer_activism",
     description: "Geldflüsse für Spenden",
     matchers: [],
     parent: null,
@@ -666,7 +666,7 @@ const spende: AccountingCategory = {
 const sportausruestung: AccountingCategory = {
     id: "67",
     name: "Sportausrüstung",
-    icon: 2,
+    icon: "ice_skating",
     description: "Geldflüsse für Sportausrüstung",
     matchers: [],
     parent: sport,
@@ -676,7 +676,7 @@ const sportausruestung: AccountingCategory = {
 const dienste: AccountingCategory = {
     id: "68",
     name: "Dienste",
-    icon: 2,
+    icon: "dry_cleaning",
     description: "Geldflüsse für Dienste und Servicedienstleistungen",
     matchers: [],
     parent: null,
@@ -686,7 +686,7 @@ const dienste: AccountingCategory = {
 const spielzeug: AccountingCategory = {
     id: "69",
     name: "Spielzeug",
-    icon: 2,
+    icon: "toys",
     description: "Geldflüsse für Spielzeug",
     matchers: [],
     parent: null,
@@ -696,7 +696,7 @@ const spielzeug: AccountingCategory = {
 const geraete: AccountingCategory = {
     id: "70",
     name: "Geräte",
-    icon: 2,
+    icon: "fitness_center",
     description: "Geldflüsse für Geräte (elektronisch, sportlich, küchen-, etc.)",
     matchers: [],
     parent: null,
@@ -706,7 +706,7 @@ const geraete: AccountingCategory = {
 const haushaltsgeraete: AccountingCategory = {
     id: "71",
     name: "Haushaltsgeräte",
-    icon: 2,
+    icon: 'iron',
     description: "Geldflüsse für Haushaltsgeräte",
     matchers: [],
     parent: [wohnen, geraete],
@@ -716,7 +716,7 @@ const haushaltsgeraete: AccountingCategory = {
 const moebel: AccountingCategory = {
     id: "72",
     name: "Möbel",
-    icon: 2,
+    icon: 'chair',
     description: "Geldflüsse für Möbel",
     matchers: [],
     parent: [wohnen],
@@ -726,7 +726,7 @@ const moebel: AccountingCategory = {
 const haushaltswaren: AccountingCategory = {
     id: "73",
     name: "Haushaltswaren",
-    icon: 2,
+    icon: "soap",
     description: "Geldflüsse für Haushaltswaren (Waschmittel, Zahnpasta, etc.)",
     matchers: [],
     parent: [wohnen, leben],
@@ -736,7 +736,7 @@ const haushaltswaren: AccountingCategory = {
 const beleuchtung: AccountingCategory = {
     id: "74",
     name: "Beleuchtung",
-    icon: 2,
+    icon: "light",
     description: "Geldflüsse für Beleuchtung",
     matchers: [],
     parent: [wohnen, geraete],
@@ -746,7 +746,7 @@ const beleuchtung: AccountingCategory = {
 const handwerksdienstleistungen: AccountingCategory = {
     id: "75",
     name: "Handwerksdienstleistungen",
-    icon: 2,
+    icon: "handyman",
     description: "Geldflüsse für Handwerksdienstleistungen",
     matchers: [],
     parent: [wohnen, dienste],
@@ -756,7 +756,7 @@ const handwerksdienstleistungen: AccountingCategory = {
 const garten: AccountingCategory = {
     id: "76",
     name: "Garten",
-    icon: 2,
+    icon: "deck",
     description: "Geldflüsse für Garten",
     matchers: [],
     parent: [wohnen],
@@ -766,7 +766,7 @@ const garten: AccountingCategory = {
 const inspektion: AccountingCategory = {
     id: "77",
     name: "Inspektion",
-    icon: 2,
+    icon: "car_repair",
     description: "Geldflüsse für Inspektion",
     matchers: [],
     parent: [mobilitaet, dienste],
@@ -776,7 +776,7 @@ const inspektion: AccountingCategory = {
 const reifenwechsel: AccountingCategory = {
     id: "78",
     name: "Reifenwechsel",
-    icon: 2,
+    icon: "tire_repair",
     description: "Geldflüsse für Reifenwechsel",
     matchers: [],
     parent: [mobilitaet, dienste],
@@ -786,7 +786,7 @@ const reifenwechsel: AccountingCategory = {
 const wartung: AccountingCategory = {
     id: "79",
     name: "Wartung",
-    icon: 2,
+    icon: "car_repair",
     description: "Geldflüsse für Wartung",
     matchers: [],
     parent: [mobilitaet, dienste],
@@ -796,7 +796,7 @@ const wartung: AccountingCategory = {
 const reparatur: AccountingCategory = {
     id: "80",
     name: "Reparatur",
-    icon: 2,
+    icon: "construction",
     description: "Geldflüsse für Reparatur",
     matchers: [],
     parent: [mobilitaet, dienste],
@@ -806,7 +806,7 @@ const reparatur: AccountingCategory = {
 const fahrzeugpflege: AccountingCategory = {
     id: "81",
     name: "Fahrzeugpflege",
-    icon: 2,
+    icon: "local_car_wash",
     description: "Geldflüsse für Fahrzeugpflege",
     matchers: [],
     parent: mobilitaet,
@@ -816,7 +816,7 @@ const fahrzeugpflege: AccountingCategory = {
 const fahrtkosten: AccountingCategory = {
     id: "82",
     name: "Fahrtkosten",
-    icon: 2,
+    icon: "drive_eta",
     description: "Geldflüsse für Fahrtkosten (Bus, Bahn, Roller, Taxi, Mitfahrgelegenheit, etc.)",
     matchers: [],
     parent: mobilitaet,
@@ -826,7 +826,7 @@ const fahrtkosten: AccountingCategory = {
 const autokauf: AccountingCategory = {
     id: "83",
     name: "Autokauf",
-    icon: 2,
+    icon: "drive_eta",
     description: "Geldflüsse für Autokauf",
     matchers: [],
     parent: mobilitaet,
@@ -836,7 +836,7 @@ const autokauf: AccountingCategory = {
 const bussgeld: AccountingCategory = {
     id: "84",
     name: "Bußgeld",
-    icon: 2,
+    icon: "gavel",
     description: "Geldflüsse für Bußgeld",
     matchers: [],
     parent: [mobilitaet, recht],
@@ -846,7 +846,7 @@ const bussgeld: AccountingCategory = {
 const parkgebuehren: AccountingCategory = {
     id: "85",
     name: "Parkgebühren",
-    icon: 2,
+    icon: "local_parking",
     description: "Geldflüsse für Parkgebühren",
     matchers: [],
     parent: mobilitaet,
@@ -856,7 +856,7 @@ const parkgebuehren: AccountingCategory = {
 const getraenke: AccountingCategory = {
     id: "86",
     name: "Getränke",
-    icon: 2,
+    icon: "local_drink",
     description: "Geldflüsse für Getränke",
     matchers: [],
     parent: nahrung,
@@ -866,7 +866,7 @@ const getraenke: AccountingCategory = {
 const genussmittel: AccountingCategory = {
     id: "87",
     name: "Genussmittel",
-    icon: 2,
+    icon: "smoking_rooms",
     description: "Geldflüsse für Genussmittel (Alkohol, Zigaretten, etc.)",
     matchers: [],
     parent: leben,
@@ -876,7 +876,7 @@ const genussmittel: AccountingCategory = {
 const restaurantbesuche: AccountingCategory = {
     id: "88",
     name: "Restaurantbesuche",
-    icon: 2,
+    icon: "restaurant",
     description: "Geldflüsse für Restaurantbesuche, Imbisse, Eisdielen, etc.",
     matchers: [],
     parent: nahrung,
@@ -886,7 +886,7 @@ const restaurantbesuche: AccountingCategory = {
 const koerperpflege: AccountingCategory = {
     id: "89",
     name: "Körperpflege",
-    icon: 2,
+    icon: "shower",
     description: "Geldflüsse für Körperpflege / Kosmetik (Haare, Nägel, etc.)",
     matchers: [],
     parent: leben,
@@ -896,7 +896,7 @@ const koerperpflege: AccountingCategory = {
 const kleidung: AccountingCategory = {
     id: "90",
     name: "Mode / Bekleidung",
-    icon: 2,
+    icon: "checkroom",
     description: "Geldflüsse für Kleidung, Schuhe, Schmuck etc.",
     matchers: [],
     parent: leben,
@@ -906,7 +906,7 @@ const kleidung: AccountingCategory = {
 const geschenke: AccountingCategory = {
     id: "91",
     name: "Geschenke",
-    icon: 2,
+    icon: "redeem",
     description: "Geldflüsse für Geschenke",
     matchers: [],
     parent: leben,
@@ -916,7 +916,7 @@ const geschenke: AccountingCategory = {
 const medikamente: AccountingCategory = {
     id: "92",
     name: "Medikamente",
-    icon: 2,
+    icon: "vaccines",
     description: "Geldflüsse für Medikamente",
     matchers: [],
     parent: gesundheit,
@@ -926,7 +926,7 @@ const medikamente: AccountingCategory = {
 const arztkosten: AccountingCategory = {
     id: "93",
     name: "Sonstige Arztkosten",
-    icon: 2,
+    icon: "local_hospital",
     description: "Geldflüsse für Arztkosten (z.B. Zahnarzt, Augenarzt, REHA etc.)",
     matchers: [],
     parent: gesundheit,
@@ -936,7 +936,7 @@ const arztkosten: AccountingCategory = {
 const literatur: AccountingCategory = {
     id: "94",
     name: "Literatur",
-    icon: 2,
+    icon: "auto_stories",
     description: "Geldflüsse für Literatur",
     matchers: [],
     parent: bildung,
@@ -946,7 +946,7 @@ const literatur: AccountingCategory = {
 const weiterbildungsmassnahmen: AccountingCategory = {
     id: "95",
     name: "Weiterbildungsmaßnahmen",
-    icon: 2,
+    icon: "school",
     description: "Geldflüsse für Weiterbildungsmaßnahmen (z.B. Seminare, Kurse, Zertifikate etc.)",
     matchers: [],
     parent: bildung,
@@ -956,7 +956,7 @@ const weiterbildungsmassnahmen: AccountingCategory = {
 const netzwerkveranstaltungen: AccountingCategory = {
     id: "96",
     name: "Netzwerkveranstaltungen",
-    icon: 2,
+    icon: "groups2",
     description: "Geldflüsse für Netzwerkveranstaltungen (z.B. Meetups, Konferenzen, etc.)",
     matchers: [],
     parent: bildung,
@@ -966,7 +966,7 @@ const netzwerkveranstaltungen: AccountingCategory = {
 const futter: AccountingCategory = {
     id: "97",
     name: "Futter",
-    icon: 2,
+    icon: "pets",
     description: "Geldflüsse für Futter (Haustiere / Wild- u. Vogelfutter)",
     matchers: [],
     parent: tierhaltung,
@@ -976,7 +976,7 @@ const futter: AccountingCategory = {
 const haustier: AccountingCategory = {
     id: "98",
     name: "Haustier",
-    icon: 2,
+    icon: "pets",
     description: "Geldflüsse für Haustier (z.B. Tierarzt, Tierbedarf, etc.)",
     matchers: [],
     parent: tierhaltung,
@@ -986,7 +986,7 @@ const haustier: AccountingCategory = {
 const anwaltNotar: AccountingCategory = {
     id: "99",
     name: "Anwalt / Notar",
-    icon: 2,
+    icon: "gavel",
     description: "Geldflüsse für Anwalt / Notar",
     matchers: [],
     parent: recht,
@@ -996,7 +996,7 @@ const anwaltNotar: AccountingCategory = {
 const amtgebuehren: AccountingCategory = {
     id: "100",
     name: "Amtsgebühren",
-    icon: 2,
+    icon: "gavel",
     description: "Geldflüsse für Amtsgebühren wie Führerscheinausstellung, Personalausweis, etc.",
     matchers: [],
     parent: recht,
@@ -1006,7 +1006,7 @@ const amtgebuehren: AccountingCategory = {
 const nachzahlung: AccountingCategory = {
     id: "101",
     name: "Nachzahlung",
-    icon: 2,
+    icon: "attach_money",
     description: "Geldflüsse für Nachzahlungen",
     matchers: [],
     parent: ausgaben,
@@ -1016,7 +1016,7 @@ const nachzahlung: AccountingCategory = {
 const nachhilfe: AccountingCategory = {
     id: "102",
     name: "Nachhilfe",
-    icon: 2,
+    icon: "school",
     description: "Geldflüsse für Nachhilfe",
     matchers: [],
     parent: bildung,
@@ -1026,7 +1026,7 @@ const nachhilfe: AccountingCategory = {
 const post: AccountingCategory = {
     id: "103",
     name: "Post / Paketdienst",
-    icon: 2,
+    icon: "local_post_office",
     description: "Geldflüsse für Post und Paketdienste",
     matchers: [],
     parent: freizeit,
@@ -1036,7 +1036,7 @@ const post: AccountingCategory = {
 const grossereignis: AccountingCategory = {
     id: "104",
     name: "Großereignis",
-    icon: 2,
+    icon: 'stadium',
     description: "Geldflüsse für Großereignisse (z.B. Hochzeit, Geburtstag, etc.)",
     matchers: [],
     parent: freizeit,
@@ -1046,7 +1046,7 @@ const grossereignis: AccountingCategory = {
 const altersvorsorge: AccountingCategory = {
     id: "105",
     name: "Altersvorsorge",
-    icon: 2,
+    icon: "accessible_forward",
     description: "Geldflüsse für Altersvorsorge",
     matchers: [],
     parent: sparen,
@@ -1056,7 +1056,7 @@ const altersvorsorge: AccountingCategory = {
 const vermoegensaufbau: AccountingCategory = {
     id: "106",
     name: "Vermögensaufbau",
-    icon: 2,
+    icon: "show_chart",
     description: "Geldflüsse für Vermögensaufbau (z.B. Immobilien, Aktien, etc.)",
     matchers: [],
     parent: sparen,
@@ -1066,7 +1066,7 @@ const vermoegensaufbau: AccountingCategory = {
 const sparvertraege: AccountingCategory = {
     id: "107",
     name: "Sparverträge",
-    icon: 2,
+    icon: "savings",
     description: "Geldflüsse für Sparverträge",
     matchers: [],
     parent: sparen,
@@ -1076,7 +1076,7 @@ const sparvertraege: AccountingCategory = {
 const ruecklagen: AccountingCategory = {
     id: "108",
     name: "Rücklagen",
-    icon: 2,
+    icon: "savings",
     description: "Geldflüsse zur Rücklagenbildung",
     matchers: [],
     parent: sparen,
@@ -1086,7 +1086,7 @@ const ruecklagen: AccountingCategory = {
 const einnahmen: AccountingCategory = {
     id: "109",
     name: "Einnahmen",
-    icon: 2,
+    icon: "attach_money",
     description: "Geld, dass dem Haushalt zugeführt wird",
     matchers: [],
     parent: null,
@@ -1096,7 +1096,7 @@ const einnahmen: AccountingCategory = {
 const lohn: AccountingCategory = {
     id: "110",
     name: "Lohn",
-    icon: 2,
+    icon: "attach_money",
     description: "Lohn, Gehalt aus Arbeit / Unternehmerlohn",
     matchers: [],
     parent: einnahmen,
@@ -1106,7 +1106,7 @@ const lohn: AccountingCategory = {
 const bonuszahlung: AccountingCategory = {
     id: "111",
     name: "Bonuszahlung",
-    icon: 2,
+    icon: "attach_money",
     description: "Sonderzahlungen wie Weihnachtsgeld, Urlaubsgeld, Mitarbeiterprämien etc.",
     matchers: [],
     parent: einnahmen,
@@ -1116,7 +1116,7 @@ const bonuszahlung: AccountingCategory = {
 const foerderung: AccountingCategory = {
     id: "112",
     name: "Förderung",
-    icon: 2,
+    icon: "support",
     description: "Förderungen wie z.B. Kindergeld, Elterngeld, etc.",
     matchers: [],
     parent: einnahmen,
@@ -1126,7 +1126,7 @@ const foerderung: AccountingCategory = {
 const kapitalertraege: AccountingCategory = {
     id: "113",
     name: "Kapitalerträge",
-    icon: 2,
+    icon: "plus_one",
     description: "Kapitalerträge wie Zinsen, Dividenden, etc.",
     matchers: [],
     parent: einnahmen,
@@ -1136,7 +1136,7 @@ const kapitalertraege: AccountingCategory = {
 const vermietung: AccountingCategory = {
     id: "114",
     name: "Vermietung",
-    icon: 2,
+    icon: "storefront",
     description: "Einnahmen aus Vermietung",
     matchers: [],
     parent: einnahmen,
@@ -1146,7 +1146,7 @@ const vermietung: AccountingCategory = {
 const rueckzahlung: AccountingCategory = {
     id: "115",
     name: "Rückzahlung",
-    icon: 2,
+    icon: "money_off",
     description: "Rückzahlungen",
     matchers: [],
     parent: einnahmen,

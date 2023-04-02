@@ -94,7 +94,9 @@ export const CategoryCreation = () => {
     const categoryNameIsTaken = () => {
         const categoryNames = categories.map(category => category.name);
         if (categoryNames.includes(name)) {
-            selectedCategory === undefined || selectedCategory === null && setNameError(true);
+            if(selectedCategory === undefined || selectedCategory === null || selectedCategory.default !== true) {
+                setNameError(true);
+            }
             return true;
         } else {
             setNameError(false);
