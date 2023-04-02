@@ -72,7 +72,19 @@ export default function StateLoader(){
                 .then((documentData: AccountingCategory[] | any) => {
                     if (documentData) {
                         const { uid, ...accountingCategories } = documentData;
-                        dispatch(setAccountingCategories(accountingCategories));
+                        // adds personal categories to initial categories,
+                        // accounting categories are overwritten by initialCategories in case of name conflict
+
+                        console.log(accountingCategories);
+
+                        const categories = accountingCategories.length > 0
+                            ? accountingCategories.forEach((category: AccountingCategory) => {
+                                initialCategories.push(category);
+                            }) : initialCategories;
+
+                        console.log(categories.length);
+
+                        dispatch(setAccountingCategories(categories));
                     } else {
                         dispatch(setAccountingCategories(initialCategories));
                     }

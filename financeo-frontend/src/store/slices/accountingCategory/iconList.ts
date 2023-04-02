@@ -52,7 +52,6 @@ export const iconList: string[] = [
     'groups2',
     'stadium',
     'accessible_forward',
-    'show_chart',
     'support',
     'storefront',
     'water'

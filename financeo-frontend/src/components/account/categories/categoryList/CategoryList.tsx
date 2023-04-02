@@ -27,7 +27,7 @@ export const CategoryList = () => {
             </Grid>
             <Grid container className="categoryListInnerContainer">
                 {
-                    categories.map((category: AccountingCategory, index: number) => {
+                    categories && categories.map((category: AccountingCategory, index: number) => {
                         return (
                             <Grid item key={index + "_categoryListGridItem"}>
                                 <Paper
