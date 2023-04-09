@@ -6,7 +6,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import {RootState} from "../../../store";
 import {IAccountProps} from "../../../store";
 import {useSelector} from "react-redux";
-import AddAccountButton from "../../../components/account/accountsAndDepots/AddAccountButton";
+import AddAccountButton from "../../../components/account/accountsAndDepots/addAccount/AddAccountButton";
 import {addAllData} from "../../../services/databaseService/databaseService";
 import {FIRESTORE_COLLECTIONS} from "../../../services/databaseService/colletions";
 

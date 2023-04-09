@@ -1,16 +1,13 @@
 import React, {useEffect} from "react";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import {useTheme} from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Typography from "@mui/material/Typography";
 import {deleteAccount, IAccountProps, removePickedAccount, RootState, useAppDispatch} from "../../../store";
 import {useSelector} from "react-redux";
-import * as COLORS from "../../../constants/colors"
 import "../accountStyles.scss";
-import {PaperComponentFinanceo} from "../../utils";
 import {addAllData} from "../../../services/databaseService/databaseService";
 import AccountDesktop from "./desktop/AccountDesktop";
 import AccountMobile from "./mobile/AccountMobile";
+import {AccountDeletionDialog} from "./AccountDeletionDialog";
 import {FIRESTORE_COLLECTIONS} from "../../../services/databaseService/colletions";
 
 const ibantools = require('ibantools');
@@ -46,16 +43,15 @@ export default function Account(props: IAccountProps) {
     }
 
     function getAccountStyle() {
-        if(props.type === "Depot") {
-            return "depotType";
+        switch (props.type) {
+            case "Depot":
+                return "depotType";
+            case "Creditcard":
+                return "creditCardType";
+            default:
+                return "accountType";
         }
-
-        if(props.type === "Creditcard") {
-            return "creditCardType";
-        }
-
-        return "accountType";
-    };
+    }
 
     const onDeleteAccount = () => {
         dispatch(deleteAccount(props.id));
@@ -89,7 +85,6 @@ export default function Account(props: IAccountProps) {
                     setDeleteDialogOpen={setDeleteDialogOpen}
                     onSaveValues={onSaveValues}
                     getAccountStyle={getAccountStyle}/>
-
             }
             {
                 mobileScreenSize &&
@@ -107,32 +102,13 @@ export default function Account(props: IAccountProps) {
                     getAccountStyle={getAccountStyle}/>
             }
             {
-                <Dialog
-                    open={deleteDialogOpen}
-                    onClose={() => setDeleteDialogOpen(false)}
-                    PaperComponent={PaperComponentFinanceo}
-                    aria-labelledby="Delete Account / Depot">
-                    <DialogTitle id="Delete Account" style={{color: COLORS.SCHEME.warn}}>
-                        {"Delete " + props.type}
-                    </DialogTitle>
-                    <DialogContent>
-                        <Typography>
-                            {"Really delete " + props.type + " '" + props.bank + "'?"}
-                        </Typography>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button
-                            autoFocus
-                            onClick={() => setDeleteDialogOpen(false)}>
-                            No
-                        </Button>
-                        <Button
-                            style={{color: COLORS.SCHEME.warn}}
-                            onClick={onDeleteAccount}>
-                            Yes
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                <AccountDeletionDialog
+                    deleteDialogOpen={deleteDialogOpen}
+                    setDeleteDialogOpen={setDeleteDialogOpen}
+                    onDeleteAccount={onDeleteAccount}
+                    type={props.type!}
+                    bank={props.bank!}/>
+
             }
         </div>
     )

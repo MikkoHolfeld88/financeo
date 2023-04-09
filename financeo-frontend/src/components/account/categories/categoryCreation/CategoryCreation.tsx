@@ -15,9 +15,6 @@ import {useSelector} from "react-redux";
 import {DeletionDialog} from "./DeletionDialog";
 
 const HEADLINE = "Create category";
-const EXPLANATION = "Enter category name, icon and matchers to provide meaningful " +
-    "accounting labels. Most bookings are labeled automatically. " +
-    "Nevertheless individualizing category labels helps investigating financial behaviour.";
 
 export const CategoryCreation = () => {
     const dispatch = useAppDispatch();
@@ -38,6 +35,7 @@ export const CategoryCreation = () => {
     useEffect(() => {
         if (name !== "") { // name field is not empty
             if (categoryNameIsTaken()) {
+                // load state from slice
                 setSelectedCategory(name)
             } else {
                 setDefaultCategory(false);
@@ -244,7 +242,7 @@ export const CategoryCreation = () => {
                     <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                         <Button
                             onClick={onCreateCategory}
-                            disabled={creationDisabled || nameError}
+                            disabled={creationDisabled || (defaultCategory && nameError)}
                             fullWidth
                             variant="contained"
                             sx={{margin: "10px 0px 10px 0px", color: "white"}}>

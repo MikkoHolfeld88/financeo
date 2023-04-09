@@ -10,6 +10,27 @@ import accountingDataReducer from "./slices/accountingData/accountingDataSlice"
 import CSVMapperReducer from "./slices/csvMapper/CSVMapperSlice";
 import accountingCategoryReducer from "./slices/accountingCategory/accountingCategorySlice";
 import appConfigReducer from "./slices/appConfig/appConfigSlice";
+import {FINANCEO_STATE_KEY} from "../constants/localStorageKeys";
+
+
+export function loadState() {
+    try {
+        const serializedState = localStorage.getItem(FINANCEO_STATE_KEY);
+        if (!serializedState) return undefined;
+        return JSON.parse(serializedState);
+    } catch (e) {
+        return undefined;
+    }
+}
+
+export async function saveState(state: any) {
+    try {
+        const serializedState = JSON.stringify(state);
+        localStorage.setItem(FINANCEO_STATE_KEY, serializedState);
+    } catch (e) {
+        // Ignore
+    }
+}
 
 const store = configureStore({
     reducer: {
@@ -23,7 +44,8 @@ const store = configureStore({
         login: loginReducer,
         monthPicker: monthPickerReducer,
         yearPicker: yearPickerReducer,
-    }
+    },
+    // preloadedState: loadState(),
 })
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();

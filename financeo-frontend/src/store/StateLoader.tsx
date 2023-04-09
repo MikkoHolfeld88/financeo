@@ -69,25 +69,11 @@ export default function StateLoader(){
     function loadAccountingCategories(){
         if(accountingCategoryStatus === 'idle'){
             getData(FIRESTORE_COLLECTIONS.CATEGORIES, uid)
-                .then((documentData: AccountingCategory[] | any) => {
-                    if (documentData) {
-                        const { uid, ...accountingCategories } = documentData;
-                        // adds personal categories to initial categories,
-                        // accounting categories are overwritten by initialCategories in case of name conflict
-
-                        console.log(accountingCategories);
-
-                        const categories = accountingCategories.length > 0
-                            ? accountingCategories.forEach((category: AccountingCategory) => {
-                                initialCategories.push(category);
-                            }) : initialCategories;
-
-                        console.log(categories.length);
-
-                        dispatch(setAccountingCategories(categories));
-                    } else {
-                        dispatch(setAccountingCategories(initialCategories));
-                    }
+                .then((documentData) => {
+                    const individualCategories: AccountingCategory[] = documentData?.categories;
+                    individualCategories.length > 0
+                        ? dispatch(setAccountingCategories([...initialCategories, ...individualCategories]))
+                        : dispatch(setAccountingCategories(initialCategories))
                 })
                 .catch((error: any) => {
                     process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
