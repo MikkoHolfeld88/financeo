@@ -17,12 +17,9 @@ import Container from "@mui/material/Container";
 import {Divider, Tooltip} from '@mui/material';
 import {useSelector} from "react-redux";
 import {RootState, updatePanel, useAppDispatch} from "../../store";
-import {
-    AccountingCategory,
-    fetchAccountingCategories
-} from "../../store/slices/accountingCategory/accountingCategorySlice";
-import categories from "./Categories/Categories";
-import {AsyncThunkAction} from "@reduxjs/toolkit";
+import {fetchAccountingCategories} from "../../store/slices/accountingCategory/accountingCategorySlice";
+import {fetchAccountingData} from "../../store/slices/accountingData/accountingDataSlice";
+import {STATUS, Status} from "../../types/general";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -31,15 +28,13 @@ interface TabPanelProps {
 }
 
 function TabPanel(props: TabPanelProps) {
-    const {children, value, index, ...other} = props;
+    const {children, value, index} = props;
 
     return (
         <div
             role="tabpanel"
             hidden={value !== index}
-            id={`accounting-submenu-${index}`}
-            aria-labelledby={`accounting-submenu-${index}`}
-            {...other}>
+            id={`accounting-submenu-${index}`}>
             {value === index && (
                 <Box>
                     <React.Fragment>{children}</React.Fragment>
@@ -51,11 +46,15 @@ function TabPanel(props: TabPanelProps) {
 
 export default function Submenu() {
     const dispatch = useAppDispatch();
-    const uid = useSelector((state: RootState) => state.login.uid)
+    const uid = useSelector((state: RootState) => state.login.uid);
     const appConfig = useSelector((state: RootState) => state.appConfig);
+    const accountingDataStatus: Status = useSelector((state: RootState) => state.accountingData.status);
+    const accountingCategoryStatus: Status = useSelector((state: RootState) => state.accountingCategory.status);
 
     useEffect(() => {
-        dispatch(fetchAccountingCategories(uid))
+        // fetches component-relevant data from database by entering component view
+        accountingDataStatus === STATUS.IDLE && dispatch(fetchAccountingData(uid))
+        accountingCategoryStatus === STATUS.IDLE && dispatch(fetchAccountingCategories(uid))
     }, [])
 
     return (
@@ -103,7 +102,7 @@ export default function Submenu() {
                              style={{fontSize: "10px"}}/>
                     </Tooltip>
                     <Tooltip followCursor placement="right"
-                             title={"Manage and organize your categories"}
+                             title={"Manage and organize your initialCategories"}
                              disableHoverListener={appConfig.toolTipsEnabled}>
                         <Tab icon={<CategoryIcon/>}
                              iconPosition="start"

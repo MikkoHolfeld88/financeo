@@ -1,7 +1,7 @@
 // this whole tree is structured after https://www.mindmeister.com/map/2034896135
 // all parents of a category are added to the bookings as well as the category itself
 
-import {AccountingCategory} from "./accountingCategorySlice";
+import {AccountingCategory} from "../accountingCategorySlice";
 
 const ausgaben: AccountingCategory = {
     id: "1",

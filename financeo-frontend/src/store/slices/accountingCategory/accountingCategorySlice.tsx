@@ -1,7 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import getData, {addAllData} from "../../../services/databaseService/databaseService";
 import {FIRESTORE_COLLECTIONS} from "../../../services/databaseService/colletions";
-import {initialCategories} from "./initialCategories";
+import {initialCategories} from "./initialCategories/initialCategories";
+import {STATUS, Status} from "../../../types/general";
 
 export interface AccountingCategory {
     id?: string,
@@ -16,14 +17,14 @@ export interface AccountingCategory {
 interface AccountingCategoryState {
     categories: AccountingCategory[];
     selectedCategory: AccountingCategory | null;
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    status: Status;
     error: string | undefined;
 }
 
 const initialState: AccountingCategoryState = {
     categories: [],
     selectedCategory: null,
-    status: 'idle',
+    status: STATUS.IDLE,
     error: undefined
 }
 
@@ -168,14 +169,14 @@ export const accountingCategorySlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchAccountingCategories.pending, (state) => {
-                state.status = 'loading';
+                state.status = STATUS.LOADING;
             })
             .addCase(fetchAccountingCategories.fulfilled, (state, action: PayloadAction<any>) => {
                 state.categories = action.payload;
-                state.status = 'succeeded';
+                state.status = STATUS.SUCCEEDED;
             })
             .addCase(fetchAccountingCategories.rejected, (state, action) => {
-                state.status = 'failed';
+                state.status = STATUS.FAILED;
                 state.error = action.error.message;
             })
     }

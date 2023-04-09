@@ -1,6 +1,6 @@
 import React from "react";
 import {Autocomplete, Dialog, DialogContent, DialogTitle, Grid, Icon, TextField} from "@mui/material";
-import {iconList} from "../../../../store/slices/accountingCategory/iconList";
+import {iconList} from "../../../../store/slices/accountingCategory/iconlist/iconList";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
 import * as COLORS from "../../../../constants/colors"

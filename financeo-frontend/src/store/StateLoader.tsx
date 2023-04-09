@@ -7,7 +7,6 @@ import getData from "../services/databaseService/databaseService";
 import {addAccounts} from "./slices/accounts/accountsSlice";
 import {changePickedAccounts} from "./slices/accountPicker/accountPickerSlice";
 import {setStatus, setUid} from "./slices/login/loginSlice";
-import {AccountingDataValueType, setAccountingData} from "./slices/accountingData/accountingDataSlice";
 import {FIRESTORE_COLLECTIONS} from "../services/databaseService/colletions";
 
 export default function StateLoader() {
@@ -16,12 +15,10 @@ export default function StateLoader() {
     let uid = user?.uid ? user?.uid : 'none';
     const accountsStatus = useSelector((state: RootState) => state.accounts.status);
     const accountPickerStatus = useSelector((state: RootState) => state.accountPicker.status);
-    const accountingCategoryStatus = useSelector((state: RootState) => state.accountingCategory.status);
 
     function loadAllStates() {
         loadAccountData();
         loadPickedAccountData();
-        loadAccountingData();
         dispatch(setStatus('loaded'));
     }
 
@@ -49,19 +46,6 @@ export default function StateLoader() {
                 .catch((error: any) => {
                     process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
                     dispatch(changePickedAccounts({pickedAccounts: [], ids: []}));
-                });
-        }
-    }
-
-    function loadAccountingData() {
-        if (accountsStatus === 'idle') {
-            getData(FIRESTORE_COLLECTIONS.ACCOUNTING_DATA, uid)
-                .then((documentData: AccountingDataValueType | any) => {
-                    const {uid, ...accountingData} = documentData;
-                    dispatch(setAccountingData(accountingData));
-                })
-                .catch((error: any) => {
-                    process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
                 });
         }
     }

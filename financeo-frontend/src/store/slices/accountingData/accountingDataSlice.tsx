@@ -1,4 +1,7 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import getData from "../../../services/databaseService/databaseService";
+import {FIRESTORE_COLLECTIONS} from "../../../services/databaseService/colletions";
+import {STATUS, Status} from "../../../types/general";
 
 type AccountingDataValueType = {
     [key: string]: AccountingDataType
@@ -22,28 +25,61 @@ interface AccountingData {
 
 interface AccountingDataState {
     value: AccountingDataValueType[];
-    status: 'idle' | 'pending' | 'loaded' | 'failed';
+    status: Status;
+    error: string | undefined;
 }
 
 const initialState: AccountingDataState = {
     value: [],
-    status: 'idle'
+    status: STATUS.IDLE,
+    error: ''
 }
+
+export const fetchAccountingData = createAsyncThunk(
+    'accountingData/fetchAccountingData',
+    async (currentUid: string, {rejectWithValue}) => {
+        try {
+            const documentData: any = await getData(FIRESTORE_COLLECTIONS.ACCOUNTING_DATA, currentUid)
+            const {uid, ...accountingData} = documentData;
+
+            console.log(accountingData);
+
+            if (accountingData) {
+                return accountingData;
+            }
+
+            return null;
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
 
 export const accountingDataSlice = createSlice({
     name: 'accountingData',
     initialState,
     reducers: {
         setAccountingData: (state, action: PayloadAction<any>) => {
-            state.status = 'pending';
             state.value = action.payload;
-            state.status = 'loaded';
         },
         resetAccountingData: (state) => {
             state.value = [];
-            state.status = 'idle';
         }
     },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchAccountingData.pending, (state) => {
+                state.status = STATUS.LOADING;
+            })
+            .addCase(fetchAccountingData.fulfilled, (state, action: PayloadAction<any>) => {
+                state.value = action.payload;
+                state.status = STATUS.SUCCEEDED;
+            })
+            .addCase(fetchAccountingData.rejected, (state, action) => {
+                state.status = STATUS.FAILED;
+                state.error = action.error.message;
+            })
+    }
 });
 
 export const {setAccountingData, resetAccountingData} = accountingDataSlice.actions;
