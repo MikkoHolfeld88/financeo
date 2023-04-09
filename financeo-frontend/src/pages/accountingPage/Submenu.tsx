@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Fragment} from 'react';
+import {Fragment, useEffect} from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
@@ -17,6 +17,12 @@ import Container from "@mui/material/Container";
 import {Divider, Tooltip} from '@mui/material';
 import {useSelector} from "react-redux";
 import {RootState, updatePanel, useAppDispatch} from "../../store";
+import {
+    AccountingCategory,
+    fetchAccountingCategories
+} from "../../store/slices/accountingCategory/accountingCategorySlice";
+import categories from "./Categories/Categories";
+import {AsyncThunkAction} from "@reduxjs/toolkit";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -44,9 +50,13 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export default function Submenu() {
-    // const panelValue = useSelector((state: RootState) => state.appConfig.accountingPanel.panel);
-    const appConfig = useSelector((state: RootState) => state.appConfig);
     const dispatch = useAppDispatch();
+    const uid = useSelector((state: RootState) => state.login.uid)
+    const appConfig = useSelector((state: RootState) => state.appConfig);
+
+    useEffect(() => {
+        dispatch(fetchAccountingCategories(uid))
+    }, [])
 
     return (
         <Fragment>

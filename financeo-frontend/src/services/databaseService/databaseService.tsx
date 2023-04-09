@@ -14,8 +14,6 @@ async function getData(path: string, userUid: string) {
 
         if (docSnap.exists()) {
             return docSnap.data();
-        } else {
-            console.log("No such document!");
         }
     } catch (error) {
         console.log("Error at writing data to " + path + "/" + userUid);

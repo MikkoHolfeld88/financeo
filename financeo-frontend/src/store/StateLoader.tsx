@@ -9,10 +9,8 @@ import {changePickedAccounts} from "./slices/accountPicker/accountPickerSlice";
 import {setStatus, setUid} from "./slices/login/loginSlice";
 import {AccountingDataValueType, setAccountingData} from "./slices/accountingData/accountingDataSlice";
 import {FIRESTORE_COLLECTIONS} from "../services/databaseService/colletions";
-import {AccountingCategory, setAccountingCategories} from "./slices/accountingCategory/accountingCategorySlice";
-import {initialCategories} from "./slices/accountingCategory/initialCategories";
 
-export default function StateLoader(){
+export default function StateLoader() {
     const dispatch = useAppDispatch();
     const [user, loading] = useAuthState(auth);
     let uid = user?.uid ? user?.uid : 'none';
@@ -20,16 +18,15 @@ export default function StateLoader(){
     const accountPickerStatus = useSelector((state: RootState) => state.accountPicker.status);
     const accountingCategoryStatus = useSelector((state: RootState) => state.accountingCategory.status);
 
-    function loadAllStates(){
+    function loadAllStates() {
         loadAccountData();
         loadPickedAccountData();
         loadAccountingData();
-        loadAccountingCategories();
         dispatch(setStatus('loaded'));
     }
 
-    function loadAccountData(){
-        if(accountsStatus === 'idle'){
+    function loadAccountData() {
+        if (accountsStatus === 'idle') {
             getData(FIRESTORE_COLLECTIONS.ACCOUNTS_AND_DEPOTS, uid)
                 .then((documentData) => {
                     dispatch(addAccounts(documentData?.accounts));
@@ -40,11 +37,14 @@ export default function StateLoader(){
         }
     }
 
-    function loadPickedAccountData(){
-        if(accountPickerStatus === 'idle'){
+    function loadPickedAccountData() {
+        if (accountPickerStatus === 'idle') {
             getData(FIRESTORE_COLLECTIONS.PICKED_ACCOUNTS, uid)
                 .then((documentData) => {
-                    dispatch(changePickedAccounts({pickedAccounts: documentData?.pickedAccounts, ids: documentData?.ids}));
+                    dispatch(changePickedAccounts({
+                        pickedAccounts: documentData?.pickedAccounts,
+                        ids: documentData?.ids
+                    }));
                 })
                 .catch((error: any) => {
                     process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
@@ -53,27 +53,12 @@ export default function StateLoader(){
         }
     }
 
-    function loadAccountingData(){
-        if(accountsStatus === 'idle'){
+    function loadAccountingData() {
+        if (accountsStatus === 'idle') {
             getData(FIRESTORE_COLLECTIONS.ACCOUNTING_DATA, uid)
                 .then((documentData: AccountingDataValueType | any) => {
-                    const { uid, ...accountingData } = documentData;
+                    const {uid, ...accountingData} = documentData;
                     dispatch(setAccountingData(accountingData));
-                })
-                .catch((error: any) => {
-                    process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
-                });
-        }
-    }
-
-    function loadAccountingCategories(){
-        if(accountingCategoryStatus === 'idle'){
-            getData(FIRESTORE_COLLECTIONS.CATEGORIES, uid)
-                .then((documentData) => {
-                    const individualCategories: AccountingCategory[] = documentData?.categories;
-                    individualCategories.length > 0
-                        ? dispatch(setAccountingCategories([...initialCategories, ...individualCategories]))
-                        : dispatch(setAccountingCategories(initialCategories))
                 })
                 .catch((error: any) => {
                     process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);

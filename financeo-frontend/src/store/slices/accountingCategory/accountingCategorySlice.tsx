@@ -1,4 +1,7 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import getData, {addAllData} from "../../../services/databaseService/databaseService";
+import {FIRESTORE_COLLECTIONS} from "../../../services/databaseService/colletions";
+import {initialCategories} from "./initialCategories";
 
 export interface AccountingCategory {
     id?: string,
@@ -13,14 +16,50 @@ export interface AccountingCategory {
 interface AccountingCategoryState {
     categories: AccountingCategory[];
     selectedCategory: AccountingCategory | null;
-    status: 'idle' | 'pending' | 'loaded' | 'failed';
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | undefined;
 }
 
 const initialState: AccountingCategoryState = {
     categories: [],
     selectedCategory: null,
-    status: 'idle'
+    status: 'idle',
+    error: undefined
 }
+
+export const postAccountingCategories = createAsyncThunk(
+    'accountingCategory/postAccountingCategories',
+    async (params: {categories: AccountingCategory[], uid: string}, {rejectWithValue}) => {
+        try {
+            // removes initialCategories from accountingCategories
+            const cleanedAccountingCategories = params.categories.filter(
+                (accountingCategory) => !initialCategories.some(
+                    (initialCategory) => accountingCategory.id === initialCategory.id));
+
+            addAllData(FIRESTORE_COLLECTIONS.CATEGORIES, params.uid, {categories: cleanedAccountingCategories});
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
+
+export const fetchAccountingCategories = createAsyncThunk(
+    'accountingCategory/fetchAccountingCategories',
+    async (uid: string, {rejectWithValue}) => {
+        try {
+            const documentData = await getData(FIRESTORE_COLLECTIONS.CATEGORIES, uid);
+            const individualCategories: AccountingCategory[] = documentData?.categories;
+
+            if (individualCategories && individualCategories.length > 0) {
+                return [...initialCategories, ...individualCategories];
+            }
+
+            return initialCategories
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+);
 
 export const accountingCategorySlice = createSlice({
     name: 'accountingCategory',
@@ -126,6 +165,20 @@ export const accountingCategorySlice = createSlice({
             state.categories = [];
         }
     },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchAccountingCategories.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchAccountingCategories.fulfilled, (state, action: PayloadAction<any>) => {
+                state.categories = action.payload;
+                state.status = 'succeeded';
+            })
+            .addCase(fetchAccountingCategories.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.error.message;
+            })
+    }
 });
 
 export const {

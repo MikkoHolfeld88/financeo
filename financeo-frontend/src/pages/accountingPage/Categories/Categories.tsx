@@ -3,16 +3,17 @@ import React, {useEffect} from "react";
 import {Paper} from "@mui/material";
 import {CategoryManagement} from "../../../components/account/categories/CategoryManagement";
 import CategoryTree from "../../../components/account/categories/CategoryTree";
-import {AccountingCategory} from "../../../store/slices/accountingCategory/accountingCategorySlice";
+import {
+    AccountingCategory,
+    postAccountingCategories
+} from "../../../store/slices/accountingCategory/accountingCategorySlice";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../store";
-import {initialCategories} from "../../../store/slices/accountingCategory/initialCategories";
-import {addAllData} from "../../../services/databaseService/databaseService";
-import {FIRESTORE_COLLECTIONS} from "../../../services/databaseService/colletions";
+import {RootState, useAppDispatch} from "../../../store";
 
 const Categories = () => {
+    const dispatch = useAppDispatch();
     const uid: string | 'none' = useSelector((state: RootState) => state.login.uid);
-    const accountingCategories: AccountingCategory[] = useSelector((state: RootState) => state.accountingCategory.categories);
+    const accountingCategories: AccountingCategory[] | undefined = useSelector((state: RootState) => state.accountingCategory.categories);
 
     const containerStyle: React.CSSProperties = {
         minHeight: "25vh",
@@ -20,16 +21,9 @@ const Categories = () => {
     }
 
     useEffect(() => {
-        console.log(accountingCategories);
-
-        // removes initialCategories from accountingCategories
-        const cleanedAccountingCategories = accountingCategories.filter(
-            (accountingCategory) => !initialCategories.some(
-                (initialCategory) => accountingCategory.id === initialCategory.id));
-
-        console.log(cleanedAccountingCategories);
-
-        addAllData(FIRESTORE_COLLECTIONS.CATEGORIES, uid, {categories: cleanedAccountingCategories});
+        if (accountingCategories) {
+            dispatch(postAccountingCategories({categories: accountingCategories, uid: uid}))
+        }
     }, [accountingCategories]);
 
     return (
