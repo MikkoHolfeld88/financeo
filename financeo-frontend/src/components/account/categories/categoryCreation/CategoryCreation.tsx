@@ -92,7 +92,7 @@ export const CategoryCreation = () => {
     const categoryNameIsTaken = () => {
         const categoryNames = categories.map(category => category.name);
         if (categoryNames.includes(name)) {
-            if(selectedCategory === undefined || selectedCategory === null || selectedCategory.default !== true) {
+            if(selectedCategory === undefined || selectedCategory === null || !selectedCategory.default) {
                 setNameError(true);
             }
             return true;
@@ -168,6 +168,10 @@ export const CategoryCreation = () => {
     };
 
     const removeMatcher = (index: number) => {
+        if (matchers.length === 1) {
+            setMatchers([""]);
+        }
+
         if (matchers.length > 1) {
             setMatchers(existingItems => {
                 return [

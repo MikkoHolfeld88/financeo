@@ -108,7 +108,6 @@ export default function Account(props: IAccountProps) {
                     onDeleteAccount={onDeleteAccount}
                     type={props.type!}
                     bank={props.bank!}/>
-
             }
         </div>
     )
