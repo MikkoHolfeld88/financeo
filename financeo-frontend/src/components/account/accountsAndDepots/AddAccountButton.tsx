@@ -2,8 +2,8 @@ import React from "react";
 import Box from "@mui/material/Box";
 import {Button, FormControl, TextField} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import {addAccount, useAppDispatch} from "../../../../store";
-import {PaperComponentFinanceo, SelectFinanceo} from "../../../utils";
+import {addAccount, useAppDispatch} from "../../../store";
+import {PaperComponentFinanceo, SelectFinanceo} from "../../utils";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -12,7 +12,7 @@ import AccountBalanceIconOutlinedIcon from '@mui/icons-material/AccountBalanceOu
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import PersonIcon from '@mui/icons-material/Person';
-import {TooltipFinanceo} from "../../../utils/TooltipFinanceo";
+import {TooltipFinanceo} from "../../utils/TooltipFinanceo";
 
 export default function AddAccountButton() {
     const dispatch = useAppDispatch();

@@ -28,17 +28,12 @@ export default function AccountPicker() {
 
     const formControlStyle = {width: mdScreenSize ? "200px" : "170px"};
 
-    function onChange(event: any){
+    function onChange(event: any) {
         const pickedAccounts: string[] = event.target.value;
-        let pickedAccountIds: string[] = [];
 
-        accounts.forEach((account) => {
-            pickedAccounts.forEach((pickedAccount) => {
-                if (pickedAccount.includes(account.id)) {
-                    pickedAccountIds.push(account.id);
-                }
-            })
-        })
+        const pickedAccountIds: string[] = accounts
+            .filter((account) => pickedAccounts.some((pickedAccount) => pickedAccount.includes(account.id)))
+            .map((account) => account.id);
 
         dispatch(changePickedAccounts({
             pickedAccounts: event.target.value,
