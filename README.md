@@ -19,8 +19,8 @@ Charts will be integrated via NIVO, victory and React-vis.
 Backend:
 Lambda functions simulate necessary business logic that would usually be implemented by a backend. 
 Firebase provides a document based database. 
-Due to personal knowledge data-sensitive business logic is going to be implemented via python, scitkit-learn and tensorflow. 
-NLP and NLU functions are going to be implemented by spacy, nltk and gpt3. 
+AI-driven business logic is going to be implemented via python, scitkit-learn and tensorflow. 
+NLP and NLU functions are going to be implemented by spacy, nltk and gpt3 as well as openAI APIs with a limited token amount or the possibilty to use ones own API key. 
 Machine Learning models will be trained, accessed and visualized by AWS Sage Maker. 
 
 
