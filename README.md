@@ -14,7 +14,7 @@ providing basic NLP / NLU features shall enable the user to analyze trends to in
 
 Frontend: 
 Basically financeo consists of a react / redux frontend which uses basic design elements of MUI (material UI). 
-Charts will be integrated via NIVO, victory and React-vis.
+Charts will be integrated via eCharts.
 
 Backend:
 Lambda functions simulate necessary business logic that would usually be implemented by a backend. 
