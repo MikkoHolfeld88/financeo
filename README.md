@@ -14,13 +14,13 @@ providing basic NLP / NLU features shall enable the user to analyze trends to in
 
 Frontend: 
 Basically financeo consists of a react / redux frontend which uses basic design elements of MUI (material UI). 
-Charts will be integrated via NIVO, victory and React-vis.
+Charts will be integrated via eCharts.
 
 Backend:
 Lambda functions simulate necessary business logic that would usually be implemented by a backend. 
 Firebase provides a document based database. 
-Due to personal knowledge data-sensitive business logic is going to be implemented via python, scitkit-learn and tensorflow. 
-NLP and NLU functions are going to be implemented by spacy, nltk and gpt3. 
+AI-driven business logic is going to be implemented via python, scitkit-learn and tensorflow. 
+NLP and NLU functions are going to be implemented by spacy, nltk and gpt3 as well as openAI APIs with a limited token amount or the possibilty to use ones own API key. 
 Machine Learning models will be trained, accessed and visualized by AWS Sage Maker. 
 
 
