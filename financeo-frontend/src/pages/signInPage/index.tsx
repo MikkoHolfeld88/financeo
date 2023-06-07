@@ -7,8 +7,6 @@ import Button from "@mui/material/Button";
 import * as ROUTES from '../../constants/routes';
 import StateLoader from "../../store/StateLoader";
 import {useAuthState} from "react-firebase-hooks/auth";
-import {useSelector} from "react-redux";
-import {RootState} from "../../store";
 
 export function SignInPage() {
     const [email, setEmail] = useState("");
@@ -31,7 +29,7 @@ export function SignInPage() {
                             Login
                         </Typography>
                         <TextField
-                            InputLabelProps={{ shrink: true }}
+                            InputLabelProps={{shrink: true}}
                             placeholder="E-mail"
                             value={email}
                             id="login_e_mail"
@@ -39,7 +37,7 @@ export function SignInPage() {
                             onChange={(e) => setEmail(e.target.value)}
                             variant="outlined"/>
                         <TextField
-                            InputLabelProps={{ shrink: true }}
+                            InputLabelProps={{shrink: true}}
                             placeholder="Password"
                             type="password"
                             value={password}

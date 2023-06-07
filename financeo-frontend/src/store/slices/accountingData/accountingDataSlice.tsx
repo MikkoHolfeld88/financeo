@@ -39,10 +39,8 @@ export const fetchAccountingData = createAsyncThunk(
     'accountingData/fetchAccountingData',
     async (currentUid: string, {rejectWithValue}) => {
         try {
-            const documentData: any = await getData(FIRESTORE_COLLECTIONS.ACCOUNTING_DATA, currentUid)
+            const documentData: any = await getData(FIRESTORE_COLLECTIONS.ACCOUNTING_DATA, currentUid);
             const {uid, ...accountingData} = documentData;
-
-            console.log(accountingData);
 
             if (accountingData) {
                 return accountingData;

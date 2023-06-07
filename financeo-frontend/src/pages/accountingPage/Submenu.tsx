@@ -18,7 +18,6 @@ import {Divider, Tooltip} from '@mui/material';
 import {useSelector} from "react-redux";
 import {RootState, updatePanel, useAppDispatch} from "../../store";
 import {fetchAccountingCategories} from "../../store/slices/accountingCategory/accountingCategorySlice";
-import {fetchAccountingData} from "../../store/slices/accountingData/accountingDataSlice";
 import {STATUS, Status} from "../../types/general";
 
 interface TabPanelProps {
@@ -48,13 +47,12 @@ export default function Submenu() {
     const dispatch = useAppDispatch();
     const uid = useSelector((state: RootState) => state.login.uid);
     const appConfig = useSelector((state: RootState) => state.appConfig);
-    const accountingDataStatus: Status = useSelector((state: RootState) => state.accountingData.status);
     const accountingCategoryStatus: Status = useSelector((state: RootState) => state.accountingCategory.status);
 
     useEffect(() => {
-        // fetches component-relevant data from database by entering component view
-        accountingDataStatus === STATUS.IDLE && dispatch(fetchAccountingData(uid))
-        accountingCategoryStatus === STATUS.IDLE && dispatch(fetchAccountingCategories(uid))
+        if (accountingCategoryStatus === STATUS.SUCCEEDED) {
+            dispatch(fetchAccountingCategories(uid))
+        }
     }, [])
 
     return (

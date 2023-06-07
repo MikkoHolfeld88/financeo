@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {IAccountProps} from "../../index";
+import {STATUS} from "../../../types/general";
 
 interface IAccountPickerProps {
     pickedAccounts: string | string[];
@@ -9,13 +10,13 @@ interface IAccountPickerProps {
 interface AccountPickerState {
     pickedAccounts: string | string[];
     ids: string | string[];
-    status: 'idle' | 'pending' | 'loaded' | 'failed';
+    status: STATUS;
 }
 
 const initialState: AccountPickerState = {
     pickedAccounts: [],
     ids: [],
-    status: 'idle'
+    status: STATUS.IDLE
 }
 
 export const accountPickerSlice = createSlice({
@@ -27,7 +28,6 @@ export const accountPickerSlice = createSlice({
 
             state.pickedAccounts = pickedAccounts ? pickedAccounts : [];
             state.ids = ids ? ids : [];
-            state.status = 'loaded';
         },
         removePickedAccount: (state, action) => {
             if(typeof state.pickedAccounts === 'object'){
@@ -40,20 +40,27 @@ export const accountPickerSlice = createSlice({
         },
         adjustPickedAccounts: (state, action: PayloadAction<{accounts: IAccountProps[]}>) => {
             // compares pickedAccounts with allAccounts and removes the ones that are not in allAccounts
+            // action.payload.accounts.forEach((account) => {
+            //     if(typeof state.pickedAccounts === 'object'){
+            //         state.pickedAccounts.forEach((pickedAccount, index) => {
+            //             if(!pickedAccount.includes(account.id)){
+            //                 typeof state.pickedAccounts === 'object' && state.pickedAccounts.splice(index, 1);
+            //             }
+            //         })
+            //     }
+            // })
             action.payload.accounts.forEach((account) => {
-                if(typeof state.pickedAccounts === 'object'){
-                    state.pickedAccounts.forEach((pickedAccount, index) => {
-                        if(!pickedAccount.includes(account.id)){
-                            typeof state.pickedAccounts === 'object' && state.pickedAccounts.splice(index, 1);
-                        }
-                    })
+                if (Array.isArray(state.pickedAccounts)) {
+                    state.pickedAccounts = state.pickedAccounts.filter((pickedAccount) => {
+                        return pickedAccount.includes(account.id);
+                    });
                 }
-            })
+            });
         },
         resetAccountPicker: (state) => {
             state.pickedAccounts = [];
             state.ids = [];
-            state.status = 'idle';
+            state.status = STATUS.IDLE;
         }
     },
 });

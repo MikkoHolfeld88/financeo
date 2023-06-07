@@ -3,12 +3,12 @@ import 'react-edit-text/dist/index.css';
 import {Account, AccountHead} from "../../../components/account";
 import {useTheme} from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import {RootState} from "../../../store";
-import {IAccountProps} from "../../../store";
+import {IAccountProps, RootState, useAppDispatch} from "../../../store";
 import {useSelector} from "react-redux";
 import AddAccountButton from "../../../components/account/accountsAndDepots/AddAccountButton";
 import {addAllData} from "../../../services/databaseService/databaseService";
 import {FIRESTORE_COLLECTIONS} from "../../../services/databaseService/colletions";
+import {STATUS, Status} from "../../../types/general";
 
 export function Spacer(props: any) {
     return (
@@ -19,12 +19,12 @@ export function Spacer(props: any) {
 const AccountsAndDepots = () => {
     const theme = useTheme();
     const uid = useSelector((state: RootState) => state.login.uid);
-    const status = useSelector((state: RootState) => state.accounts.status);
     const accounts = useSelector((state: RootState) => state.accounts.data);
     const desktopScreenSize = useMediaQuery(theme.breakpoints.up('md'));
+    const accountsStatus: Status = useSelector((state: RootState) => state.accounts.status);
 
     useEffect(() => {
-        if (status !== "idle") {
+        if (accountsStatus === STATUS.SUCCEEDED) {
             addAllData(FIRESTORE_COLLECTIONS.ACCOUNTS_AND_DEPOTS, uid, {accounts});
         }
     }, [accounts && accounts.length]);

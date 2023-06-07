@@ -53,9 +53,9 @@ const Navigation = () => {
     const hvrFX = 'hvr-skew';
     const appConfig: AppConfigState = useSelector((state: RootState) => state.appConfig);
 
-    // handles logout
     React.useEffect(() => {
         if (location.pathname === ROUTES.SIGN_OUT) {
+            setAnchorElUser(null);
             logout();
             dispatch(setUid('none'))
         }
@@ -178,50 +178,49 @@ const Navigation = () => {
                         ))}
                     </Box>
 
-                    <Box sx={{flexGrow: 0}}>
-                        <FormControlLabel
-                            sx={{color: 'white', fontSize: "8px", marginRight: "10px"}}
-                            value="start"
-                            control={<Switch
-                                checked={!appConfig.toolTipsEnabled}
-                                onChange={() => dispatch(setToolTipsEnabled(!appConfig.toolTipsEnabled))}
-                                color="secondary"/>}
-                            label="Tooltips"
-                            labelPlacement="start"/>
-                        {
-                            user &&
-                            <TooltipFinanceo title={"Open account details for '" + user.email + "'"}>
-                                <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                    <Avatar alt="Remy Sharp" src={testUser}/>
-                                </IconButton>
-                            </TooltipFinanceo>
-                        }
-                        <Menu
-                            sx={{mt: '45px'}}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}>
-                            {user && settings.map((setting) => (
-                                <MenuItem key={setting.name}
-                                          onClick={event => handleCloseNavMenu(event, setting.route)}>
-                                    <Typography key={setting.name + "_label"}
-                                                textAlign="center">{setting.name}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
+                    {
+                        user &&
+                        <Box sx={{flexGrow: 0}}>
+                            <FormControlLabel
+                                sx={{color: 'white', fontSize: "8px", marginRight: "10px"}}
+                                value="start"
+                                control={
+                                    <Switch
+                                        checked={!appConfig.toolTipsEnabled}
+                                        onChange={() => dispatch(setToolTipsEnabled(!appConfig.toolTipsEnabled))}
+                                        color="secondary"/>
+                                }
+                                label="Tooltips"
+                                labelPlacement="start"/>
+                            {
+                                user &&
+                                <TooltipFinanceo title={"Open account details for '" + user.email + "'"}>
+                                    <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                                        <Avatar alt="Remy Sharp" src={testUser}/>
+                                    </IconButton>
+                                </TooltipFinanceo>
+                            }
+                            {
+                                <Menu
+                                    sx={{mt: '45px'}}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{vertical: 'top',horizontal: 'right'}}
+                                    keepMounted
+                                    transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}>
+                                    {
+                                        settings.map((setting) => (
+                                            <MenuItem key={setting.name} onClick={event => handleCloseNavMenu(event, setting.route)}>
+                                                <Typography key={setting.name + "_label"} textAlign="center">{setting.name}</Typography>
+                                            </MenuItem>))
+                                    }
+                                </Menu>
+                            }
+                        </Box>
+                    }
                 </Toolbar>
-
             </Container>
         </AppBar>
     );

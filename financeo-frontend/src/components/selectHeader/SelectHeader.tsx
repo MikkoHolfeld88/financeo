@@ -91,8 +91,7 @@ export const SelectHeader: React.FC<ISelectHeaderProps> = props => {
             }
 
             updateData(
-                FIRESTORE_COLLECTIONS.ACCOUNTING_DATA,
-                uid,
+                FIRESTORE_COLLECTIONS.ACCOUNTING_DATA, uid,
                 accountingData ? {...accountingData, ...newAccountingData} : {...newAccountingData});
             dispatch(setAccountingData({...accountingData, ...newAccountingData}))
             dispatch(resetCSVUploaderState())

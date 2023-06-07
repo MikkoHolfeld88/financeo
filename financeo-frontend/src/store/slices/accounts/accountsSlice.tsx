@@ -1,6 +1,9 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {v4 as uuidv4} from 'uuid';
 import moment from "moment/moment";
+import {FIRESTORE_COLLECTIONS} from "../../../services/databaseService/colletions";
+import getData from "../../../services/databaseService/databaseService";
+import {STATUS} from "../../../types/general";
 
 interface IAccountProps {
     id?: any,
@@ -15,13 +18,33 @@ interface IAccountProps {
 
 interface AccountsState {
     data: IAccountProps[];
-    status: 'idle' | 'loaded' | 'pending' | 'failed';
+    status: STATUS;
+    error: string | undefined;
 }
 
 const initialState: AccountsState = {
     data: [],
-    status: 'idle',
+    status: STATUS.IDLE,
+    error: undefined
 }
+
+export const fetchAccounts = createAsyncThunk(
+    'accounts/fetchAccounts',
+    async (currentUid: string, {rejectWithValue}) => {
+        try {
+            const documentData: any = await getData(FIRESTORE_COLLECTIONS.ACCOUNTS_AND_DEPOTS, currentUid);
+            const {uid, ...accounts} = documentData;
+
+            if (accounts) {
+                return accounts;
+            }
+
+            return null;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+)
 
 export const accountsSlice = createSlice({
     name: 'accounts',
@@ -47,7 +70,6 @@ export const accountsSlice = createSlice({
         },
         addAccounts: (state, action) => {
             state.data = action.payload;
-            state.status = 'loaded';
         },
         updateAccount: (state, action) => {
             const { value, id } = action.payload;
@@ -65,9 +87,24 @@ export const accountsSlice = createSlice({
         },
         resetAccounts: (state) => {
             state.data = [];
-            state.status = 'idle';
+            state.status = STATUS.IDLE;
         }
     },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchAccounts.pending, (state) => {
+                state.status = STATUS.LOADING;
+            })
+            .addCase(fetchAccounts.fulfilled, (state, action) => {
+                state.status = STATUS.SUCCEEDED;
+                state.data = action.payload;
+            })
+            .addCase(fetchAccounts.rejected, (state, action) => {
+                state.status = STATUS.FAILED;
+                state.error = action.error.message;
+                state.data = [];
+            })
+    }
 });
 
 export const {addAccounts, updateAccount, deleteAccount, addAccount, resetAccounts} = accountsSlice.actions;

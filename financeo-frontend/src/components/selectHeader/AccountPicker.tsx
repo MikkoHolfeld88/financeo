@@ -11,7 +11,7 @@ export type AccountOption = {
 }
 
 export const createAccountOptions = (accounts: IAccountProps[]): AccountOption[] => {
-    return accounts.map((account, index) => {
+    return accounts?.map((account, index) => {
         return {
             value: account?.bank + " (" + (index + 1) + ")",
             label: account?.bank,

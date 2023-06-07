@@ -6,9 +6,14 @@ import * as ROUTES from "../../constants/routes";
 import {
     AccountingPage,
     AccountPage,
-    ProfilePage, ErrorPage, AnalysingPage, HomePage, SettingsPage,
-    InvestingPage, OverviewPage,
+    AnalysingPage,
+    ErrorPage,
+    HomePage,
+    InvestingPage,
+    OverviewPage,
     PasswordForgetPage,
+    ProfilePage,
+    SettingsPage,
     SignInPage,
     SignOutPage,
     SignUpPage
@@ -31,7 +36,7 @@ export const AppRoutes: (props: RouteProps) => JSX.Element = (props: RouteProps)
             <Route path={ROUTES.SIGN_IN} element={<SignInPage/>}/>
             <Route path={ROUTES.SIGN_OUT} element={<SignOutPage/>}/>
             <Route path={ROUTES.PASSWORD_FORGET} element={<PasswordForgetPage/>}/>
-            <Route path={ROUTES.ERROR} element={<ErrorPage />}/>
+            <Route path={ROUTES.ERROR} element={<ErrorPage/>}/>
             <Route path={ROUTES.ACCOUNT} element={<PrivateRoute><AccountPage/></PrivateRoute>}/>
             <Route path={ROUTES.PROFILE} element={<PrivateRoute><ProfilePage/></PrivateRoute>}/>
             <Route path={ROUTES.SETTINGS} element={<PrivateRoute><SettingsPage/></PrivateRoute>}/>

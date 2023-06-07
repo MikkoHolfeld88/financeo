@@ -12,27 +12,28 @@ import {FIRESTORE_COLLECTIONS} from "../services/databaseService/colletions";
 export default function StateLoader() {
     const dispatch = useAppDispatch();
     const [user, loading] = useAuthState(auth);
-    let uid = user?.uid ? user?.uid : 'none';
     const accountsStatus = useSelector((state: RootState) => state.accounts.status);
     const accountPickerStatus = useSelector((state: RootState) => state.accountPicker.status);
 
+    let uid = user?.uid ? user?.uid : 'none';
+
     function loadAllStates() {
-        loadAccountData();
+        // loadAccountData();
         loadPickedAccountData();
         dispatch(setStatus('loaded'));
     }
 
-    function loadAccountData() {
-        if (accountsStatus === 'idle') {
-            getData(FIRESTORE_COLLECTIONS.ACCOUNTS_AND_DEPOTS, uid)
-                .then((documentData) => {
-                    dispatch(addAccounts(documentData?.accounts));
-                })
-                .catch((error: any) => {
-                    process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
-                });
-        }
-    }
+    // function loadAccountData() {
+    //     if (accountsStatus === 'idle') {
+    //         getData(FIRESTORE_COLLECTIONS.ACCOUNTS_AND_DEPOTS, uid)
+    //             .then((documentData) => {
+    //                 dispatch(addAccounts(documentData?.accounts));
+    //             })
+    //             .catch((error: any) => {
+    //                 process.env.REACT_APP_RUN_MODE === 'DEVELOP' && console.log(error);
+    //             });
+    //     }
+    // }
 
     function loadPickedAccountData() {
         if (accountPickerStatus === 'idle') {
@@ -63,6 +64,9 @@ export default function StateLoader() {
         }
     }, [user, loading]);
 
-    return (<></>);
+    return (
+        <React.Fragment>
+        </React.Fragment>
+    );
 
 }
