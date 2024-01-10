@@ -15,9 +15,9 @@ export function SignInPage() {
 
     useEffect(() => {
         if (user) {
-
+            navigate(ROUTES.DASHBOARD)
         }
-    }, [user]);
+    }, [user, navigate]);
 
     return (
         <div className="login">
