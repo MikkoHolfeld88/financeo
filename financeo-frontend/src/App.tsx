@@ -1,14 +1,15 @@
 import React from 'react';
-import {BrowserRouter as Router} from 'react-router-dom';
-import Navigation from "./components/navigation";
+import {BrowserRouter, BrowserRouter as Router} from 'react-router-dom';
 import AppRoutes from "./components/navigation/AppRoutes";
+import Layout from "./Layout";
 
 function App() {
     return (
-        <Router>
-            <Navigation/>
-            <AppRoutes/>
-        </Router>
+        <BrowserRouter>
+            <Layout>
+                <AppRoutes/>
+            </Layout>
+        </BrowserRouter>
     );
 }
 

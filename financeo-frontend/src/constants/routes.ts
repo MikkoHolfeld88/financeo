@@ -1,13 +1,7 @@
 export const HOME = '/';
-export const SIGN_UP = '/signup';
-export const SIGN_IN = '/signin';
-export const SIGN_OUT = '/logout';
+export const DASHBOARD = '/dashboard'
+export const SIGN_UP = '/sign-up';
+export const SIGN_IN = '/sign-in';
+export const SIGN_OUT = '/sign-out';
 export const PASSWORD_FORGET = '/pw-forget';
-export const ERROR = '*';
-export const ACCOUNT = '/account';
-export const PROFILE = '/profile';
-export const SETTINGS = '/settings';
-export const OVERVIEW = '/overview';
-export const ACCOUNTING = '/accounting';
-export const INVESTING = '/investing';
-export const ANALYSING = '/analysing';
+
