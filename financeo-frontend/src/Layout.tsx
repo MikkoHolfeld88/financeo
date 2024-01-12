@@ -1,6 +1,7 @@
 import React from 'react';
 import {useLocation} from "react-router-dom";
 import * as ROUTES from "./constants/routes";
+import Footer from "./components/footer";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -14,7 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <React.Fragment>
             {showLayout && <header>Header-Inhalt</header>}
             <main>{children}</main>
-            {showLayout && <footer>Footer-Inhalt</footer>}
+            {showLayout && <Footer />}
         </React.Fragment>
     )
 };

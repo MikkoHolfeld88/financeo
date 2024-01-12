@@ -1,0 +1,15 @@
+:root {
+    --primary-color: #79e84e;
+    --secondary-color: #474c4d;
+    --text-color: #333;
+}
+
+body {
+    margin: 0;
+}
+
+footer {
+    background-color: var(--secondary-color);
+    color: #fff;
+    padding: 20px;
+}

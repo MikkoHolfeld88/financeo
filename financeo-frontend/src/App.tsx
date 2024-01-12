@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, BrowserRouter as Router} from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 import AppRoutes from "./components/navigation/AppRoutes";
 import Layout from "./Layout";
 

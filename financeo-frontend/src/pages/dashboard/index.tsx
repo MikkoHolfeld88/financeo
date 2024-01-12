@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {createTheme, styled, ThemeProvider} from '@mui/material/styles';
+import {styled, ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
@@ -8,19 +8,24 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import theme from './../../theme';
+import {Avatar} from "@mui/material";
+import profilePlaceholder from "../../assets/img/portrait_placeholder.png";
+import {logout} from "../../services/firebaseService";
+import {useNavigate} from "react-router-dom";
+import * as ROUTES from "../../constants/routes"
 
 function Copyright(props: any) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
+            <Link color="inherit" href="https://mikkoholfeld-b0651.web.app/">
+                Mikko Holfeld
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -78,17 +83,15 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
     }),
 );
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
-
 export default function Dashboard() {
     const [open, setOpen] = React.useState(true);
+    const navigate = useNavigate();
     const toggleDrawer = () => {
         setOpen(!open);
     };
 
     return (
-        <ThemeProvider theme={defaultTheme}>
+        <ThemeProvider theme={theme}>
             <Box sx={{display: 'flex'}}>
                 <CssBaseline/>
                 <AppBar position="absolute" open={open}>
@@ -118,10 +121,11 @@ export default function Dashboard() {
                         >
                             Dashboard
                         </Typography>
-                        <IconButton color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <NotificationsIcon/>
-                            </Badge>
+                        <IconButton color="inherit" onClick={logout}>
+                            <ExitToAppIcon />
+                        </IconButton>
+                        <IconButton edge="end" color="inherit" onClick={() => navigate(ROUTES.PROFILE)}>
+                            <Avatar alt="Profilbild" src={profilePlaceholder}/>
                         </IconButton>
                     </Toolbar>
                 </AppBar>
