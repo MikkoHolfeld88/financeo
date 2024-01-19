@@ -6,11 +6,9 @@ const SubscriptionForm = () => {
         <Grid container alignItems="stretch" spacing={1}>
             <Grid item xs={6} sm={8}>
                 <TextField
-                    style={{color: 'white'}}
                     label="E-MAIL"
                     variant="outlined"
-                    fullWidth
-                />
+                    fullWidth/>
             </Grid>
             <Grid item xs={6} sm={4}>
                 <Button
@@ -20,8 +18,8 @@ const SubscriptionForm = () => {
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
-                        maxWidth: '100%', // Stellen Sie sicher, dass der Button nicht über seine Grenzen hinauswächst
-                        height: '56px', // Standardhöhe für MUI TextField, anpassen falls nötig
+                        maxWidth: '100%',
+                        height: '56px'
                     }}
                     fullWidth>
                     Subscribe

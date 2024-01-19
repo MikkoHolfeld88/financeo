@@ -1,15 +1,20 @@
 :root {
-    --primary-color: #79e84e;
+    --primary-color: #63a4b0;
     --secondary-color: #474c4d;
     --text-color: #333;
+    --text-color-light: #fff;
 }
 
 body {
     margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 footer {
     background-color: var(--secondary-color);
-    color: #fff;
+    color: var(--text-color-light);;
     padding: 20px;
 }
